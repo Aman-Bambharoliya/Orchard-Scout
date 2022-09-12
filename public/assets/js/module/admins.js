@@ -51,10 +51,18 @@
                 jQuery(document).find('.row.clear_filter_row').hide();
             });
         }
-        $("#role").trigger("change");
         jQuery(document).on('click', '.delete-data', function() {
             var action = jQuery(this).attr('data-href');
             jQuery(document).find('form[name="delete-confirm-frm"]').attr('action', action);
             jQuery(document).find('input[name="delete_url"]').val(action);
         });
+        $("#role").change(function() {
+            console.log('adasdasd');
+            if ($(this).val() == 2) {
+                $('.permission-section').show();
+            } else {
+                $('.permission-section').hide();
+            }
+        });
+        $("#role").trigger("change");
     });

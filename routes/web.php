@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DemoController;
+use App\Http\Controllers\PeopleController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,5 +24,11 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::group(['middleware' => ['auth']], function () {
+    Route::group(['middleware' => ['superadmin']], function () {
+        //superadmin role routes goes here
         Route::resource('admin-users', AdminController::class);
+    });
+    Route::group(['middleware' => ['Permission']], function () {
+        //admin role routes goes here
+    });
 });

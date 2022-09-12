@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Admin;
+use App\Models\Module;
 use DataTables;
 use Hash;
 use Arr, Str;
@@ -50,7 +51,6 @@ class AdminController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
-
         return view('admin-users.index');
     }
 
@@ -61,7 +61,8 @@ class AdminController extends Controller
      */
     public function create()
     {
-        return view('admin-users.create');
+        $modules = Module::with('module_actions')->get();
+        return view('admin-users.create', compact('modules'));
     }
 
     /**
@@ -76,12 +77,15 @@ class AdminController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:admins'],
             'password' => ['required', 'string', 'min:8', 'same:confirm-password'],
+            'role' => ['required', 'in:1,2'],
+            'permissions' => 'required_if:role,2',
         ]);
         $input = $request->all();
         $input['password'] = Hash::make($input['password']);
-
+        if (isset($request->permissions) && !empty($request->permissions)) {
+            $input['permissions'] = json_encode($request->permissions);
+        }
         $admin = Admin::create($input);
-
         if ($admin) {
             if ($request->submit_type == 'ajax') {
                 return  json_encode(['result' => 'success', 'message' => trans('translation.created', ['name' => 'admin'])]);
@@ -118,7 +122,8 @@ class AdminController extends Controller
     public function edit($id)
     {
         $admin_user = Admin::find($id);
-        return view('admin-users.edit', compact('admin_user'));
+        $modules = Module::with('module_actions')->get();
+        return view('admin-users.edit', compact('admin_user', 'modules'));
     }
 
     /**
@@ -133,7 +138,7 @@ class AdminController extends Controller
         $this->validate($request, [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:admins,email,' . $id,
-            // 'password' => 'sometimes|min:8|same:confirm-password',
+            'password' => 'same:confirm-password',
         ]);
         $input = $request->all();
 
@@ -142,9 +147,11 @@ class AdminController extends Controller
         } else {
             $input = Arr::except($input, array('password'));
         }
+        if (isset($request->permissions) && !empty($request->permissions)) {
+            $input['permissions'] = json_encode($request->permissions);
+        }
 
         $admin_user = Admin::find($id);
-
         $update =  $admin_user->update($input);
         if ($update) {
             if ($request->submit_type == 'ajax') {
@@ -174,9 +181,7 @@ class AdminController extends Controller
         if ($id == 1 || $id == '1') {
             abort(401, 'Administrator user cannot be deleted');
         }
-
         $delete =  Admin::find($id)->delete();
-
         if ($delete) {
             if ($request->submit_type == 'ajax') {
                 return response()->json([
