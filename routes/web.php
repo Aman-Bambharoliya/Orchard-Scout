@@ -24,6 +24,9 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::group(['middleware' => ['auth']], function () {
+    Route::get('change-password', [AdminController::class,'changePassword'])->name('change-password');
+    Route::put('change-password', [AdminController::class,'changePasswordUpdate'])->name('change-password-update');
+
     Route::group(['middleware' => ['superadmin']], function () {
         //superadmin role routes goes here
         Route::resource('admin-users', AdminController::class);

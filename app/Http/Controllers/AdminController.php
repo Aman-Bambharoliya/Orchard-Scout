@@ -11,6 +11,7 @@ use Hash;
 use Arr, Str;
 use Auth;
 use Illuminate\Support\Facades\Auth as FacadesAuth;
+use App\Rules\MatchOldPassword;
 
 class AdminController extends Controller
 {
@@ -224,6 +225,36 @@ class AdminController extends Controller
                 ]);
             } else {
                 return redirect()->route('admin-users.index')
+                    ->with('error', trans('translation.error'));
+            }
+        }
+    }
+    public function changePassword()
+    {
+        return view('admin-users.change-password');
+    }
+    public function changePasswordUpdate(Request $request)
+    {
+        $request->validate([
+            'current_password' => ['required', new MatchOldPassword],
+            'password' => ['required','string', 'min:8','different:current_password'],
+            'confirm_password' => ['required','same:password'],
+        ]);
+   
+        $result=Admin::find(Auth::user()->id)->update(['password'=> Hash::make($request->password)]);
+        if ($result) {
+            if ($request->submit_type == 'ajax') {
+                return json_encode(['result' => 'success',
+                'message' =>trans('translation.updated', ['name' => 'password'])]);
+            } else {
+                return redirect()->route('change-password')
+                    ->with('success', trans('translation.updated', ['name' => 'password']));
+            }
+        } else {
+            if ($request->submit_type == 'ajax') {
+                return json_encode(['result' => 'fail', 'message' => trans('translation.error')]);
+            } else {
+                return redirect()->route('change-password')
                     ->with('error', trans('translation.error'));
             }
         }

@@ -31,17 +31,22 @@
                                 </div>
                                 <div class="d-flex flex-column">
                                     <div class="fw-bolder d-flex align-items-center fs-5">{{ Auth::user()->name }}
-                                        <span class="badge badge-light-success fw-bolder fs-8 px-2 py-1 ms-2">Pro</span>
                                     </div>
+                                    <a href="#" class="fw-bold text-muted text-hover-primary fs-7">{{ Auth::user()->email }}</a>
                                 </div>
                             </div>
                         </div>
+                        <div class="separator my-2"></div>
                         <div class="menu-item px-5">
-                            <a href="javascript:void(0);" class="menu-link px-5 admin_logout_btn">Sign Out</a>
+                            <a href="{{route('change-password')}}" class="menu-link px-5 admin_logout_btn">{{__('Change Password')}}</a>
+                        </div>
+                        <div class="menu-item px-5">
+                            <a href="javascript:void(0);" class="menu-link px-5 admin_logout_btn">{{__('Sign Out')}}</a>
                             <form id="logout-form" action="{{route('logout')}}" method="POST" class="d-none">
                                 @csrf
                             </form>
                         </div>
+                        
                     </div>
                 </div>
             </div>
