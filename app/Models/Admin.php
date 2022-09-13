@@ -44,4 +44,32 @@ class Admin extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function hasPermission($module=null,$right=null)
+    {
+        if(Auth::user()->role == 1) {
+            return true;
+        }
+        else if(Auth::check() && Auth::user()->role == 2)
+        {
+            $permission = json_decode(Auth::user()->permissions, true);
+            if(isset($permission[$module]) && $right==null)
+                {
+                    return true;
+                }
+                else if(isset($permission[$module]) && $right!=null && in_array($right,$permission[$module]))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+        }
+        else
+        {
+            return false;
+        }
+      
+    }
 }

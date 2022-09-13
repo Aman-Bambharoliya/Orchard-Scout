@@ -10,7 +10,7 @@ use DataTables;
 use Hash;
 use Arr, Str;
 use Auth;
-use App\Rules\MatchOldPassword;
+use Illuminate\Support\Facades\Auth as FacadesAuth;
 
 class AdminController extends Controller
 {
@@ -23,37 +23,48 @@ class AdminController extends Controller
     {
         if ($request->ajax()) {
             $query = Admin::query();
-            if ($request->get('name') != '') {
-                $query = $query->where('name', 'ilike', '%' . $request->get('name') . '%');
-            }
-            if ($request->get('email') != '') {
-                $query = $query->where('email', 'ilike', '%' . $request->get('email') . '%');
-            }
             $data = $query->get();
             return Datatables::of($data)
                 ->addIndexColumn()
-                ->addColumn('action', function ($row) {
-                    $btn = '<div class="btn-wrapper" style="display: flex;">';
-                    $href = "'" . route('admin-users.edit', $row->id) . "'";
-                    $btn .= '<button data-href="' . route('admin-users.edit', $row->id) . '" class="btn btn-outline btn-success dim" onClick="location.href=' . $href . '"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
-              </svg></button>';
-                    $btn .= ' <button data-href="' . route('admin-users.destroy', $row->id) . '" 
-                        class="delete-data btn btn-outline btn-danger dim" 
-                        data-toggle="modal" data-target="#delete_model_warning"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-                      </svg></button>';
-                    $btn .= '</div>';
-                    return $btn;
+                ->addColumn('action', function (Admin $user) {
+                    $user_data = Auth::user();
+                    $actionBtn = '';
+                    $edit_button = '<a href="' . route('admin-users.edit', $user->id) . '" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+                    <span class="svg-icon svg-icon-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path opacity="0.3" d="M21.4 8.35303L19.241 10.511L13.485 4.755L15.643 2.59595C16.0248 2.21423 16.5426 1.99988 17.0825 1.99988C17.6224 1.99988 18.1402 2.21423 18.522 2.59595L21.4 5.474C21.7817 5.85581 21.9962 6.37355 21.9962 6.91345C21.9962 7.45335 21.7817 7.97122 21.4 8.35303ZM3.68699 21.932L9.88699 19.865L4.13099 14.109L2.06399 20.309C1.98815 20.5354 1.97703 20.7787 2.03189 21.0111C2.08674 21.2436 2.2054 21.4561 2.37449 21.6248C2.54359 21.7934 2.75641 21.9115 2.989 21.9658C3.22158 22.0201 3.4647 22.0084 3.69099 21.932H3.68699Z" fill="currentColor"></path>
+                            <path d="M5.574 21.3L3.692 21.928C3.46591 22.0032 3.22334 22.0141 2.99144 21.9594C2.75954 21.9046 2.54744 21.7864 2.3789 21.6179C2.21036 21.4495 2.09202 21.2375 2.03711 21.0056C1.9822 20.7737 1.99289 20.5312 2.06799 20.3051L2.696 18.422L5.574 21.3ZM4.13499 14.105L9.891 19.861L19.245 10.507L13.489 4.75098L4.13499 14.105Z" fill="currentColor"></path>
+                        </svg>
+                    </span>
+                </a>';
+                    $delete_button = '<a href="#" data-id="' . route('admin-users.destroy', $user->id) . '" class="btn btn-icon btn-bg-light btn-active-color-danger btn-sm me-1 delete_user">
+                    <span class="svg-icon svg-icon-3">
+						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+							<path d="M5 9C5 8.44772 5.44772 8 6 8H18C18.5523 8 19 8.44772 19 9V18C19 19.6569 17.6569 21 16 21H8C6.34315 21 5 19.6569 5 18V9Z" fill="currentColor"></path>
+							<path opacity="0.5" d="M5 5C5 4.44772 5.44772 4 6 4H18C18.5523 4 19 4.44772 19 5V5C19 5.55228 18.5523 6 18 6H6C5.44772 6 5 5.55228 5 5V5Z" fill="currentColor"></path>
+							<path opacity="0.5" d="M9 4C9 3.44772 9.44772 3 10 3H14C14.5523 3 15 3.44772 15 4V4H9V4Z" fill="currentColor"></path>
+						</svg>
+					</span>
+                </a>';
+                    if ($user_data->id !== $user->id) {
+                        return $edit_button . " " . $delete_button;
+                    } else {
+                        return "";
+                    }
+                })
+                ->editColumn('role', function (Admin $admin) {
+                    if ($admin->role == '1') {
+                        $active = 'Super Admin';
+                    } else {
+                        $active = 'Admin';
+                    }
+                    return $active;
                 })
                 ->rawColumns(['action'])
                 ->make(true);
         }
         return view('admin-users.index');
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -64,7 +75,6 @@ class AdminController extends Controller
         $modules = Module::with('module_actions')->get();
         return view('admin-users.create', compact('modules'));
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -73,13 +83,19 @@ class AdminController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:admins'],
-            'password' => ['required', 'string', 'min:8', 'same:confirm-password'],
-            'role' => ['required', 'in:1,2'],
-            'permissions' => 'required_if:role,2',
-        ]);
+        $this->validate(
+            $request,
+            [
+                'name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:admins'],
+                'password' => ['required', 'string', 'min:8', 'same:confirm-password'],
+                'role' => ['required', 'in:1,2'],
+                'permissions' => 'required_if:role,2',
+            ],
+            [
+                'permissions.required_if' => 'The permissions field is required when role is admin'
+            ]
+        );
         $input = $request->all();
         $input['password'] = Hash::make($input['password']);
         if (isset($request->permissions) && !empty($request->permissions)) {
@@ -102,7 +118,6 @@ class AdminController extends Controller
             }
         }
     }
-
     /**
      * Display the specified resource.
      *
@@ -135,11 +150,18 @@ class AdminController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:admins,email,' . $id,
-            'password' => 'same:confirm-password',
-        ]);
+        $this->validate($request, 
+        [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:admins,email,' . $id],
+            'password' => ['same:confirm-password'],
+            'role' => ['required', 'in:1,2'],
+            'permissions' => 'required_if:role,2',
+        ],
+        [
+            'permissions.required_if' => 'The permissions field is required when role is admin'
+        ]
+    );
         $input = $request->all();
 
         if (!empty($input['password'])) {
@@ -186,6 +208,7 @@ class AdminController extends Controller
             if ($request->submit_type == 'ajax') {
                 return response()->json([
                     'result' => 'success',
+                    'status' => 1,
                     'message' => trans('translation.deleted', ['name' => 'user'])
                 ]);
             } else {
@@ -196,6 +219,7 @@ class AdminController extends Controller
             if ($request->submit_type == 'ajax') {
                 return response()->json([
                     'result' => 'fail',
+                    'status' => -1,
                     'message' => trans('translation.error')
                 ]);
             } else {
