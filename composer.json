@@ -11,6 +11,9 @@
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
         "laravel/ui": "^4.0",
+        "league/flysystem-aws-s3-v3": "3.0",
+        "pavel-mironchik/laravel-backup-panel": "^2.2",
+        "spatie/laravel-backup": "^8.1",
         "yajra/laravel-datatables-oracle": "^10.1"
     },
     "require-dev": {
@@ -26,7 +29,8 @@
         "psr-4": {
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
-            "Database\\Seeders\\": "database/seeders/"
+            "Database\\Seeders\\": "database/seeders/",
+            "Spatie\\Backup\\Tasks\\Backup\\": "app/Overrides/Tasks/Backup"
         }
     },
     "autoload-dev": {

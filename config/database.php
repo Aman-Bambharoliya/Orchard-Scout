@@ -76,6 +76,12 @@ return [
             'prefix_indexes' => true,
             'search_path' => 'public',
             'sslmode' => 'prefer',
+            'dump'=>[
+                // 'dump_binary_path'=>'',//binary path
+                'use_single_transaction',
+                'timeout' => 60 * 5, // 5 minute timeout
+                'add_extra_option' => '--format=c'
+            ],
         ],
 
         'sqlsrv' => [
