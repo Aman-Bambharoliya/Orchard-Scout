@@ -147,11 +147,10 @@ class BackupJob
             ->empty();
 
         if ($this->signals) {
-            Signal::handle(SIGINT, function (Command $command) {
-                $command->info('Cleaning up temporary directory...');
-
+            // Signal::handle(SIGINT, function (Command $command) {
+                // $command->info('Cleaning up temporary directory...');
                 $this->temporaryDirectory->delete();
-            });
+            // });
         }
 
         try {
@@ -181,7 +180,7 @@ class BackupJob
         $this->temporaryDirectory->delete();
 
         if ($this->signals) {
-            Signal::clearHandlers(SIGINT);
+            // Signal::clearHandlers(SIGINT);
         }
     }
 

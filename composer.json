@@ -30,7 +30,8 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/",
-            "Spatie\\Backup\\Tasks\\Backup\\": "app/Overrides/Tasks/Backup"
+            "Spatie\\Backup\\Tasks\\Backup\\": "app/Overrides/Tasks/Backup",
+            "PavelMironchik\\LaravelBackupPanel\\Http\\Middleware\\": "app/Overrides/LaravelBackupPanel/Http/Middleware"
         }
     },
     "autoload-dev": {
