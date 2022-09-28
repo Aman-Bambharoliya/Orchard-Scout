@@ -40,10 +40,6 @@ class ModuleDataSeeder extends Seeder
                          'action_name'=> 'people.destroy',
                          'rights'=>'delete'
                      ],
-                     [
-                        'action_name'=> 'people.test',
-                        'rights'=>'index'
-                    ],
                  ],
              ),
          );
