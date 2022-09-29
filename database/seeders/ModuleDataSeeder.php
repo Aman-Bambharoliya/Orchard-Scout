@@ -42,6 +42,35 @@ class ModuleDataSeeder extends Seeder
                      ],
                  ],
              ),
+             array(
+                'name'=>'address-types',
+                'actions'=>[
+                    [
+                        'action_name'=> 'address-types.index',
+                        'rights'=>'index'
+                    ],
+                    [
+                        'action_name'=> 'address-types.create',
+                        'rights'=>'create'
+                    ],
+                    [
+                        'action_name'=> 'address-types.store',
+                        'rights'=>'create'
+                    ],
+                    [
+                        'action_name'=> 'address-types.edit',
+                        'rights'=>'update'
+                    ],
+                    [
+                        'action_name'=> 'address-types.update',
+                        'rights'=>'update'
+                    ],
+                    [
+                        'action_name'=> 'address-types.destroy',
+                        'rights'=>'delete'
+                    ],
+                ],
+            ),
          );
 
         if (!empty($modules)) {
@@ -55,11 +84,8 @@ class ModuleDataSeeder extends Seeder
                         if ($module_id != null && isset($module['actions']) && !empty($module['actions'])) {
                             foreach($module['actions'] as $action)
                             {
-                                $module_action=new ModuleAction();
-                                $module_action->module_id=$module_id;
-                                $module_action->action_name=$action['action_name'];
-                                $module_action->rights=$action['rights'];
-                                $module_action->save();
+                                $mda=array('module_id'=>$module_id,'action_name'=>$action['action_name'],'rights'=>$action['rights']);
+                                $module_action_add = ModuleAction::firstOrCreate($mda);
                             }
                         }
                     }

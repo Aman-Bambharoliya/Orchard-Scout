@@ -7,10 +7,9 @@
                 "searching": true,
                 "responsive": true,
                 ajax: {
-                    url: userListIndex,
+                    url: listIndex,
                     data: function(d) {
                         d.name = $('#name').val();
-                        d.email = $('#email').val();
                     }
                 },
                 "lengthMenu": [
@@ -20,8 +19,6 @@
                 columns: [
                     { data: 'DT_RowIndex', name: 'DT_RowIndex' },
                     { data: 'name', name: 'name' },
-                    { data: 'email', name: 'email' },
-                    { data: 'role', name: 'role' },
                     { data: 'action', name: 'action', orderable: false, searchable: false },
                 ],
                 columnDefs: [{
@@ -30,14 +27,6 @@
                 }]
             });
             $('#name').keyup(function() {
-                Ot.draw();
-                jQuery(document).find('.row.clear_filter_row').show();
-            });
-            $('#email').keyup(function() {
-                Ot.draw();
-                jQuery(document).find('.row.clear_filter_row').show();
-            });
-            $('#roles').change(function() {
                 Ot.draw();
                 jQuery(document).find('.row.clear_filter_row').show();
             });
@@ -52,18 +41,10 @@
                 jQuery(document).find('.row.clear_filter_row').hide();
             });
         }
-        $("#role").change(function() {
-            if ($(this).val() == 2) {
-                $('.permission-section').show();
-            } else {
-                $('.permission-section').hide();
-            }
-        });
-        $("#role").trigger("change");
-        $(document).on('click', ".delete_user", function() {
+        $(document).on('click', ".delete_record", function() {
             var id = $(this).data('id');
             Swal.fire({
-                text: "Are you sure you want to delete selected admin?",
+                text: "Are you sure you want to delete selected record?",
                 icon: "warning",
                 showCancelButton: !0,
                 buttonsStyling: !1,
@@ -82,7 +63,7 @@
                         success: function(data) {
                             if (data.status == 1) {
                                 Swal.fire({
-                                    text: "You have deleted selected admin!.",
+                                    text: "You have deleted selected record.",
                                     icon: "success",
                                     buttonsStyling: !1,
                                     confirmButtonText: "Ok, got it!",
@@ -90,7 +71,6 @@
                                         confirmButton: "btn fw-bold btn-primary"
                                     }
                                 });
-                                // toastr.error("Oops ! Error: Deleted Successfully.!!!");
                                 Ot.draw();
                             } else {
                                 Swal.fire({
@@ -104,6 +84,20 @@
                                 });
                             }
                         },
+                        error: function(data) {
+                            console.log(data);
+                            if (data.status == '403') {
+                                Swal.fire({
+                                    text: data.responseJSON.message,
+                                    icon: "error",
+                                    buttonsStyling: !1,
+                                    confirmButtonText: "Ok, got it!",
+                                    customClass: {
+                                        confirmButton: "btn fw-bold btn-primary"
+                                    }
+                                });
+                            }
+                        }
                     });
                 } else {
                     Swal.fire({
@@ -123,34 +117,11 @@
             ignore: [],
             errorClass: 'invalid-feedback',
             rules: {
-                name: { required: true, maxlength: 255 },
-                email: { required: true, email: true, maxlength: 255 },
-                password: { required: true, minlength: 8 },
-                'confirm-password': {
-                    required: true,
-                    equalTo: ".password",
-                    minlength: 8
-                },
-                role: "required",
+                name: { required: true, maxlength: 16 },
             },
             messages: {
                 'name': {
                     required: "The name field is required.",
-                },
-                'email': {
-                    required: "The email field is required.",
-                },
-                'password': {
-                    required: "The password field is required.",
-                },
-                'confirm-password': {
-                    required: "The confirm password field is required.",
-                },
-                'role': {
-                    required: "The role field is required.",
-                },
-                'permissions': {
-                    required: "The permissions field is required when role is admin",
                 },
             },
             highlight: function(element, errorClass, validClass) {
@@ -169,42 +140,19 @@
                 $(element).removeClass('is-invalid');
             },
             errorPlacement: function(error, element) {
-                if (element.attr("name") == "permissions") {
-                    error.insertAfter($(document).find('.permission-tabel'));
-                } else {
-                    error.insertAfter($(element));
-                }
+                error.insertAfter($(element));
             },
         });
-
         jQuery("form[name='edit_frm']").validate({
             errorElement: 'span',
             ignore: [],
             errorClass: 'invalid-feedback',
             rules: {
-                name: { required: true, maxlength: 255 },
-                email: { required: true, email: true, maxlength: 255 },
-                password: { equalTo: ".confirm-password", },
-                role: "required",
+                name: { required: true, maxlength: 16 },
             },
             messages: {
                 'name': {
                     required: "The name field is required.",
-                },
-                'email': {
-                    required: "The email field is required.",
-                },
-                'password': {
-                    required: "The password field is required.",
-                },
-                'confirm-password': {
-                    required: "The confirm password field is required.",
-                },
-                'role': {
-                    required: "The role field is required.",
-                },
-                'permissions': {
-                    required: "The permissions field is required when role is admin",
                 },
             },
             highlight: function(element, errorClass, validClass) {
@@ -223,11 +171,7 @@
                 $(element).removeClass('is-invalid');
             },
             errorPlacement: function(error, element) {
-                if (element.attr("name") == "permissions") {
-                    error.insertAfter($(document).find('.permission-tabel'));
-                } else {
-                    error.insertAfter($(element));
-                }
+                error.insertAfter($(element));
             },
         });
     });

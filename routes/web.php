@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AddressTypeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DemoController;
 use App\Http\Controllers\PeopleController;
@@ -33,5 +34,6 @@ Route::group(['middleware' => ['auth']], function () {
     });
     Route::group(['middleware' => ['Permission']], function () {
         //admin role routes goes here
+        Route::resource('address-types', AddressTypeController::class);
     });
 });

@@ -125,14 +125,14 @@
                             </label>
                             <div class="col-lg-8 fv-row">
                                 <div class="table-responsive permission-tabel @error('permissions') is-invalid @enderror">
-                                    <table class="table table-rounded table-striped border gy-7 gs-7">
+                                    <table class="table table-rounded table-striped border gy-3 gs-7">
                                         <thead>
                                             <tr class="fw-bold fs-6 text-gray-800 border-bottom border-gray-200">
-                                                <th>Module</th>
-                                                <th>View</th>
-                                                <th>Create</th>
-                                                <th>Update</th>
-                                                <th>Delete</th>
+                                                <th style='padding-left: 30px;'>Module</th>
+                                                <th style='padding-left: 30px;'>View</th>
+                                                <th style='padding-left: 30px;'>Create</th>
+                                                <th style='padding-left: 30px;'>Update</th>
+                                                <th style='padding-left: 30px;'>Delete</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -144,11 +144,11 @@
                                             <tr>
                                                 <td>{{$module->name}}</td>
                                                 <td>
-                                                    <div class="custom-control custom-checkbox mt-2">
+                                                    <div class="form-check form-check-custom form-check-solid form-check-sm">
                                                         <label
                                                             class="form-check form-check-inline form-check-solid me-5 @error('permissions') is-invalid @enderror">
                                                             <input
-                                                                class="form-check-input ludo-check @error('permissions') is-invalid @enderror"
+                                                                class="form-check-input @error('permissions') is-invalid @enderror"
                                                                 name="permissions[{{$module->name}}][]" type="checkbox"
                                                                 value="index" @if (isset($permissions[$module->name]) &&
                                                             in_array( 'index',$permissions[$module->name]))
@@ -158,11 +158,11 @@
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <div class="custom-control custom-checkbox mt-2">
+                                                    <div class="form-check form-check-custom form-check-solid form-check-sm">
                                                         <label
                                                             class="form-check form-check-inline form-check-solid me-5 @error('permissions') is-invalid @enderror">
                                                             <input
-                                                                class="form-check-input ludo-check @error('permissions') is-invalid @enderror"
+                                                                class="form-check-input @error('permissions') is-invalid @enderror"
                                                                 name="permissions[{{$module->name}}][]" type="checkbox"
                                                                 value="create" @if (isset($permissions[$module->name])
                                                             && in_array( 'create',$permissions[$module->name]))
@@ -172,11 +172,11 @@
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <div class="custom-control custom-checkbox mt-2">
+                                                    <div class="form-check form-check-custom form-check-solid form-check-sm">
                                                         <label
                                                             class="form-check form-check-inline form-check-solid me-5 @error('permissions') is-invalid @enderror">
                                                             <input
-                                                                class="form-check-input ludo-check @error('permissions') is-invalid @enderror"
+                                                                class="form-check-input @error('permissions') is-invalid @enderror"
                                                                 name="permissions[{{$module->name}}][]" type="checkbox"
                                                                 value="update" @if (isset($permissions[$module->name])
                                                             && in_array( 'update',$permissions[$module->name]))
@@ -186,11 +186,11 @@
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <div class="custom-control custom-checkbox mt-2">
+                                                    <div class="form-check form-check-custom form-check-solid form-check-sm">
                                                         <label
                                                             class="form-check form-check-inline form-check-solid me-5 @error('permissions') is-invalid @enderror">
                                                             <input
-                                                                class="form-check-input ludo-check @error('permissions') is-invalid @enderror"
+                                                                class="form-check-input @error('permissions') is-invalid @enderror"
                                                                 name="permissions[{{$module->name}}][]" type="checkbox"
                                                                 value="delete" @if (isset($permissions[$module->name])
                                                             && in_array( 'delete',$permissions[$module->name]))
