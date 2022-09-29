@@ -35,5 +35,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['middleware' => ['Permission']], function () {
         //admin role routes goes here
         Route::resource('address-types', AddressTypeController::class);
+        Route::resource('peoples', PeopleController::class);
     });
 });

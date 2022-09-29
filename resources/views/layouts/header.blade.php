@@ -11,7 +11,6 @@
 	<link href="{{asset('theme/plugins/global/plugins.bundle.css')}}" rel="stylesheet" type="text/css" />
 	<link href="{{asset('theme/css/style.bundle.css')}}" rel="stylesheet" type="text/css" />
 	<link href="{{asset('css/custom.css')}}" rel="stylesheet" type="text/css" />
-	<link href="{{asset('theme/plugins/global/plugins.bundle.css')}}" rel="stylesheet" type="text/css" />
 	@yield('pagespecificstyles')
 	<!-- Fonts -->
 	{{-- <link rel="dns-prefetch" href="//fonts.gstatic.com"> --}}

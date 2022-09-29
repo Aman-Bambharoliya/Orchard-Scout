@@ -18,26 +18,30 @@ class ModuleDataSeeder extends Seeder
     {
         $modules = array(
             array(
-                 'name'=>'people',
+                 'name'=>'peoples',
                  'actions'=>[
                      [
-                         'action_name'=> 'people.index',
+                         'action_name'=> 'peoples.index',
                          'rights'=>'index'
                      ],
                      [
-                         'action_name'=> 'people.create',
+                         'action_name'=> 'peoples.create',
                          'rights'=>'create'
                      ],
                      [
-                         'action_name'=> 'people.edit',
+                        'action_name'=> 'peoples.store',
+                        'rights'=>'create'
+                    ],
+                     [
+                         'action_name'=> 'peoples.edit',
                          'rights'=>'update'
                      ],
                      [
-                         'action_name'=> 'people.update',
+                         'action_name'=> 'peoples.update',
                          'rights'=>'update'
                      ],
                      [
-                         'action_name'=> 'people.destroy',
+                         'action_name'=> 'peoples.destroy',
                          'rights'=>'delete'
                      ],
                  ],
