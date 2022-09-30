@@ -133,6 +133,35 @@ class ModuleDataSeeder extends Seeder
                     ],
                 ],
             ),
+            array(
+                'name'=>'customers',
+                'actions'=>[
+                    [
+                        'action_name'=> 'customers.index',
+                        'rights'=>'index'
+                    ],
+                    [
+                        'action_name'=> 'customers.create',
+                        'rights'=>'create'
+                    ],
+                    [
+                       'action_name'=> 'customers.store',
+                       'rights'=>'create'
+                   ],
+                    [
+                        'action_name'=> 'customers.edit',
+                        'rights'=>'update'
+                    ],
+                    [
+                        'action_name'=> 'customers.update',
+                        'rights'=>'update'
+                    ],
+                    [
+                        'action_name'=> 'customers.destroy',
+                        'rights'=>'delete'
+                    ],
+                ],
+            ),
          );
 
         if (!empty($modules)) {

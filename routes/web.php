@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AddressTypeController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DemoController;
 use App\Http\Controllers\PeopleAddressController;
 use App\Http\Controllers\PeopleController;
@@ -56,5 +57,7 @@ Route::group(['middleware' => ['auth']], function () {
          Route::put('people-phones/{id}',[PeoplePhoneController::class,'update'])->name('people-phones.update');
          Route::delete('people-phones/{id}',[PeoplePhoneController::class,'destroy'])->name('people-phones.destroy');
          //people-address route end===================================================
+
+         Route::resource('customers', CustomerController::class);
     });
 });
