@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('breadcrumb')
-<h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">{{__('Peoples')}}</h1>
+<h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">{{__('People Addresses')}}</h1>
 <span class="h-20px border-gray-300 border-start mx-4"></span>
 <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
     <li class="breadcrumb-item text-muted">
@@ -15,6 +15,12 @@
     <li class="breadcrumb-item">
         <span class="bullet bg-gray-300 w-5px h-2px"></span>
     </li>
+    <li class="breadcrumb-item text-muted">
+        <a href="{{route('people-addresses.index',$data->people_id)}}" class="text-muted text-hover-primary"> {{__('People Addresses')}}</a>
+    </li>
+    <li class="breadcrumb-item">
+        <span class="bullet bg-gray-300 w-5px h-2px"></span>
+    </li>
     <li class="breadcrumb-item text-dark">{{__('Edit')}}</li>
 </ul>
 @endsection
@@ -24,21 +30,31 @@
         @include('layouts.errors')
         <div class="card mb-5 mb-xl-10">
             <div id="kt_account_settings_profile_details" class="collapse show">
-                <form id="add_frm" name='add_frm' class="form" method="post" action="{{ route('peoples.update',$data->id) }}">
+                <form id="add_frm" name='add_frm' class="form" method="post" action="{{ route('people-addresses.update',$data->id) }}">
                     @csrf
                     @method('PUT')
+                    <input type="hidden" name='people_id' value="{{$data->people_id}}">
                     <div class="card-body border-top p-9">
                         <div class="row mb-6">
                             <label class="col-lg-4 col-form-label fw-bold fs-6">
-                                <span class="required">{{__('Prefix')}}</span>
+                                <span class="required">{{ __('Address Type')}}</span>
                                 <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip"
-                                    title="{{__('Prefix')}}"></i>
+                                    title="{{ __('Address Type')}}"></i>
                             </label>
                             <div class="col-lg-8 fv-row">
-                                <input type="text" name="prefix"
-                                    class="form-control form-control-lg form-control-solid @error('prefix') is-invalid @enderror"
-                                    placeholder="{{__('Prefix')}}" value='{{$data->prefix}}'/>
-                                @error('prefix')
+                                <select
+                                    class="form-select form-select-solid form-select-lg  @error('address_type_id') is-invalid @enderror"
+                                    id='address_type_id' name="address_type_id">
+                                    <option value=''>Select address type</option>
+                                    @if (!empty($AddressTypes) && count($AddressTypes) > 0)
+                                    @foreach ($AddressTypes as $AddressType)
+                                        <option value='{{$AddressType->id}}' @if($data->address_type_id==$AddressType->id)
+                                            {{'selected'}}
+                                        @endif>{{$AddressType->name}}</option>
+                                    @endforeach
+                                    @endif
+                                </select>
+                                @error('address_type_id')
                                 <span class="invalid-feedback" role="alert">
                                     {{ $message }}
                                 </span>
@@ -47,15 +63,15 @@
                         </div>
                         <div class="row mb-6">
                             <label class="col-lg-4 col-form-label fw-bold fs-6">
-                                <span class="required">{{__('First Name')}}</span>
+                                <span class="required">{{__('Address line 1')}}</span>
                                 <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip"
-                                    title="{{__('First Name')}}"></i>
+                                    title="{{__('Address line 1')}}"></i>
                             </label>
                             <div class="col-lg-8 fv-row">
-                                <input type="text" name="first_name"
-                                    class="form-control form-control-lg form-control-solid @error('first_name') is-invalid @enderror"
-                                    placeholder="{{__('First Name')}}" value='{{$data->first_name}}'/>
-                                @error('first_name')
+                                <input type="text" name="address_1"
+                                    class="form-control form-control-lg form-control-solid @error('address_1') is-invalid @enderror"
+                                    placeholder="{{__('Address line 1')}}" value='{{$data->hasAddress->address_1}}'/>
+                                @error('address_1')
                                 <span class="invalid-feedback" role="alert">
                                     {{ $message }}
                                 </span>
@@ -64,15 +80,15 @@
                         </div>
                         <div class="row mb-6">
                             <label class="col-lg-4 col-form-label fw-bold fs-6">
-                                <span class="required">{{__('Middle Name')}}</span>
+                                <span class="">{{__('Address line 2')}}</span>
                                 <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip"
-                                    title="{{__('Middle Name')}}"></i>
+                                    title="{{__('Address line 2')}}"></i>
                             </label>
                             <div class="col-lg-8 fv-row">
-                                <input type="text" name="middle_name"
-                                    class="form-control form-control-lg form-control-solid @error('middle_name') is-invalid @enderror"
-                                    placeholder="{{__('Middle Name')}}" value='{{$data->middle_name}}'/>
-                                @error('middle_name')
+                                <input type="text" name="address_2"
+                                    class="form-control form-control-lg form-control-solid @error('address_2') is-invalid @enderror"
+                                    placeholder="{{__('Address line 2')}}" value='{{$data->hasAddress->address_2}}'/>
+                                @error('address_2')
                                 <span class="invalid-feedback" role="alert">
                                     {{ $message }}
                                 </span>
@@ -81,15 +97,15 @@
                         </div>
                         <div class="row mb-6">
                             <label class="col-lg-4 col-form-label fw-bold fs-6">
-                                <span class="required">{{__('Last Name')}}</span>
+                                <span class="required">{{__('City')}}</span>
                                 <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip"
-                                    title="{{__('Last Name')}}"></i>
+                                    title="{{__('City')}}"></i>
                             </label>
                             <div class="col-lg-8 fv-row">
-                                <input type="text" name="last_name"
-                                    class="form-control form-control-lg form-control-solid @error('last_name') is-invalid @enderror"
-                                    placeholder="{{__('Last Name')}}" value='{{$data->last_name}}'/>
-                                @error('last_name')
+                                <input type="text" name="city"
+                                    class="form-control form-control-lg form-control-solid @error('city') is-invalid @enderror"
+                                    placeholder="{{__('City')}}" value='{{$data->hasAddress->city}}'/>
+                                @error('city')
                                 <span class="invalid-feedback" role="alert">
                                     {{ $message }}
                                 </span>
@@ -98,15 +114,15 @@
                         </div>
                         <div class="row mb-6">
                             <label class="col-lg-4 col-form-label fw-bold fs-6">
-                                <span class="">{{__('Suffix')}}</span>
+                                <span class="required">{{__('State')}}</span>
                                 <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip"
-                                    title="{{__('Suffix')}}"></i>
+                                    title="{{__('State')}}"></i>
                             </label>
                             <div class="col-lg-8 fv-row">
-                                <input type="text" name="suffix"
-                                    class="form-control form-control-lg form-control-solid @error('suffix') is-invalid @enderror"
-                                    placeholder="{{__('Suffix')}}" value='{{$data->suffix}}'/>
-                                @error('suffix')
+                                <input type="text" name="state"
+                                    class="form-control form-control-lg form-control-solid @error('state') is-invalid @enderror"
+                                    placeholder="{{__('State')}}" value='{{$data->hasAddress->state}}'/>
+                                @error('state')
                                 <span class="invalid-feedback" role="alert">
                                     {{ $message }}
                                 </span>
@@ -115,15 +131,15 @@
                         </div>
                         <div class="row mb-6">
                             <label class="col-lg-4 col-form-label fw-bold fs-6">
-                                <span class="">{{__('Nickname')}}</span>
+                                <span class="required">{{__('Zip')}}</span>
                                 <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip"
-                                    title="{{__('Nickname')}}"></i>
+                                    title="{{__('Zip')}}"></i>
                             </label>
                             <div class="col-lg-8 fv-row">
-                                <input type="text" name="nickname"
-                                    class="form-control form-control-lg form-control-solid @error('nickname') is-invalid @enderror"
-                                    placeholder="{{__('Nickname')}}" value='{{$data->nickname}}'/>
-                                @error('nickname')
+                                <input type="text" name="zip"
+                                    class="form-control form-control-lg form-control-solid @error('zip') is-invalid @enderror"
+                                    placeholder="{{__('Zip')}}" value='{{$data->hasAddress->zip}}'/>
+                                @error('zip')
                                 <span class="invalid-feedback" role="alert">
                                     {{ $message }}
                                 </span>
@@ -132,32 +148,15 @@
                         </div>
                         <div class="row mb-6">
                             <label class="col-lg-4 col-form-label fw-bold fs-6">
-                                <span class="">{{__('Maiden Name')}}</span>
+                                <span class="required">{{__('ZIP+4')}}</span>
                                 <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip"
-                                    title="{{__('Maiden Name')}}"></i>
+                                    title="{{__('ZIP+4')}}"></i>
                             </label>
                             <div class="col-lg-8 fv-row">
-                                <input type="text" name="maiden_name"
-                                    class="form-control form-control-lg form-control-solid @error('maiden_name') is-invalid @enderror"
-                                    placeholder="{{__('Maiden Name')}}" value='{{$data->maiden_name}}'/>
-                                @error('maiden_name')
-                                <span class="invalid-feedback" role="alert">
-                                    {{ $message }}
-                                </span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="row mb-6">
-                            <label class="col-lg-4 col-form-label fw-bold fs-6">
-                                <span class="required">{{__('Date Of Birth')}}</span>
-                                <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip"
-                                    title="{{__('Date Of Birth')}}"></i>
-                            </label>
-                            <div class="col-lg-8 fv-row">
-                                <input name="date_of_birth"
-                                    class="form-control form-control-lg form-control-solid @error('date_of_birth') is-invalid @enderror"
-                                    placeholder="{{__('Date Of Birth')}}" id='date_of_birth' value='{{$data->date_of_birth}}'/>
-                                @error('date_of_birth')
+                                <input type="text" name="zip_plus4"
+                                    class="form-control form-control-lg form-control-solid @error('zip_plus4') is-invalid @enderror"
+                                    placeholder="{{__('ZIP+4')}}" value='{{$data->hasAddress->zip_plus4}}'/>
+                                @error('zip_plus4')
                                 <span class="invalid-feedback" role="alert">
                                     {{ $message }}
                                 </span>
@@ -177,5 +176,5 @@
 </div>
 @endsection
 @section('pagespecificscripts')
-<script src="{{url('js/module/peoples.js')}}"></script>
+<script src="{{url('js/module/people-addresses.js')}}"></script>
 @endsection

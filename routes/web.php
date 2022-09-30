@@ -3,6 +3,7 @@
 use App\Http\Controllers\AddressTypeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DemoController;
+use App\Http\Controllers\PeopleAddressController;
 use App\Http\Controllers\PeopleController;
 use Illuminate\Support\Facades\Route;
 
@@ -36,5 +37,11 @@ Route::group(['middleware' => ['auth']], function () {
         //admin role routes goes here
         Route::resource('address-types', AddressTypeController::class);
         Route::resource('peoples', PeopleController::class);
+        Route::get('people-addresses/create/{people_id}', [PeopleAddressController::class,'create'])->name('people-addresses.create');
+        Route::post('people-addresses/store', [PeopleAddressController::class,'store'])->name('people-addresses.store');
+        Route::get('people-addresses/{people_id}', [PeopleAddressController::class,'index'])->name('people-addresses.index');
+        Route::get('people-addresses/{id}/edit', [PeopleAddressController::class,'edit'])->name('people-addresses.edit');
+        Route::put('people-addresses/{id}',[PeopleAddressController::class,'update'])->name('people-addresses.update');
+        Route::delete('people-addresses/{id}',[PeopleAddressController::class,'destroy'])->name('people-addresses.destroy');
     });
 });

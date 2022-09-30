@@ -66,4 +66,9 @@ class People extends Authenticatable
         return $value;
     }
 
+    public function hasManyPeopleAddress()
+    {
+        return $this->hasMany(PeopleAddress::class);
+    }
+
 }

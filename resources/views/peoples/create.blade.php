@@ -31,7 +31,7 @@
                             <label class="col-lg-4 col-form-label fw-bold fs-6">
                                 <span class="required">{{__('Prefix')}}</span>
                                 <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip"
-                                    title="Name of Admin"></i>
+                                    title="{{__('Prefix')}}"></i>
                             </label>
                             <div class="col-lg-8 fv-row">
                                 <input type="text" name="prefix"
@@ -48,7 +48,7 @@
                             <label class="col-lg-4 col-form-label fw-bold fs-6">
                                 <span class="required">{{__('First Name')}}</span>
                                 <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip"
-                                    title="Name of Admin"></i>
+                                    title="{{__('First Name')}}"></i>
                             </label>
                             <div class="col-lg-8 fv-row">
                                 <input type="text" name="first_name"
@@ -65,7 +65,7 @@
                             <label class="col-lg-4 col-form-label fw-bold fs-6">
                                 <span class="required">{{__('Middle Name')}}</span>
                                 <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip"
-                                    title="Name of Admin"></i>
+                                    title="{{__('Middle Name')}}"></i>
                             </label>
                             <div class="col-lg-8 fv-row">
                                 <input type="text" name="middle_name"
@@ -82,7 +82,7 @@
                             <label class="col-lg-4 col-form-label fw-bold fs-6">
                                 <span class="required">{{__('Last Name')}}</span>
                                 <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip"
-                                    title="Name of Admin"></i>
+                                    title="{{__('Last Name')}}"></i>
                             </label>
                             <div class="col-lg-8 fv-row">
                                 <input type="text" name="last_name"
@@ -99,7 +99,7 @@
                             <label class="col-lg-4 col-form-label fw-bold fs-6">
                                 <span class="">{{__('Suffix')}}</span>
                                 <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip"
-                                    title="Name of Admin"></i>
+                                    title="{{__('Suffix')}}"></i>
                             </label>
                             <div class="col-lg-8 fv-row">
                                 <input type="text" name="suffix"
@@ -116,7 +116,7 @@
                             <label class="col-lg-4 col-form-label fw-bold fs-6">
                                 <span class="">{{__('Nickname')}}</span>
                                 <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip"
-                                    title="Name of Admin"></i>
+                                    title="{{__('Nickname')}}"></i>
                             </label>
                             <div class="col-lg-8 fv-row">
                                 <input type="text" name="nickname"
@@ -133,7 +133,7 @@
                             <label class="col-lg-4 col-form-label fw-bold fs-6">
                                 <span class="">{{__('Maiden Name')}}</span>
                                 <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip"
-                                    title="Name of Admin"></i>
+                                    title="{{__('Maiden Name')}}"></i>
                             </label>
                             <div class="col-lg-8 fv-row">
                                 <input type="text" name="maiden_name"
@@ -150,7 +150,7 @@
                             <label class="col-lg-4 col-form-label fw-bold fs-6">
                                 <span class="required">{{__('Date Of Birth')}}</span>
                                 <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip"
-                                    title="Name of Admin"></i>
+                                    title="{{__('Date Of Birth')}}"></i>
                             </label>
                             <div class="col-lg-8 fv-row">
                                 <input name="date_of_birth"

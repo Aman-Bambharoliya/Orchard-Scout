@@ -18,10 +18,13 @@
                 ],
                 columns: [
                     { data: 'DT_RowIndex', name: 'DT_RowIndex' },
-                    { data: 'full_name', name: 'full_name' },
-                    { data: 'nickname', name: 'nickname' },
-                    { data: 'maiden_name', name: 'maiden_name' },
-                    { data: 'date_of_birth', name: 'date_of_birth' },
+                    { data: 'address_type_name', name: 'address_type_name' },
+                    { data: 'address_1', name: 'address_1' },
+                    { data: 'address_2', name: 'address_2' },
+                    { data: 'city', name: 'city' },
+                    { data: 'state', name: 'state' },
+                    { data: 'zip', name: 'zip' },
+                    { data: 'zip_plus4', name: 'zip_plus4' },
                     { data: 'action', name: 'action', orderable: false, searchable: false },
                 ],
                 columnDefs: [{
@@ -115,29 +118,26 @@
                 }
             }))
         });
-        jQuery.validator.addMethod("validDate", function(value, element) {
-            return this.optional(element) || moment(value, "DD-MM-YYYY").isValid();
-        }, "Please enter a valid date in the format DD-MM-YYYY");
         jQuery("form[name='add_frm']").validate({
             errorElement: 'span',
             ignore: [],
             errorClass: 'invalid-feedback',
             rules: {
-                prefix: { required: true, maxlength: 8 },
-                first_name: { required: true, maxlength: 32 },
-                middle_name: { required: true, maxlength: 32 },
-                last_name: { required: true, maxlength: 64 },
-                suffix: { maxlength: 8 },
-                nickname: { maxlength: 32 },
-                maiden_name: { maxlength: 32 },
-                date_of_birth: { required: true, validDate: true },
+                address_type_id: { required: true, maxlength: 8 },
+                address_1: { required: true, maxlength: 32 },
+                address_2: { maxlength: 32 },
+                city: { required: true, maxlength: 32 },
+                state: { required: true, maxlength: 8, maxlength: 32 },
+                zip: { required: true, maxlength: 32, number: true, maxlength: 10 },
+                zip_plus4: { required: true, maxlength: 32, number: true, maxlength: 10 },
             },
             messages: {
-                'prefix': { required: "The prefix field is required.", },
-                'first_name': { required: "The first name field is required.", },
-                'middle_name': { required: "The middle name field is required.", },
-                'last_name': { required: "The last name field is required.", },
-                'date_of_birth': { required: "The date of birth field is required.", },
+                'address_type_id': { required: "The address type field is required.", },
+                'address_1': { required: "The address line 1 field is required.", },
+                'city': { required: "The city field is required.", },
+                'state': { required: "The state field is required.", },
+                'zip': { required: "The zip field is required.", },
+                'zip_plus4': { required: "The zip+4 field is required.", },
             },
             highlight: function(element, errorClass, validClass) {
                 if ($(element).attr("type") == "radio") {
@@ -163,21 +163,21 @@
             ignore: [],
             errorClass: 'invalid-feedback',
             rules: {
-                prefix: { required: true, maxlength: 8 },
-                first_name: { required: true, maxlength: 32 },
-                middle_name: { required: true, maxlength: 32 },
-                last_name: { required: true, maxlength: 64 },
-                suffix: { maxlength: 8 },
-                nickname: { maxlength: 32 },
-                maiden_name: { maxlength: 32 },
-                date_of_birth: { required: true, validDate: true },
+                address_type_id: { required: true, maxlength: 8 },
+                address_1: { required: true, maxlength: 32 },
+                address_2: { maxlength: 32 },
+                city: { required: true, maxlength: 32 },
+                state: { required: true, maxlength: 8, maxlength: 32 },
+                zip: { required: true, maxlength: 32, number: true, maxlength: 10 },
+                zip_plus4: { required: true, maxlength: 32, number: true, maxlength: 10 },
             },
             messages: {
-                'prefix': { required: "The prefix field is required.", },
-                'first_name': { required: "The first name field is required.", },
-                'middle_name': { required: "The middle name field is required.", },
-                'last_name': { required: "The last name field is required.", },
-                'date_of_birth': { required: "The date of birth field is required.", },
+                'address_type_id': { required: "The address type field is required.", },
+                'address_1': { required: "The address line 1 field is required.", },
+                'city': { required: "The city field is required.", },
+                'state': { required: "The state field is required.", },
+                'zip': { required: "The zip field is required.", },
+                'zip_plus4': { required: "The zip+4 field is required.", },
             },
             highlight: function(element, errorClass, validClass) {
                 if ($(element).attr("type") == "radio") {
@@ -197,19 +197,5 @@
             errorPlacement: function(error, element) {
                 error.insertAfter($(element));
             },
-        });
-        $("#date_of_birth").daterangepicker({
-            format: 'DD-MM-YYYY',
-            autoUpdateInput: false,
-            singleDatePicker: true,
-            showDropdowns: true,
-            useCurrent: false,
-            "autoApply": true,
-            minYear: 1700,
-            "maxDate": new Date(),
-            maxYear: parseInt(moment().format("YYYY"), 10)
-        });
-        $('#date_of_birth').on('apply.daterangepicker', function(ev, picker) {
-            $(this).val(picker.startDate.format('DD-MM-YYYY'));
         });
     });

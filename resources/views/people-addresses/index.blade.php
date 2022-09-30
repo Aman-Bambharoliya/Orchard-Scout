@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('breadcrumb')
-<h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">{{__('Peoples')}}</h1>
+<h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">{{__('People Addresses')}}</h1>
 <span class="h-20px border-gray-300 border-start mx-4"></span>
 <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
     <li class="breadcrumb-item text-muted">
@@ -9,7 +9,13 @@
     <li class="breadcrumb-item">
         <span class="bullet bg-gray-300 w-5px h-2px"></span>
     </li>
-    <li class="breadcrumb-item text-dark">{{__('Peoples')}}</li>
+    <li class="breadcrumb-item text-muted">
+        <a href="{{route('peoples.index')}}" class="text-muted text-hover-primary">{{__('Peoples')}}</a>
+    </li>
+    <li class="breadcrumb-item">
+        <span class="bullet bg-gray-300 w-5px h-2px"></span>
+    </li>
+    <li class="breadcrumb-item text-dark">{{__('People Addresses')}}</li>
 </ul>
 @endsection
 @section('main-content')
@@ -31,13 +37,13 @@
                             </svg>
                         </span>
                         <input type="text" data-kt-customer-table-filter="search" name="data_tbl_search"
-                            class="form-control form-control-solid w-250px ps-15" placeholder="Search People" />
+                            class="form-control form-control-solid w-250px ps-15" placeholder="{{__('Search People Address')}}" />
                     </div>
                 </div>
                 <div class="card-toolbar">
-                    @permission('peoples','create')
+                    @permission('people-addresses','create')
                     <div class="d-flex justify-content-end" data-kt-customer-table-toolbar="base">
-                        <a href="{{route('peoples.create')}}" class="btn btn-primary">Add</a>
+                        <a href="{{route('people-addresses.create',$people_id)}}" class="btn btn-primary">Add</a>
                     </div>
                     @endpermission
                 </div>
@@ -47,10 +53,13 @@
                     <thead>
                         <tr class="text-start text-gray-400 fw-bolder fs-7 text-uppercase gs-0">
                             <th class="min-w-15px">{{__('No.')}}</th>
-                            <th class="min-w-125px">{{__('Full Name')}}</th>
-                            <th class="min-w-125px">{{__('Nickname')}}</th>
-                            <th class="min-w-125px">{{__('Maiden Name')}}</th>
-                            <th class="min-w-125px">{{__('Date Of Birth')}}</th>
+                            <th class="min-w-90px">{{__('Address Type')}}</th>
+                            <th class="min-w-125px">{{__('Address Line 1')}}</th>
+                            <th class="min-w-125px">{{__('Address Line 2')}}</th>
+                            <th class="min-w-125px">{{__('City')}}</th>
+                            <th class="min-w-100px">{{__('State')}}</th>
+                            <th class="min-w-75px">{{__('Zip')}}</th>
+                            <th class="min-w-75px">{{__('Zip+4')}}</th>
                             <th class="min-w-70px">{{__('Actions')}}</th>
                         </tr>
                     </thead>
@@ -64,12 +73,7 @@
 @endsection
 @section('pagespecificscripts')
 <script>
-    
-
-KTMenu.createInstances();
-
-
-    var listIndex = "{{ route('peoples.index') }}"
+    var listIndex = "{{ route('people-addresses.index',$people_id) }}"
 </script>
-<script src="{{asset('js/module/peoples.js')}}"></script>
+<script src="{{asset('js/module/people-addresses.js')}}"></script>
 @endsection

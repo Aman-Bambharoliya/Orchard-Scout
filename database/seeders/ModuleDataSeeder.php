@@ -75,6 +75,35 @@ class ModuleDataSeeder extends Seeder
                     ],
                 ],
             ),
+            array(
+                'name'=>'people-addresses',
+                'actions'=>[
+                    [
+                        'action_name'=> 'people-addresses.index',
+                        'rights'=>'index'
+                    ],
+                    [
+                        'action_name'=> 'people-addresses.create',
+                        'rights'=>'create'
+                    ],
+                    [
+                        'action_name'=> 'people-addresses.store',
+                        'rights'=>'create'
+                    ],
+                    [
+                        'action_name'=> 'people-addresses.edit',
+                        'rights'=>'update'
+                    ],
+                    [
+                        'action_name'=> 'people-addresses.update',
+                        'rights'=>'update'
+                    ],
+                    [
+                        'action_name'=> 'people-addresses.destroy',
+                        'rights'=>'delete'
+                    ],
+                ],
+            ),
          );
 
         if (!empty($modules)) {

@@ -106,7 +106,7 @@
 				</div>
 				@endpermission
 				@permission('peoples')
-				<div data-kt-menu-trigger="click" class="menu-item menu-accordion @if (Route::currentRouteName() == 'peoples.index' || Route::currentRouteName() == 'peoples.create' || Route::currentRouteName() == 'peoples.edit') here hover show @endif">
+				<div data-kt-menu-trigger="click" class="menu-item menu-accordion @if (Route::currentRouteName() == 'peoples.index' || Route::currentRouteName() == 'peoples.create' || Route::currentRouteName() == 'peoples.edit' || Route::currentRouteName() == 'people-addresses.index' || Route::currentRouteName() == 'people-addresses.create' || Route::currentRouteName() == 'people-addresses.edit') here hover show @endif">
 					<span class="menu-link">
 						<span class="menu-icon">
 							<span class="svg-icon svg-icon-2">
@@ -132,7 +132,7 @@
 						@endpermission
 						@permission('peoples','index')
 						<div class="menu-item">
-							<a class="menu-link @if (Route::currentRouteName() == 'peoples.index' || Route::currentRouteName() == 'peoples.edit') active @endif" href="{{route('peoples.index')}}">
+							<a class="menu-link @if (Route::currentRouteName() == 'peoples.index' || Route::currentRouteName() == 'peoples.edit' || Route::currentRouteName() == 'people-addresses.index' || Route::currentRouteName() == 'people-addresses.create' || Route::currentRouteName() == 'people-addresses.edit') active @endif" href="{{route('peoples.index')}}">
 								<span class="menu-bullet">
 									<span class="bullet bullet-dot"></span>
 								</span>
