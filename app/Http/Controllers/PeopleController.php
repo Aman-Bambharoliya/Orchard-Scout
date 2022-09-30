@@ -32,39 +32,49 @@ class PeopleController extends Controller
                     $delete_button = '';
                     $address_list_btn = '';
                     $address_add_btn = '';
+                    $phone_add_btn = '';
+                    $phone_list_btn = '';
                     if ($user_data->hasPermission('peoples', 'update')) {
-                        $edit_button .= '<div class="menu-item px-1">
+                        $edit_button .= '<div class="menu-item  px-3">
                                 <a href="' . route('peoples.edit', $data->id) . '" class="menu-link px-3">Edit</a>
                             </div>';
                     }
                     if ($user_data->hasPermission('peoples', 'delete')) {
-                    $delete_button .= '<div class="menu-item px-1">
+                        $delete_button .= '<div class="menu-item  px-3">
                     <a href="#" data-id="' . route('peoples.destroy', $data->id) . '" class="menu-link px-3 delete_record">Delete</a>
                 </div>';
                     }
-                    if ($user_data->hasPermission('people-addresses', 'create')) {
-                    $address_add_btn .= ' <div class="menu-item px-1">
-                    <a href="'.route('people-addresses.create',$data->id).'" class="menu-link px-3">Address Add</a>
+                    // if ($user_data->hasPermission('people-addresses', 'create')) {
+                    //     $address_add_btn .= ' <div class="menu-item  px-3">
+                    // <a href="' . route('people-addresses.create', $data->id) . '" class="menu-link px-3">Address Add</a>
+                    // </div>';
+                    // }
+                    if ($user_data->hasPermission('people-addresses', 'index')) {
+                        $address_list_btn .= ' <div class="menu-item  px-3">
+                    <a href="' . route('people-addresses.index', $data->id) . '" class="menu-link px-3">Address List</a>
                     </div>';
                     }
-                    if ($user_data->hasPermission('people-addresses', 'index')) {
-                    $address_list_btn .= ' <div class="menu-item px-1">
-                    <a href="'.route('people-addresses.index',$data->id).'" class="menu-link px-3">Address List</a>
-                    </div>';
+                    // if ($user_data->hasPermission('people-phones', 'create')) {
+                    //     $phone_add_btn .= ' <div class="menu-item  px-3">
+                    //     <a href="' . route('people-phones.create', $data->id) . '" class="menu-link px-3">Phone Add</a>
+                    //     </div>';
+                    // }
+                    if ($user_data->hasPermission('people-phones', 'index')) {
+                        $phone_list_btn .= ' <div class="menu-item  px-3">
+                        <a href="' . route('people-phones.index', $data->id) . '" class="menu-link px-3">Phone List</a>
+                        </div>';
                     }
 
-                    return '<div class="btn-group">
-                                <button data-bs-toggle="dropdown" class="btn btn-sm btn-light btn-active-light-primary" aria-expanded="false">Action
-                                    <span class="svg-icon svg-icon-5 m-0">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                        <path d="M11.4343 12.7344L7.25 8.55005C6.83579 8.13583 6.16421 8.13584 5.75 8.55005C5.33579 8.96426 5.33579 9.63583 5.75 10.05L11.2929 15.5929C11.6834 15.9835 12.3166 15.9835 12.7071 15.5929L18.25 10.05C18.6642 9.63584 18.6642 8.96426 18.25 8.55005C17.8358 8.13584 17.1642 8.13584 16.75 8.55005L12.5657 12.7344C12.2533 13.0468 11.7467 13.0468 11.4343 12.7344Z" fill="currentColor" />
-                                    </svg>
-                                    </span>
-                                </button>
-                                <div class="dropdown-menu menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary menu menu-sub menu-sub-dropdown fw-bold fs-7 pt-1 pb-1" x-placement="top-start" style="position: absolute; top: -2px; left: 0px; will-change: top, left;">
-                                   '.$edit_button . " " . $delete_button.''.$address_add_btn.''.$address_list_btn.'
-                                </div>
-                            </div>';
+                    return '<div class="btn-group"><a href="#" data-bs-toggle="dropdown" class="btn btn-sm btn-light btn-active-light-primary dropdown-toggle" aria-expanded="false">Actions
+                            <span class="svg-icon svg-icon-5 m-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <path d="M11.4343 12.7344L7.25 8.55005C6.83579 8.13583 6.16421 8.13584 5.75 8.55005C5.33579 8.96426 5.33579 9.63583 5.75 10.05L11.2929 15.5929C11.6834 15.9835 12.3166 15.9835 12.7071 15.5929L18.25 10.05C18.6642 9.63584 18.6642 8.96426 18.25 8.55005C17.8358 8.13584 17.1642 8.13584 16.75 8.55005L12.5657 12.7344C12.2533 13.0468 11.7467 13.0468 11.4343 12.7344Z" fill="currentColor"></path>
+                                </svg>
+                            </span>
+                        </a>
+                        <div class="dropdown-menu menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 w-125px py-4"  x-placement="bottom-start" style="position: absolute; top: 29px; left: 0px; will-change: top, left;">
+                            ' . $edit_button . " " . $delete_button . '' . $address_add_btn . '' . $address_list_btn . '' . $phone_add_btn . '' . $phone_list_btn . '
+                        </div></div>';
                 })
                 ->rawColumns(['action'])
                 ->make(true);

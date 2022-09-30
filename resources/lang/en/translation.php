@@ -11,4 +11,5 @@ return [
     "required" => "The :name field is required.",
     "record_not_found" => "The record not found of given id",
     "max_zip" => "The :name is out of range",
+    "max_number" => "The :name is out of range",
 ];
