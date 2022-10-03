@@ -183,6 +183,43 @@
 					</div>
 				</div>
 				@endpermission
+				@permission('crop-commodity-types')
+				<div data-kt-menu-trigger="click" class="menu-item menu-accordion @if (Route::currentRouteName() == 'crop-commodity-types.index' || Route::currentRouteName() == 'crop-commodity-types.create' || Route::currentRouteName() == 'crop-commodity-types.edit') here hover show @endif">
+					<span class="menu-link">
+						<span class="menu-icon">
+							<span class="svg-icon svg-icon-2">
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+									<path opacity="0.3" d="M19 18C20.7 18 22 16.7 22 15C22 13.3 20.7 12 19 12C18.9 12 18.9 12 18.8 12C18.9 11.7 19 11.3 19 11C19 9.3 17.7 8 16 8C15.4 8 14.8 8.2 14.3 8.5C13.4 7 11.8 6 10 6C7.2 6 5 8.2 5 11C5 11.3 5.00001 11.7 5.10001 12H5C3.3 12 2 13.3 2 15C2 16.7 3.3 18 5 18H19Z" fill="currentColor"/>
+									</svg>
+							</span>
+						</span>
+						<span class="menu-title">{{__('Crop Commodity Types')}}</span>
+						<span class="menu-arrow"></span>
+					</span>
+					<div class="menu-sub menu-sub-accordion">
+						@permission('crop-commodity-types','create')
+						<div class="menu-item">
+							<a class="menu-link  @if (Route::currentRouteName() == 'crop-commodity-types.create') active @endif" href="{{route('crop-commodity-types.create')}}">
+								<span class="menu-bullet">
+									<span class="bullet bullet-dot"></span>
+								</span>
+								<span class="menu-title">{{__('Add')}}</span>
+							</a>
+						</div>
+						@endpermission
+						@permission('crop-commodity-types','index')
+						<div class="menu-item">
+							<a class="menu-link @if (Route::currentRouteName() == 'crop-commodity-types.index' || Route::currentRouteName() == 'crop-commodity-types.edit') active @endif" href="{{route('crop-commodity-types.index')}}">
+								<span class="menu-bullet">
+									<span class="bullet bullet-dot"></span>
+								</span>
+								<span class="menu-title">{{__('List')}}</span>
+							</a>
+						</div>
+						@endpermission
+					</div>
+				</div>
+				@endpermission
 				@superadmin
 				<div class="menu-item">
 					<a class="menu-link @if (Route::currentRouteName() == 'laravel-backup-panel.index') active @endif" href="{{route('laravel-backup-panel.index')}}">
