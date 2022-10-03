@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AddressTypeController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CustomerAddressController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DemoController;
 use App\Http\Controllers\PeopleAddressController;
@@ -59,5 +60,14 @@ Route::group(['middleware' => ['auth']], function () {
          //people-address route end===================================================
 
          Route::resource('customers', CustomerController::class);
+
+         //customers-address route start===================================================
+        Route::get('customer-addresses/create/{customer_id}', [CustomerAddressController::class,'create'])->name('customer-addresses.create');
+        Route::post('customer-addresses/store', [CustomerAddressController::class,'store'])->name('customer-addresses.store');
+        Route::get('customer-addresses/{customer_id}', [CustomerAddressController::class,'index'])->name('customer-addresses.index');
+        Route::get('customer-addresses/{id}/edit', [CustomerAddressController::class,'edit'])->name('customer-addresses.edit');
+        Route::put('customer-addresses/{id}',[CustomerAddressController::class,'update'])->name('customer-addresses.update');
+        Route::delete('customer-addresses/{id}',[CustomerAddressController::class,'destroy'])->name('customer-addresses.destroy');
+        //customers-address route end===================================================
     });
 });

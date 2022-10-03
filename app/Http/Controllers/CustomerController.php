@@ -28,6 +28,7 @@ class CustomerController extends Controller
                     $actionBtn = '';
                     $edit_button = '';
                     $delete_button = '';
+                    $address_list_btn = '';
                     if ($user_data->hasPermission('customers', 'update')) {
                         $edit_button .= '<div class="menu-item  px-3">
                                 <a href="' . route('customers.edit', $data->id) . '" class="menu-link px-3">Edit</a>
@@ -38,6 +39,11 @@ class CustomerController extends Controller
                     <a href="#" data-id="' . route('customers.destroy', $data->id) . '" class="menu-link px-3 delete_record">Delete</a>
                 </div>';
                     }
+                    if ($user_data->hasPermission('customer-addresses', 'index')) {
+                        $address_list_btn .= ' <div class="menu-item  px-3">
+                    <a href="' . route('customer-addresses.index', $data->id) . '" class="menu-link px-3">Address List</a>
+                    </div>';
+                    }
                     return '<div class="btn-group"><a href="#" data-bs-toggle="dropdown" class="btn btn-sm btn-light btn-active-light-primary dropdown-toggle" aria-expanded="false">Actions
                             <span class="svg-icon svg-icon-5 m-0">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -46,7 +52,7 @@ class CustomerController extends Controller
                             </span>
                         </a>
                         <div class="dropdown-menu menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 w-125px py-4"  x-placement="bottom-start" style="position: absolute; top: 29px; left: 0px; will-change: top, left;">
-                            ' . $edit_button . " " . $delete_button . '
+                            ' . $edit_button . " " . $delete_button . ''.$address_list_btn.'
                         </div></div>';
                 })
                 ->rawColumns(['action'])

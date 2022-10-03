@@ -162,6 +162,35 @@ class ModuleDataSeeder extends Seeder
                     ],
                 ],
             ),
+            array(
+                'name'=>'customer-addresses',
+                'actions'=>[
+                    [
+                        'action_name'=> 'customer-addresses.index',
+                        'rights'=>'index'
+                    ],
+                    [
+                        'action_name'=> 'customer-addresses.create',
+                        'rights'=>'create'
+                    ],
+                    [
+                        'action_name'=> 'customer-addresses.store',
+                        'rights'=>'create'
+                    ],
+                    [
+                        'action_name'=> 'customer-addresses.edit',
+                        'rights'=>'update'
+                    ],
+                    [
+                        'action_name'=> 'customer-addresses.update',
+                        'rights'=>'update'
+                    ],
+                    [
+                        'action_name'=> 'customer-addresses.destroy',
+                        'rights'=>'delete'
+                    ],
+                ],
+            ),
          );
 
         if (!empty($modules)) {
