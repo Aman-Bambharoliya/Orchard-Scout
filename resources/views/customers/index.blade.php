@@ -59,6 +59,13 @@
     </div>
 </div>
 @endsection
+@section('pagespecificstyles')
+<style>
+    .table-responsive {
+    overflow: visible;
+}
+</style>
+@endsection
 @section('pagespecificscripts')
 <script>
     var listIndex = "{{ route('customers.index') }}"

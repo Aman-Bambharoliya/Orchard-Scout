@@ -191,6 +191,35 @@ class ModuleDataSeeder extends Seeder
                     ],
                 ],
             ),
+            array(
+                'name'=>'customer-phones',
+                'actions'=>[
+                    [
+                        'action_name'=> 'customer-phones.index',
+                        'rights'=>'index'
+                    ],
+                    [
+                        'action_name'=> 'customer-phones.create',
+                        'rights'=>'create'
+                    ],
+                    [
+                        'action_name'=> 'customer-phones.store',
+                        'rights'=>'create'
+                    ],
+                    [
+                        'action_name'=> 'customer-phones.edit',
+                        'rights'=>'update'
+                    ],
+                    [
+                        'action_name'=> 'customer-phones.update',
+                        'rights'=>'update'
+                    ],
+                    [
+                        'action_name'=> 'customer-phones.destroy',
+                        'rights'=>'delete'
+                    ],
+                ],
+            ),
          );
 
         if (!empty($modules)) {

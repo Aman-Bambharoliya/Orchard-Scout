@@ -4,6 +4,7 @@ use App\Http\Controllers\AddressTypeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CustomerAddressController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\CustomerPhoneController;
 use App\Http\Controllers\DemoController;
 use App\Http\Controllers\PeopleAddressController;
 use App\Http\Controllers\PeopleController;
@@ -69,5 +70,14 @@ Route::group(['middleware' => ['auth']], function () {
         Route::put('customer-addresses/{id}',[CustomerAddressController::class,'update'])->name('customer-addresses.update');
         Route::delete('customer-addresses/{id}',[CustomerAddressController::class,'destroy'])->name('customer-addresses.destroy');
         //customers-address route end===================================================
+
+        //customer-phones route start===================================================
+        Route::get('customer-phones/create/{people_id}', [CustomerPhoneController::class,'create'])->name('customer-phones.create');
+        Route::post('customer-phones/store', [CustomerPhoneController::class,'store'])->name('customer-phones.store');
+        Route::get('customer-phones/{people_id}', [CustomerPhoneController::class,'index'])->name('customer-phones.index');
+        Route::get('customer-phones/{id}/edit', [CustomerPhoneController::class,'edit'])->name('customer-phones.edit');
+        Route::put('customer-phones/{id}',[CustomerPhoneController::class,'update'])->name('customer-phones.update');
+        Route::delete('customer-phones/{id}',[CustomerPhoneController::class,'destroy'])->name('customer-phones.destroy');
+        //customer-phones route end===================================================
     });
 });
