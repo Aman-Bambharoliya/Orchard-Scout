@@ -5,7 +5,6 @@
                 serverSide: true,
                 filter: true,
                 "searching": true,
-                "responsive": true,
                 ajax: {
                     url: listIndex,
                     data: function(d) {
@@ -18,6 +17,7 @@
                 ],
                 columns: [
                     { data: 'DT_RowIndex', name: 'DT_RowIndex' },
+                    { data: 'crop_commodity_name', name: 'crop_commodity_name' },
                     { data: 'name', name: 'name' },
                     { data: 'action', name: 'action', orderable: false, searchable: false },
                 ],
@@ -127,12 +127,12 @@
             ignore: [],
             errorClass: 'invalid-feedback',
             rules: {
-                name: { required: true, maxlength: 16 },
+                crop_commodity_id: { required: true, maxlength: 8 },
+                name: { required: true, maxlength: 32 },
             },
             messages: {
-                'name': {
-                    required: "The name field is required.",
-                },
+                'crop_commodity_id': { required: "The crop commodity type field is required.", },
+                'name': { required: "The name field is required.", },
             },
             highlight: function(element, errorClass, validClass) {
                 if ($(element).attr("type") == "radio") {
@@ -158,12 +158,12 @@
             ignore: [],
             errorClass: 'invalid-feedback',
             rules: {
-                name: { required: true, maxlength: 16 },
+                crop_commodity_id: { required: true, maxlength: 8 },
+                name: { required: true, maxlength: 32 },
             },
             messages: {
-                'name': {
-                    required: "The name field is required.",
-                },
+                'crop_commodity_id': { required: "The crop commodity type field is required.", },
+                'name': { required: "The name field is required.", },
             },
             highlight: function(element, errorClass, validClass) {
                 if ($(element).attr("type") == "radio") {

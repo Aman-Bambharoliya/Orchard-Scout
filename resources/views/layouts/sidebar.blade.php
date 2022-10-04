@@ -258,6 +258,47 @@
 					</div>
 				</div>
 				@endpermission
+				@permission('crop-commodity-varieties')
+				<div data-kt-menu-trigger="click" class="menu-item menu-accordion @if (Route::currentRouteName() == 'crop-commodity-varieties.index' || Route::currentRouteName() == 'crop-commodity-varieties.create' || Route::currentRouteName() == 'crop-commodity-varieties.edit') here hover show @endif">
+					<span class="menu-link">
+						<span class="menu-icon">
+							<span class="svg-icon svg-icon-2">
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+									<path d="M8.7 4.19995L4 6.30005V18.8999L8.7 16.8V19L3.1 21.5C2.6 21.7 2 21.4 2 20.8V6C2 5.4 2.3 4.89995 2.9 4.69995L8.7 2.09998V4.19995Z" fill="currentColor"/>
+									<path d="M15.3 19.8L20 17.6999V5.09992L15.3 7.19989V4.99994L20.9 2.49994C21.4 2.29994 22 2.59989 22 3.19989V17.9999C22 18.5999 21.7 19.1 21.1 19.3L15.3 21.8998V19.8Z" fill="currentColor"/>
+									<path opacity="0.3" d="M15.3 7.19995L20 5.09998V17.7L15.3 19.8V7.19995Z" fill="currentColor"/>
+									<path opacity="0.3" d="M8.70001 4.19995V2L15.4 5V7.19995L8.70001 4.19995ZM8.70001 16.8V19L15.4 22V19.8L8.70001 16.8Z" fill="currentColor"/>
+									<path opacity="0.3" d="M8.7 16.8L4 18.8999V6.30005L8.7 4.19995V16.8Z" fill="currentColor"/>
+									</svg>
+							</span>
+						</span>
+						<span class="menu-title">{{__('Crop Commodity Varieties')}}</span>
+						<span class="menu-arrow"></span>
+					</span>
+					<div class="menu-sub menu-sub-accordion">
+						@permission('crop-commodity-varieties','create')
+						<div class="menu-item">
+							<a class="menu-link  @if (Route::currentRouteName() == 'crop-commodity-varieties.create') active @endif" href="{{route('crop-commodity-varieties.create')}}">
+								<span class="menu-bullet">
+									<span class="bullet bullet-dot"></span>
+								</span>
+								<span class="menu-title">{{__('Add')}}</span>
+							</a>
+						</div>
+						@endpermission
+						@permission('crop-commodity-varieties','index')
+						<div class="menu-item">
+							<a class="menu-link @if (Route::currentRouteName() == 'crop-commodity-varieties.index' || Route::currentRouteName() == 'crop-commodity-varieties.edit') active @endif" href="{{route('crop-commodity-varieties.index')}}">
+								<span class="menu-bullet">
+									<span class="bullet bullet-dot"></span>
+								</span>
+								<span class="menu-title">{{__('List')}}</span>
+							</a>
+						</div>
+						@endpermission
+					</div>
+				</div>
+				@endpermission
 				@superadmin
 				<div class="menu-item">
 					<a class="menu-link @if (Route::currentRouteName() == 'laravel-backup-panel.index') active @endif" href="{{route('laravel-backup-panel.index')}}">

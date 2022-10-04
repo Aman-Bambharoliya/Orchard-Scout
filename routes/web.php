@@ -4,6 +4,7 @@ use App\Http\Controllers\AddressTypeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CropCommodityController;
 use App\Http\Controllers\CropCommodityTypeController;
+use App\Http\Controllers\CropCommodityVarietyController;
 use App\Http\Controllers\CustomerAddressController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CustomerPhoneController;
@@ -84,5 +85,6 @@ Route::group(['middleware' => ['auth']], function () {
         //customer-phones route end===================================================
         Route::resource('crop-commodity-types', CropCommodityTypeController::class);
         Route::resource('crop-commodities', CropCommodityController::class);
+        Route::resource('crop-commodity-varieties', CropCommodityVarietyController::class);
     });
 });

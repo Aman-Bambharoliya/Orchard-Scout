@@ -90,10 +90,20 @@
                             }
                         },
                         error: function(data) {
-                            console.log(data);
                             if (data.status == '403') {
                                 Swal.fire({
                                     text: data.responseJSON.message,
+                                    icon: "error",
+                                    buttonsStyling: !1,
+                                    confirmButtonText: "Ok, got it!",
+                                    customClass: {
+                                        confirmButton: "btn fw-bold btn-primary"
+                                    }
+                                });
+                            }
+                            if (data.status == '500') {
+                                Swal.fire({
+                                    text: 'Something went wrong!',
                                     icon: "error",
                                     buttonsStyling: !1,
                                     confirmButtonText: "Ok, got it!",
