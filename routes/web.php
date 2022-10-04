@@ -5,14 +5,17 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CropCommodityController;
 use App\Http\Controllers\CropCommodityTypeController;
 use App\Http\Controllers\CropCommodityVarietyController;
+use App\Http\Controllers\CropLocationController;
 use App\Http\Controllers\CustomerAddressController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CustomerPhoneController;
 use App\Http\Controllers\DemoController;
+use App\Http\Controllers\HelperController;
 use App\Http\Controllers\PeopleAddressController;
 use App\Http\Controllers\PeopleController;
 use App\Http\Controllers\PeoplePhoneController;
 use App\Models\CropCommodityType;
+use App\Models\CropLocation;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -86,5 +89,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('crop-commodity-types', CropCommodityTypeController::class);
         Route::resource('crop-commodities', CropCommodityController::class);
         Route::resource('crop-commodity-varieties', CropCommodityVarietyController::class);
+        Route::resource('crop-locations', CropLocationController::class);
+        Route::get('/get-customer-addresses/{id}', [HelperController::class, 'getCustomerAddressesById'])->name('get-customer-addresses');
     });
 });
