@@ -249,6 +249,35 @@ class ModuleDataSeeder extends Seeder
                     ],
                 ],
             ),
+            array(
+                'name'=>'crop-commodities',
+                'actions'=>[
+                    [
+                        'action_name'=> 'crop-commodities.index',
+                        'rights'=>'index'
+                    ],
+                    [
+                        'action_name'=> 'crop-commodities.create',
+                        'rights'=>'create'
+                    ],
+                    [
+                        'action_name'=> 'crop-commodities.store',
+                        'rights'=>'create'
+                    ],
+                    [
+                        'action_name'=> 'crop-commodities.edit',
+                        'rights'=>'update'
+                    ],
+                    [
+                        'action_name'=> 'crop-commodities.update',
+                        'rights'=>'update'
+                    ],
+                    [
+                        'action_name'=> 'crop-commodities.destroy',
+                        'rights'=>'delete'
+                    ],
+                ],
+            ),
          );
 
         if (!empty($modules)) {

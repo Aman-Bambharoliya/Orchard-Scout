@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AddressTypeController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CropCommodityController;
 use App\Http\Controllers\CropCommodityTypeController;
 use App\Http\Controllers\CustomerAddressController;
 use App\Http\Controllers\CustomerController;
@@ -82,6 +83,6 @@ Route::group(['middleware' => ['auth']], function () {
         Route::delete('customer-phones/{id}',[CustomerPhoneController::class,'destroy'])->name('customer-phones.destroy');
         //customer-phones route end===================================================
         Route::resource('crop-commodity-types', CropCommodityTypeController::class);
-
+        Route::resource('crop-commodities', CropCommodityController::class);
     });
 });
