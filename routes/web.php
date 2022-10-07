@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CropCommodityController;
 use App\Http\Controllers\CropCommodityTypeController;
 use App\Http\Controllers\CropCommodityVarietyController;
+use App\Http\Controllers\CropLocationBlockController;
 use App\Http\Controllers\CropLocationController;
 use App\Http\Controllers\CustomerAddressController;
 use App\Http\Controllers\CustomerController;
@@ -91,5 +92,6 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('crop-commodity-varieties', CropCommodityVarietyController::class);
         Route::resource('crop-locations', CropLocationController::class);
         Route::get('/get-customer-addresses/{id}', [HelperController::class, 'getCustomerAddressesById'])->name('get-customer-addresses');
+        Route::resource('crop-location-blocks', CropLocationBlockController::class);
     });
 });

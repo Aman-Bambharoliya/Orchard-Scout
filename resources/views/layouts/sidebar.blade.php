@@ -310,7 +310,7 @@
 									</svg>
 							</span>
 						</span>
-						<span class="menu-title">{{__('Crop Commodity Locations')}}</span>
+						<span class="menu-title">{{__('Crop Locations')}}</span>
 						<span class="menu-arrow"></span>
 					</span>
 					<div class="menu-sub menu-sub-accordion">
@@ -327,6 +327,43 @@
 						@permission('crop-locations','index')
 						<div class="menu-item">
 							<a class="menu-link @if (Route::currentRouteName() == 'crop-locations.index' || Route::currentRouteName() == 'crop-locations.edit') active @endif" href="{{route('crop-locations.index')}}">
+								<span class="menu-bullet">
+									<span class="bullet bullet-dot"></span>
+								</span>
+								<span class="menu-title">{{__('List')}}</span>
+							</a>
+						</div>
+						@endpermission
+					</div>
+				</div>
+				@endpermission
+				@permission('crop-location-blocks')
+				<div data-kt-menu-trigger="click" class="menu-item menu-accordion @if (Route::currentRouteName() == 'crop-location-blocks.index' || Route::currentRouteName() == 'crop-location-blocks.create' || Route::currentRouteName() == 'crop-location-blocks.edit') here hover show @endif">
+					<span class="menu-link">
+						<span class="menu-icon">
+							<span class="svg-icon svg-icon-2">
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+									<path d="M19 10C18.9 10 18.9 10 18.8 10C18.9 9.7 19 9.3 19 9C19 7.3 17.7 6 16 6C15.4 6 14.8 6.2 14.3 6.5C13.4 5 11.8 4 10 4C7.2 4 5 6.2 5 9C5 9.3 5.00001 9.7 5.10001 10H5C3.3 10 2 11.3 2 13C2 14.7 3.3 16 5 16H9L13.4 20.4C14 21 15 20.6 15 19.8V16H19C20.7 16 22 14.7 22 13C22 11.3 20.7 10 19 10Z" fill="currentColor"/>
+									</svg>
+							</span>
+						</span>
+						<span class="menu-title">{{__('Crop Location Blocks')}}</span>
+						<span class="menu-arrow"></span>
+					</span>
+					<div class="menu-sub menu-sub-accordion">
+						@permission('crop-location-blocks','create')
+						<div class="menu-item">
+							<a class="menu-link  @if (Route::currentRouteName() == 'crop-location-blocks.create') active @endif" href="{{route('crop-location-blocks.create')}}">
+								<span class="menu-bullet">
+									<span class="bullet bullet-dot"></span>
+								</span>
+								<span class="menu-title">{{__('Add')}}</span>
+							</a>
+						</div>
+						@endpermission
+						@permission('crop-location-blocks','index')
+						<div class="menu-item">
+							<a class="menu-link @if (Route::currentRouteName() == 'crop-location-blocks.index' || Route::currentRouteName() == 'crop-location-blocks.edit') active @endif" href="{{route('crop-location-blocks.index')}}">
 								<span class="menu-bullet">
 									<span class="bullet bullet-dot"></span>
 								</span>

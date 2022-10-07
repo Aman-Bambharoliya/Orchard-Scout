@@ -340,6 +340,35 @@ class ModuleDataSeeder extends Seeder
                     ],
                 ],
             ),
+            array(
+                'name'=>'crop-location-blocks',
+                'actions'=>[
+                    [
+                        'action_name'=> 'crop-location-blocks.index',
+                        'rights'=>'index'
+                    ],
+                    [
+                        'action_name'=> 'crop-location-blocks.create',
+                        'rights'=>'create'
+                    ],
+                    [
+                        'action_name'=> 'crop-location-blocks.store',
+                        'rights'=>'create'
+                    ],
+                    [
+                        'action_name'=> 'crop-location-blocks.edit',
+                        'rights'=>'update'
+                    ],
+                    [
+                        'action_name'=> 'crop-location-blocks.update',
+                        'rights'=>'update'
+                    ],
+                    [
+                        'action_name'=> 'crop-location-blocks.destroy',
+                        'rights'=>'delete'
+                    ],
+                ],
+            ),
          );
 
         if (!empty($modules)) {
