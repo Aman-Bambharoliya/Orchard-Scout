@@ -9,6 +9,7 @@ use App\Http\Controllers\CropLocationBlockController;
 use App\Http\Controllers\CropLocationController;
 use App\Http\Controllers\CustomerAddressController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\CustomerPeopleController;
 use App\Http\Controllers\CustomerPhoneController;
 use App\Http\Controllers\DemoController;
 use App\Http\Controllers\HelperController;
@@ -93,5 +94,14 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('crop-locations', CropLocationController::class);
         Route::get('/get-customer-addresses/{id}', [HelperController::class, 'getCustomerAddressesById'])->name('get-customer-addresses');
         Route::resource('crop-location-blocks', CropLocationBlockController::class);
+
+          //customer-peoples route start===================================================
+          Route::get('customer-peoples/create/{customer_id}', [CustomerPeopleController::class,'create'])->name('customer-peoples.create');
+          Route::post('customer-peoples/store', [CustomerPeopleController::class,'store'])->name('customer-peoples.store');
+          Route::get('customer-peoples/{customer_id}', [CustomerPeopleController::class,'index'])->name('customer-peoples.index');
+          Route::get('customer-peoples/{id}/edit', [CustomerPeopleController::class,'edit'])->name('customer-peoples.edit');
+          Route::put('customer-peoples/{id}',[CustomerPeopleController::class,'update'])->name('customer-peoples.update');
+          Route::delete('customer-peoples/{id}',[CustomerPeopleController::class,'destroy'])->name('customer-peoples.destroy');
+          //customer-peoples route end===================================================
     });
 });

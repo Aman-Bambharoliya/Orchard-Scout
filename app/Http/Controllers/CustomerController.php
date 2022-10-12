@@ -30,6 +30,7 @@ class CustomerController extends Controller
                     $delete_button = '';
                     $address_list_btn = '';
                     $phone_list_btn = '';
+                    $people_list_btn = '';
                     if ($user_data->hasPermission('customers', 'update')) {
                         $edit_button .= '<div class="menu-item  px-3">
                                 <a href="' . route('customers.edit', $data->id) . '" class="menu-link px-3">Edit</a>
@@ -50,6 +51,11 @@ class CustomerController extends Controller
                         <a href="' . route('customer-phones.index', $data->id) . '" class="menu-link px-3">Phone List</a>
                         </div>';
                     }
+                    if ($user_data->hasPermission('customer-peoples', 'index')) {
+                        $people_list_btn .= ' <div class="menu-item  px-3">
+                        <a href="' . route('customer-peoples.index', $data->id) . '" class="menu-link px-3">People List</a>
+                        </div>';
+                    }
                     return '<div class="btn-group"><a href="#" data-bs-toggle="dropdown" class="btn btn-sm btn-light btn-active-light-primary dropdown-toggle" aria-expanded="false">Actions
                             <span class="svg-icon svg-icon-5 m-0">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -58,7 +64,7 @@ class CustomerController extends Controller
                             </span>
                         </a>
                         <div class="dropdown-menu menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 w-125px py-4"  x-placement="bottom-start" style="position: absolute; top: 29px; left: 0px; will-change: top, left;">
-                            ' . $edit_button . " " . $delete_button . ''.$address_list_btn.''.$phone_list_btn.'
+                            ' . $edit_button . " " . $delete_button . ''.$address_list_btn.''.$phone_list_btn.''.$people_list_btn.'
                         </div></div>';
                 })
                 ->rawColumns(['action'])
