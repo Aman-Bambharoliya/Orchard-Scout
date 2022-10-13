@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('breadcrumb')
-<h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">{{__('Customers')}}</h1>
+<h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">{{__('Vendors')}}</h1>
 <span class="h-20px border-gray-300 border-start mx-4"></span>
 <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
     <li class="breadcrumb-item text-muted">
@@ -10,7 +10,7 @@
         <span class="bullet bg-gray-300 w-5px h-2px"></span>
     </li>
     <li class="breadcrumb-item text-muted">
-        <a href="{{route('customers.index')}}" class="text-muted text-hover-primary">{{__('Customers')}}</a>
+        <a href="{{route('vendors.index')}}" class="text-muted text-hover-primary">{{__('Vendors')}}</a>
     </li>
     <li class="breadcrumb-item">
         <span class="bullet bg-gray-300 w-5px h-2px"></span>
@@ -24,7 +24,7 @@
         @include('layouts.errors')
         <div class="card mb-5 mb-xl-10">
             <div id="kt_account_settings_profile_details" class="collapse show">
-                <form id="add_frm" name='add_frm' class="form" method="post" action="{{ route('customers.update',$data->id) }}">
+                <form id="add_frm" name='add_frm' class="form" method="post" action="{{ route('vendors.update',$data->id) }}">
                     @csrf
                     @method('PUT')
                     <div class="card-body border-top p-9">
@@ -58,5 +58,5 @@
 </div>
 @endsection
 @section('pagespecificscripts')
-<script src="{{url('js/module/customers.js')}}"></script>
+<script src="{{url('js/module/vendors.js')}}"></script>
 @endsection

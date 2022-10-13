@@ -29,14 +29,14 @@
                     <div class="card-body border-top p-9">
                         <div class="row mb-6">
                             <label class="col-lg-4 col-form-label fw-bold fs-6">
-                                <span class="required">{{__('Name')}}</span>
+                                <span class="required">{{__('Business Name')}}</span>
                                 <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip"
-                                    title="{{__('Name')}}"></i>
+                                    title="{{__('Business Name')}}"></i>
                             </label>
                             <div class="col-lg-8 fv-row">
                                 <input type="text" name="name"
                                     class="form-control form-control-lg form-control-solid @error('name') is-invalid @enderror"
-                                    placeholder="{{__('Name')}}" value='{{old('name')}}'/>
+                                    placeholder="{{__('Business Name')}}" value='{{old('name')}}'/>
                                 @error('name')
                                 <span class="invalid-feedback" role="alert">
                                     {{ $message }}

@@ -398,6 +398,122 @@ class ModuleDataSeeder extends Seeder
                     ],
                 ],
             ),
+            array(
+                'name'=>'vendors',
+                'actions'=>[
+                    [
+                        'action_name'=> 'vendors.index',
+                        'rights'=>'index'
+                    ],
+                    [
+                        'action_name'=> 'vendors.create',
+                        'rights'=>'create'
+                    ],
+                    [
+                       'action_name'=> 'vendors.store',
+                       'rights'=>'create'
+                   ],
+                    [
+                        'action_name'=> 'vendors.edit',
+                        'rights'=>'update'
+                    ],
+                    [
+                        'action_name'=> 'vendors.update',
+                        'rights'=>'update'
+                    ],
+                    [
+                        'action_name'=> 'vendors.destroy',
+                        'rights'=>'delete'
+                    ],
+                ],
+            ),
+            array(
+                'name'=>'vendor-addresses',
+                'actions'=>[
+                    [
+                        'action_name'=> 'vendor-addresses.index',
+                        'rights'=>'index'
+                    ],
+                    [
+                        'action_name'=> 'vendor-addresses.create',
+                        'rights'=>'create'
+                    ],
+                    [
+                        'action_name'=> 'vendor-addresses.store',
+                        'rights'=>'create'
+                    ],
+                    [
+                        'action_name'=> 'vendor-addresses.edit',
+                        'rights'=>'update'
+                    ],
+                    [
+                        'action_name'=> 'vendor-addresses.update',
+                        'rights'=>'update'
+                    ],
+                    [
+                        'action_name'=> 'vendor-addresses.destroy',
+                        'rights'=>'delete'
+                    ],
+                ],
+            ),
+            array(
+                'name'=>'vendor-phones',
+                'actions'=>[
+                    [
+                        'action_name'=> 'vendor-phones.index',
+                        'rights'=>'index'
+                    ],
+                    [
+                        'action_name'=> 'vendor-phones.create',
+                        'rights'=>'create'
+                    ],
+                    [
+                        'action_name'=> 'vendor-phones.store',
+                        'rights'=>'create'
+                    ],
+                    [
+                        'action_name'=> 'vendor-phones.edit',
+                        'rights'=>'update'
+                    ],
+                    [
+                        'action_name'=> 'vendor-phones.update',
+                        'rights'=>'update'
+                    ],
+                    [
+                        'action_name'=> 'vendor-phones.destroy',
+                        'rights'=>'delete'
+                    ],
+                ],
+            ),
+            array(
+                'name'=>'vendor-peoples',
+                'actions'=>[
+                    [
+                        'action_name'=> 'vendor-peoples.index',
+                        'rights'=>'index'
+                    ],
+                    [
+                        'action_name'=> 'vendor-peoples.create',
+                        'rights'=>'create'
+                    ],
+                    [
+                        'action_name'=> 'vendor-peoples.store',
+                        'rights'=>'create'
+                    ],
+                    [
+                        'action_name'=> 'vendor-peoples.edit',
+                        'rights'=>'update'
+                    ],
+                    [
+                        'action_name'=> 'vendor-peoples.update',
+                        'rights'=>'update'
+                    ],
+                    [
+                        'action_name'=> 'vendor-peoples.destroy',
+                        'rights'=>'delete'
+                    ],
+                ],
+            ),
          );
 
         if (!empty($modules)) {
