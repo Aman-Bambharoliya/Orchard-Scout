@@ -16,6 +16,7 @@ use App\Http\Controllers\HelperController;
 use App\Http\Controllers\PeopleAddressController;
 use App\Http\Controllers\PeopleController;
 use App\Http\Controllers\PeoplePhoneController;
+use App\Http\Controllers\ScoutReportCategoryController;
 use App\Http\Controllers\VendorAddressController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\VendorPeopleController;
@@ -136,5 +137,7 @@ Route::group(['middleware' => ['auth']], function () {
        Route::put('vendor-peoples/{id}',[VendorPeopleController::class,'update'])->name('vendor-peoples.update');
        Route::delete('vendor-peoples/{id}',[VendorPeopleController::class,'destroy'])->name('vendor-peoples.destroy');
        //vendor-peoples route end===================================================
+
+       Route::resource('scout-report-categories', ScoutReportCategoryController::class);
     });
 });
