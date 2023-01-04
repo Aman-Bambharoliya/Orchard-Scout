@@ -16,6 +16,7 @@ use App\Http\Controllers\HelperController;
 use App\Http\Controllers\PeopleAddressController;
 use App\Http\Controllers\PeopleController;
 use App\Http\Controllers\PeoplePhoneController;
+use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\ScoutReportCategoryController;
 use App\Http\Controllers\VendorAddressController;
 use App\Http\Controllers\VendorController;
@@ -139,5 +140,7 @@ Route::group(['middleware' => ['auth']], function () {
        //vendor-peoples route end===================================================
 
        Route::resource('scout-report-categories', ScoutReportCategoryController::class);
+       Route::resource('questions', QuestionController::class);
+
     });
 });

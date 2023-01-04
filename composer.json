@@ -32,7 +32,10 @@
             "Database\\Seeders\\": "database/seeders/",
             "Spatie\\Backup\\Tasks\\Backup\\": "app/Overrides/Tasks/Backup",
             "PavelMironchik\\LaravelBackupPanel\\Http\\Middleware\\": "app/Overrides/LaravelBackupPanel/Http/Middleware"
-        }
+        },
+        "files": [
+            "app/Helpers/GlobalHelper.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
