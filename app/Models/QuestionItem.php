@@ -37,4 +37,10 @@ class QuestionItem extends Model
        return '';
     }
 
+    public function getItemOptionAttributes()
+    {
+        return $this->hasMany(QuestionItemAttribute::class,'question_item_id','id')->orderBy('id');
+    }
+    
+
 }

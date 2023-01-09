@@ -146,7 +146,9 @@
 							</div>
 							<!--end::Menu 1-->
 							<!--end::Filter-->
+							@permission('questions','create')
 							<a href="{{route('questions.create')}}" class="btn btn-primary">Add Question</a>
+							@endpermission
 						</div>
 					</div>
 				</div>

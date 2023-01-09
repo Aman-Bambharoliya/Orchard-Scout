@@ -543,6 +543,35 @@ class ModuleDataSeeder extends Seeder
                     ],
                 ],
             ),
+            array(
+                'name'=>'questions',
+                'actions'=>[
+                    [
+                        'action_name'=> 'questions.index',
+                        'rights'=>'index'
+                    ],
+                    [
+                        'action_name'=> 'questions.create',
+                        'rights'=>'create'
+                    ],
+                    [
+                        'action_name'=> 'questions.store',
+                        'rights'=>'create'
+                    ],
+                    [
+                        'action_name'=> 'questions.edit',
+                        'rights'=>'update'
+                    ],
+                    [
+                        'action_name'=> 'questions.update',
+                        'rights'=>'update'
+                    ],
+                    [
+                        'action_name'=> 'questions.destroy',
+                        'rights'=>'delete'
+                    ],
+                ],
+            ),
          );
 
         if (!empty($modules)) {

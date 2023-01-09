@@ -130,8 +130,5 @@
 </div>
 @endsection
 @section('pagespecificscripts')
-<script>
-	var locationTypeIndex = "{{ url('get-inspection-types') }}"
-</script>
 <script src="{{asset('js/module/add_question.js')}}"></script>
 @endsection

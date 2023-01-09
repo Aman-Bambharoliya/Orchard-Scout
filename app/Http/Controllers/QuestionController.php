@@ -11,6 +11,8 @@ use App\Models\CropCommodity;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\DB;
+use Auth;
+
 
 class QuestionController extends Controller
 {
@@ -38,7 +40,12 @@ class QuestionController extends Controller
 
             return DataTables::of($data)
                 ->addColumn('action', function (QuestionItem $item) {
+
+                    $user_data = Auth::user();
                     $actionBtn = '';
+                    $edit_button = '';
+                    $delete_button = '';
+                    if ($user_data->hasPermission('questions', 'update')) {
                     $edit_button = '<a href="' . route('questions.edit', $item->id) . '" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
                     <!--begin::Svg Icon | path: icons/duotune/art/art005.svg-->
                     <span class="svg-icon svg-icon-3">
@@ -49,6 +56,8 @@ class QuestionController extends Controller
                     </span>
                     <!--end::Svg Icon-->
                 </a>';
+                    }
+                    if ($user_data->hasPermission('questions', 'delete')) {
                     $delete_button = '<a href="#" data-id="' . route('questions.destroy', $item->id) . '" class="btn btn-icon btn-bg-light btn-active-color-danger btn-sm me-1 delete_item">
                     <!--begin::Svg Icon | path: icons/duotune/art/art005.svg-->
                     <span class="svg-icon svg-icon-3">
@@ -60,6 +69,7 @@ class QuestionController extends Controller
 					</span>
                     <!--end::Svg Icon-->
                 </a>';
+                    }
                     return $edit_button . " " . $delete_button;
                 })
                 ->editColumn('status', function (QuestionItem $item) {
@@ -115,6 +125,7 @@ class QuestionController extends Controller
         $CropCommodities = getCropCommodities();
         return view('questions.create', compact('ScoutReportCategories', 'CropCommodities'));
     }
+
     public function get_inspection_types($id)
     {
         $types = InspectionType::where('status', 1)->where('location_id', $id)->get();
@@ -192,11 +203,10 @@ class QuestionController extends Controller
      */
     public function edit(Request $request, $id)
     {
-        $inspectionItem= QuestionItem::with('getItemOptionAttributes.getItemOptionValues')->where('id',$id)->first();
-   
-        $types = InspectionType::where('status', 1)->get();
-        $vehicles = VehicleType::where('status', 1)->get();
-        return view('theme.inspection_item.edit', compact('inspectionItem', 'locations', 'types','vehicles'));
+        $questionItem= QuestionItem::with('getItemOptionAttributes')->where('id',$id)->first();
+        $ScoutReportCategories = getScoutReportCategories();
+        $CropCommodities = getCropCommodities();
+        return view('questions.edit', compact('questionItem','ScoutReportCategories', 'CropCommodities'));
     }
 
     /**
@@ -206,24 +216,26 @@ class QuestionController extends Controller
      * @param  \App\Models\InspectionItem  $inspectionItem
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, QuestionItem $inspectionItem)
+    public function update(Request $request, $id)
     {
         $request->validate(
             [
-                'name' => 'required|max:255',
-                'inspection_location_id' => 'required',
-                'inspection_type_id' => 'required',
+                'scout_report_category_id' => 'required',               
                 'position' => 'required',
             ],
         );
-        $request['vehicle_types'] = json_encode($request->vehicle_types);
+
+        $questionItem= QuestionItem::with('getItemOptionAttributes')->where('id',$id)->first();
+        if(!is_null($questionItem)){
+        $request['commodity_types'] = json_encode($request->commodity_types);
+
         $data = $request->all();
-        $old_position = $inspectionItem->position;
+        $old_position = $questionItem->position;
         $new_position = $request->position;
         if ($new_position < $old_position) {
             $items_to_update = QuestionItem::whereBetween('position', [$new_position, $old_position])->get();
             foreach ($items_to_update as $item) {
-                DB::table('inspection_items')
+                DB::table('question_items')
                     ->where('id', $item->id)
                     ->update([
                         'position' => DB::raw('position + 1'),
@@ -232,82 +244,58 @@ class QuestionController extends Controller
         } elseif ($new_position > $old_position) {
             $items_to_update = QuestionItem::whereBetween('position', [$old_position, $new_position])->get();
             foreach ($items_to_update as $item) {
-                DB::table('inspection_items')
+                DB::table('question_items')
                     ->where('id', $item->id)
                     ->update([
                         'position' => DB::raw('position - 1'),
                     ]);
             }
         }
-        $old_item_option_attributes_id_array=$inspectionItem->getItemOptionAttributes->pluck('id')->toArray();
-        $result = $inspectionItem->update($data);
+        $old_item_option_attributes_id_array=$questionItem->getItemOptionAttributes->pluck('id')->toArray();
+        $result = $questionItem->update($data);
         if ($result) {
             $new_item_option_attributes_id_array=[];
                 if ($request->kt_docs_repeater_advanced != null && !empty($request->kt_docs_repeater_advanced)) {
                     
                     foreach ($request->kt_docs_repeater_advanced as $item) {
-                        if ($item['parent_input_option'] != '' && $item['name'] != '') {
+                        if ($item['label'] != '') {
                             if(isset($item['item_option_attributes_id']) && $item['item_option_attributes_id']!='' && $item['item_option_attributes_id']!=null)
                             {
                                 //update existing items
                                 $item_option_attributes_id=$item['item_option_attributes_id'];
                                 $new_item_option_attributes_id_array[]= $item_option_attributes_id;
                                 $item_option_attribute=QuestionItemAttribute::find($item_option_attributes_id);
-                                $item_option_attribute->label_type = ($item['parent_input_option'] == 1) ? "checkbox" : "input";
-                                $item_option_attribute->label =$item['name'];
+                                $item_option_attribute->label =$item['label'];
                                 $item_option_attribute_result = $item_option_attribute->save();
-                                
-                                $item_option_value=ItemOptionValue::where('item_option_attributes_id',$item_option_attributes_id)->first();
-                                if(!is_null($item_option_value))
-                                {
-                                    $item_option_value->label1=($item['parent_input_option'] != 1) ? null :$item['option_label'];
-                                    $item_option_value->value1_wholesale=($item['parent_input_option'] != 1) ? 0 :$item['option_value_wholesale'];
-                                    $item_option_value->value1_retail=($item['parent_input_option'] != 1) ? 0 :$item['option_value_retail'];
-                                    $item_option_value->label2=($item['parent_input_option'] != 1) ? null :$item['option_label2'];
-                                    $item_option_value->value2_wholesale=($item['parent_input_option'] != 1) ? 0 :$item['option_value2_wholesale'];
-                                    $item_option_value->value2_retail=($item['parent_input_option'] != 1) ? 0 :$item['option_value2_retail'];
-                                    $item_option_value->save();
-                                }
+                            
                             }
                             else
                             {
                                 //insert new items
                                 $datas = [
-                                    'question_item_id' => $inspectionItem->id,
-                                    'label' => $item['name'],
-                                    'label_type' => ($item['parent_input_option'] == 1) ? "checkbox" : "input",
+                                    'question_item_id' => $questionItem->id,
+                                    'label' => $item['label']
                                 ];
                                
                                 $result_sub = QuestionItemAttribute::create($datas);
-                                if($result_sub && $result_sub->id!='' && $result_sub->id!=null)
-                                {
-                                    $datas_value = [
-                                        'item_option_attributes_id' => $result_sub->id,
-                                        'label1' => ($item['parent_input_option'] != 1) ? null :$item['option_label'],
-                                        'value1_wholesale' => ($item['parent_input_option'] != 1) ? 0 :$item['option_value_wholesale'],
-                                        'value1_retail' => ($item['parent_input_option'] != 1) ? 0 :$item['option_value_retail'],
-                                        'label2' => ($item['parent_input_option'] != 1) ? null :$item['option_label2'],
-                                        'value2_wholesale' => ($item['parent_input_option'] != 1) ? 0 :$item['option_value2_wholesale'],
-                                        'value2_retail' => ($item['parent_input_option'] != 1) ? 0 :$item['option_value2_retail'],
-                                    ];
-                                    $result_sub_value = ItemOptionValue::create($datas_value);
-                                }
                             }
-                        }
-                        if (count($request->kt_docs_repeater_advanced) == 1 && $item['parent_input_option'] == '' && $item['name'] == '') {
-                            $result_sub = true;
                         }
                     }
                 }
                 $delete_item_option_attributes=array_diff($old_item_option_attributes_id_array,$new_item_option_attributes_id_array); 
                 if(!empty($delete_item_option_attributes) && $delete_item_option_attributes!=null)
-                    {
-                        $category_delete=QuestionItemAttribute::whereIn('id',$delete_item_option_attributes)->delete();
-                    }
-                return redirect()->route('inspection-item.index')
-                    ->with('success', "Item Updated");
+                {
+                    $category_delete=QuestionItemAttribute::whereIn('id',$delete_item_option_attributes)->delete();
+                }
+                    return redirect()->route('questions.index')
+                        ->with('success', "Questions Updated");
         } else {
-            return redirect()->route('inspection-item.create')
+            return redirect()->route('questions.create')
+                ->with('error', "Something Went Wrong");
+        }
+
+        } else {
+            return redirect()->route('questions.create')
                 ->with('error', "Something Went Wrong");
         }
     }

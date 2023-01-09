@@ -621,7 +621,7 @@
                         </div>
                     </div>
                 @endpermission
-                {{-- @permission('crop-location-blocks') --}}
+                @permission('questions') 
                 <div data-kt-menu-trigger="click"
                     class="menu-item menu-accordion @if (Route::currentRouteName() == 'questions.index' ||
                         Route::currentRouteName() == 'questions.create' ||
@@ -641,7 +641,7 @@
                         <span class="menu-arrow"></span>
                     </span>
                     <div class="menu-sub menu-sub-accordion">
-                        {{-- @permission('crop-location-blocks', 'create') --}}
+                         @permission('questions', 'create') 
                             <div class="menu-item">
                                 <a class="menu-link  @if (Route::currentRouteName() == 'questions.create') active @endif"
                                     href="{{ route('questions.create') }}">
@@ -651,8 +651,8 @@
                                     <span class="menu-title">{{ __('Add') }}</span>
                                 </a>
                             </div>
-                        {{-- @endpermission --}}
-                        {{-- @permission('crop-location-blocks', 'index') --}}
+                         @endpermission 
+                         @permission('questions', 'index') 
                             <div class="menu-item">
                                 <a class="menu-link @if (Route::currentRouteName() == 'questions.index' ||
                                     Route::currentRouteName() == 'questions.edit') active @endif"
@@ -663,10 +663,10 @@
                                     <span class="menu-title">{{ __('List') }}</span>
                                 </a>
                             </div>
-                        {{-- @endpermission --}}
+                         @endpermission 
                     </div>
                 </div>
-            {{-- @endpermission --}}
+             @endpermission
                 @superadmin
                     <div class="menu-item">
                         <a class="menu-link @if (Route::currentRouteName() == 'laravel-backup-panel.index') active @endif"
