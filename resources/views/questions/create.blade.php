@@ -3,7 +3,7 @@
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
     <div class="toolbar" id="kt_toolbar">
         <div id="kt_toolbar_container" class="container-fluid d-flex flex-stack">
-            <div data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}" class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
+            <div data-kt-swapper="false" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}" class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
                 <h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">Questions</h1>
                 <span class="h-20px border-gray-300 border-start mx-4"></span>
                 <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
@@ -59,13 +59,13 @@
                             <div class="row mb-6">
                                 <!--begin::Label-->
                                 <label class="col-lg-4 col-form-label fw-bold fs-6">
-                                    <span class="required">Commodity Type</span>
-                                    <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Commodity Type"></i>
+                                    <span class="required">Commodity</span>
+                                    <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Commodity"></i>
                                 </label>
                                 <!--end::Label-->
                                 <!--begin::Col-->
                                 <div class="col-lg-8 fv-row">
-                                    <select name="vehicle_types[]" aria-label="Select a Commodity Type" multiple="multiple" data-control="select2" data-placeholder="Select a Vehicles..." class="form-select form-select-solid form-select-lg fw-bold">
+                                    <select name="commodity_types[]" aria-label="Select a Commodity" multiple="multiple" data-control="select2" data-placeholder="Select a Commodity..." class="form-select form-select-solid form-select-lg fw-bold">
                                         <option value="">Select a commodity...</option>
                                         @foreach($CropCommodities as $commodities)
                                         <option value="{{ $commodities->id }}">{{ $commodities->name }}</option>
@@ -80,7 +80,7 @@
                                     <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Inspection Location"></i>
                                 </label>
                                 <div class="col-lg-8 fv-row">
-                                    <select name="inspection_location_id" id="location_id" aria-label="Select a Location" data-control="select2" data-placeholder="Select a Scout Report Category..." class="form-select form-select-solid form-select-lg fw-bold">
+                                    <select name="scout_report_category_id" id="location_id" aria-label="Select a Location" data-control="select2" data-placeholder="Select a Scout Report Category..." class="form-select form-select-solid form-select-lg fw-bold">
                                         <option value="">Select a scout report category...</option>
                                         @foreach($ScoutReportCategories as $ScoutReportCategory)
                                         <option value="{{ $ScoutReportCategory->id }}">{{ $ScoutReportCategory->name }}</option>
@@ -89,72 +89,25 @@
                                 </div>
                             </div>
                             
-                            <div class="row mb-6">
-                                <label class="col-lg-4 col-form-label fw-bold fs-6">
-                                    <span class="required">Item Name</span>
-                                    <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Name of Item"></i>
-                                </label>
-                                <div class="col-lg-8 fv-row">
-                                    <input type="text" name="name" class="form-control form-control-lg form-control-solid" placeholder="Item Name" />
-                                </div>
-                            </div>
                               <div id="kt_docs_repeater_advanced">
                                 <div class="form-group">
                                     <div data-repeater-list="kt_docs_repeater_advanced">
                                         <div data-repeater-item>
                                             <div class="form-group row mb-5">
-                                                <div class="col-md-4">
-                                                    <label class="form-label">Parent Input Option</label>
-                                                    <select name="parent_input_option" class="form-select form-select-solid form-select-lg fw-bold parent_input_option" data-kt-repeater="select2" data-placeholder="Select an option">
-                                                        <option value="">Select a Option...</option>
-                                                        <option value="1">Checkbox</option>
-                                                        <option value="2">TextBox</option>
-                                                    </select>
+                                              
+                                                <div class="col-lg-4">
+                                                    <label class="form-label">Checkbox Name</label>
                                                 </div>
-                                                <div class="col-md-4">
-                                                    <label class="form-label">Input Label Name</label>
-                                                    <input type="text" name="name" class="form-control form-control-lg form-control-solid text-required-box" placeholder="Input Label" />
+                                                <div class="col-lg-6">
+                                                    <input type="text" name="label" class="form-control form-control-lg form-control-solid text-required-box" placeholder="Input Label" />
                                                 </div>
-                                                <div class="col-md-2">
-                                                    <a href="javascript:;" data-repeater-delete class="btn btn-sm btn-light-danger mt-3 mt-md-9">
+                                                    <div class="col-lg-2">
+                                                    <a href="javascript:;" data-repeater-delete class="btn btn-sm btn-light-danger mt-3">
                                                         <i class="la la-trash-o fs-3"></i>Delete
                                                     </a>
                                                 </div>
                                             </div>
-                                            <div class="radio-option" style="display:none">
-                                                <div class="form-group row mb-5">
-                                                    <div class="col-md-2">
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <label class="form-label">Input Label Name</label>
-                                                        <input type="text" name="option_label" class="form-control form-control-lg form-control-solid check-required" placeholder="Input Label" />
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <label class="form-label">Wholesale percent deduction</label>
-                                                        <input type="text" name="option_value_wholesale" class="form-control form-control-lg form-control-solid number_validation check-required" placeholder="Wholesale percent deduction" />
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <label class="form-label">Retail percent deduction</label>
-                                                        <input type="text" name="option_value_retail" class="form-control form-control-lg form-control-solid number_validation check-required" placeholder="Retail percent deduction" />
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row mb-5">
-                                                    <div class="col-md-2">
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <label class="form-label">Input Label Name</label>
-                                                        <input type="text" name="option_label2" class="form-control form-control-lg form-control-solid check-required" placeholder="Input Label" />
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <label class="form-label">Wholesale percent deduction</label>
-                                                        <input type="text" name="option_value2_wholesale" class="form-control form-control-lg form-control-solid number_validation check-required"  placeholder="Wholesale percent deduction" />
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <label class="form-label">Retail percent deduction</label>
-                                                        <input type="text" name="option_value2_retail" class="form-control form-control-lg form-control-solid number_validation check-required" placeholder="Retail percent deduction" />
-                                                    </div>
-                                                </div>
-                                            </div>
+                                          
                                         </div>
                                     </div>
                                 </div>
@@ -180,5 +133,5 @@
 <script>
 	var locationTypeIndex = "{{ url('get-inspection-types') }}"
 </script>
-<script src="{{asset('js/custom_js/inspection_item_register.js')}}"></script>
+<script src="{{asset('js/module/add_question.js')}}"></script>
 @endsection

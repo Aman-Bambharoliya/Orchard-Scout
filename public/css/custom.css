@@ -1,0 +1,32 @@
+.error {
+    color: red;
+}
+
+.btn.btn-light-primary .svg-icon svg [fill]:not(.permanent):not(g) {
+    transition: fill .3s ease;
+    fill: #009ef7;
+}
+
+.btn-check:active+.btn.btn-light-primary .svg-icon svg [fill]:not(.permanent):not(g),
+.btn-check:checked+.btn.btn-light-primary .svg-icon svg [fill]:not(.permanent):not(g),
+.btn.btn-light-primary.active .svg-icon svg [fill]:not(.permanent):not(g),
+.btn.btn-light-primary.show .svg-icon svg [fill]:not(.permanent):not(g),
+.btn.btn-light-primary:active:not(.btn-active) .svg-icon svg [fill]:not(.permanent):not(g),
+.btn.btn-light-primary:focus:not(.btn-active) .svg-icon svg [fill]:not(.permanent):not(g),
+.btn.btn-light-primary:hover:not(.btn-active) .svg-icon svg [fill]:not(.permanent):not(g),
+.show>.btn.btn-light-primary .svg-icon svg [fill]:not(.permanent):not(g) {
+    transition: fill .3s ease;
+    fill: #fff;
+}
+
+.red-val {
+    color: red !important;
+}
+
+.green-val {
+    color: #2bd32b !important;
+}
+
+.blue-val {
+    color: #1875ff !important;
+}

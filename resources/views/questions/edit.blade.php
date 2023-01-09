@@ -130,19 +130,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="row mb-6">
-                                <label class="col-lg-4 col-form-label required fw-bold fs-6">Item Name</label>
-                                <div class="col-lg-8">
-                                    <input type="text" name="name"
-                                        class="form-control @error('type') is-invalid @enderror form-control-lg form-control-solid mb-3 mb-lg-0"
-                                        placeholder="Component Type" value="{{$inspectionItem->name}}" />
-                                    @error('first_name')
-                                    <span class="invalid-feedback" role="alert">
-                                        {{ $message }}
-                                    </span>
-                                    @enderror
-                                </div>
-                            </div>
+                    
                             <div class="row mb-6">
                                 <label class="col-lg-4 col-form-label required fw-bold fs-6">Question Position</label>
                                 <div class="col-lg-8">

@@ -1,4 +1,4 @@
-@extends('theme.layouts.app')
+@extends('layouts.app')
 @section('main-content')
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
 	<div class="toolbar" id="kt_toolbar">
@@ -105,35 +105,24 @@
 								<div class="px-7 py-5" data-kt-user-table-filter="form">
 									<!--begin::Input group-->
 									<div class="mb-10">
-										<label class="form-label fs-6 fw-bold">Vehicle Type:</label>
-										<select name="vehicle_types" id="vehicle_types" aria-label="Select Inspection Type" data-control="select2" data-placeholder="Select Inspection Type..." class="form-select form-select-solid form-select-lg fw-bold">
-											<option value="">Select Inspection Type...</option>
-											@foreach($vehicles as $vehicle)
-											<option value="{{ $vehicle->id }}">{{ $vehicle->name }}</option>
+										<label class="form-label fs-6 fw-bold">Commodity:</label>
+										<select name="commodity_types" id="commodity_types" aria-label="Select a Commodity"  data-control="select2" data-placeholder="Select a Commodity..." class="form-select form-select-solid form-select-lg fw-bold">
+											<option value="">Select a commodity...</option>
+											@foreach($CropCommodities as $commodities)
+											<option value="{{ $commodities->id }}">{{ $commodities->name }}</option>
 											@endforeach
 										</select>
 									</div>
+							
 									<div class="mb-10">
-										<label class="form-label fs-6 fw-bold">Location:</label>
-										<select name="inspection_location_id" id="inspection_location_id"
-											aria-label="Select a Location" data-control="select2"
-											data-placeholder="Select a Location..."
-											class="form-select form-select-solid form-select-lg fw-bold">
-											<option value="">Select a Location...</option>
-											@foreach($locations as $location)
-											<option value="{{ $location->id }}">{{
-												$location->name }}</option>
+										<label class="form-label fs-6 fw-bold">Scout Report Categories :</label>
+										<select name="scout_report_category_id" id="scout_report_category_id" aria-label="Select a Location" data-control="select2" data-placeholder="Select a Scout Report Category..." class="form-select form-select-solid form-select-lg fw-bold">
+											<option value="">Select a scout report category...</option>
+											@foreach($ScoutReportCategories as $ScoutReportCategory)
+											<option value="{{ $ScoutReportCategory->id }}">{{ $ScoutReportCategory->name }}</option>
 											@endforeach
 										</select>
-									</div>
-									<div class="mb-10">
-										<label class="form-label fs-6 fw-bold">Inspection Type:</label>
-										<select name="inspection_type_id" id="inspection_type_id" aria-label="Select Inspection Type" data-control="select2" data-placeholder="Select Inspection Type..." class="form-select form-select-solid form-select-lg fw-bold">
-											<option value="">Select Inspection Type...</option>
-											@foreach($inspection_type as $inspection)
-											<option value="{{ $inspection->id }}">{{ $inspection->type }}</option>
-											@endforeach
-										</select>
+
 									</div>
 									<div class="mb-10">
 										<label class="form-label fs-6 fw-bold">Status:</label>
@@ -157,7 +146,7 @@
 							</div>
 							<!--end::Menu 1-->
 							<!--end::Filter-->
-							<a href="{{route('inspection-item.create')}}" class="btn btn-primary">Add Question</a>
+							<a href="{{route('questions.create')}}" class="btn btn-primary">Add Question</a>
 						</div>
 					</div>
 				</div>
@@ -166,10 +155,8 @@
 						<thead>
 							<tr class="text-start text-gray-400 fw-bolder fs-7 text-uppercase gs-0">
 								<th class="min-w-125px">Position</th>
-								<th class="min-w-125px">Inspection Item</th>
-								<th class="min-w-125px">Location</th>
-								<th class="min-w-125px">Inspection Type</th>
-								<th class="min-w-125px">Vehicle Type</th>
+								<th class="min-w-125px">Scout Report Categories</th>
+								<th class="min-w-125px">Commodity</th>
 								<th class="min-w-125px">Status</th>
 								<th class="text-end min-w-70px">Actions</th>
 							</tr>
@@ -185,7 +172,7 @@
 @endsection
 @section('pagespecificscripts')
 <script>
-	var itemIndex = "{{ route('inspection-item.index') }}"
+	var questionsIndex = "{{ route('questions.index') }}"
 </script>
-<script src="{{asset('js/custom_js/inspection_item_listing.js')}}"></script>
+<script src="{{asset('js/module/question_listing.js')}}"></script>
 @endsection
