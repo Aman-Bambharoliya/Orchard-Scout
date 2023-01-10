@@ -2,28 +2,26 @@
 @section('main-content')
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
 	<div class="toolbar" id="kt_toolbar">
-		<div id="kt_toolbar_container" class="container-fluid d-flex flex-stack">
-			<div data-kt-swapper="true" data-kt-swapper-mode="prepend"
-				data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}"
-				class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
-				<h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">Questions</h1>
-				<span class="h-20px border-gray-300 border-start mx-4"></span>
-				<ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
-					<li class="breadcrumb-item text-muted">
-						<a href="{{route('home')}}" class="text-muted text-hover-primary">Home</a>
-					</li>
-					<li class="breadcrumb-item">
-						<span class="bullet bg-gray-300 w-5px h-2px"></span>
-					</li>
-					<li class="breadcrumb-item text-muted">Questions</li>
-					<li class="breadcrumb-item">
-						<span class="bullet bg-gray-300 w-5px h-2px"></span>
-					</li>
-					<li class="breadcrumb-item text-dark">Questions List</li>
-				</ul>
-			</div>
-		</div>
-	</div>
+        <div id="kt_toolbar_container" class="container-fluid d-flex flex-stack">
+            <div data-kt-swapper="false" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}" class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
+                <h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">Questions</h1>
+                <span class="h-20px border-gray-300 border-start mx-4"></span>
+                <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
+                    <li class="breadcrumb-item text-muted">
+                        <a href="{{route('home')}}" class="text-muted text-hover-primary">Home</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <span class="bullet bg-gray-300 w-5px h-2px"></span>
+                    </li>
+                    <li class="breadcrumb-item text-muted">Questions</li>
+                    <li class="breadcrumb-item">
+                        <span class="bullet bg-gray-300 w-5px h-2px"></span>
+                    </li>
+                    <li class="breadcrumb-item text-dark">Question List</li>
+                </ul> 
+            </div>
+        </div>
+    </div>	
 	<div class="post d-flex flex-column-fluid" id="kt_post">
 		<div id="kt_content_container" class="container-xxl">
 			@if ($message = Session::get('success'))
@@ -132,6 +130,16 @@
 											<option value="false">De-Active</option>
 										</select>
 									</div>
+									<div class="mb-10">
+										<label class="form-label fs-6 fw-bold">Show Deleted:</label>
+										<input
+										class="form-check-input checkbox" 
+										id="is_deleted_at"
+										value="false"
+										name="is_deleted_at" 
+										type="checkbox"
+										>
+									</div>
 									<div class="d-flex justify-content-end">
 										<button type="reset"
 											class="filter-clear-btn btn btn-light btn-active-light-primary fw-bold me-2 px-6"
@@ -177,4 +185,5 @@
 	var questionsIndex = "{{ route('questions.index') }}"
 </script>
 <script src="{{asset('js/module/question_listing.js')}}"></script>
+<script src="{{asset('js/custom_js/deleted_request.js')}}"></script>
 @endsection

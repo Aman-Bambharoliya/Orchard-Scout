@@ -10,9 +10,13 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Model;
 use Auth, DB; 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 class VendorAddress extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+    use SoftDeletes;
+
     protected $table = 'vendor_addresses';
     /**
      * The attributes that are mass assignable.
@@ -27,6 +31,8 @@ class VendorAddress extends Authenticatable
     protected $appends = [
         'address_type_name',
     ];
+
+    protected $dates = ['deleted_at'];
 
     public function hasAddress()
     {

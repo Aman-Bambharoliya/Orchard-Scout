@@ -11,6 +11,7 @@ class QuestionItem extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $table = 'question_items';
 
     protected $fillable = [
         'scout_report_category_id',        
@@ -18,6 +19,8 @@ class QuestionItem extends Model
         'status',
         'commodity_types'
     ];
+
+    protected $dates = ['deleted_at'];
 
     protected $appends=[
         'scout_report_category_name',

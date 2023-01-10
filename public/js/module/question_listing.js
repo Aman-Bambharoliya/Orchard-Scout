@@ -14,6 +14,7 @@ function item_list() {
                 data: function(d) {
                     d.scout_report_category_id = $('#scout_report_category_id').val();
                     d.status = $('#status').val();
+                    d.is_deleted_at = $('#is_deleted_at').val();
                     d.vehicle_types = $('#commodity_types').val();
                 }
             },
@@ -24,7 +25,8 @@ function item_list() {
                 { data: 'status', name: 'status' },
                 { data: 'action', name: 'action', orderable: false, searchable: false },
             ],
-            columnDefs: [{
+            columnDefs: [
+                {
                     targets: -1,
                     orderable: false,
                 },
@@ -42,9 +44,14 @@ function item_list() {
             Ot.draw();
         });
         $('.filter-clear-btn').click(function() {
+            
             $('#commodity_types').val(null).trigger('change');
             $('#scout_report_category_id').val(null).trigger('change');
-            $('#status').val(null).trigger('change');            
+            $('#status').val(null).trigger('change');    
+            $('#is_deleted_at').val('false').trigger('change'); 
+            $('#is_deleted_at').attr('value', 'false'); 
+            $('#is_deleted_at').attr('checked', false);                
+            $("#is_deleted_at").prop('checked', false); 
             Ot.draw();
         });
     }
@@ -95,6 +102,65 @@ $(document).on('click', ".delete_item", function() {
                                 confirmButton: "btn fw-bold btn-primary"
                             }
                         });
+                    }
+                },
+            });
+        } else {
+            Swal.fire({
+                text: "Failed...!!!",
+                icon: "error",
+                buttonsStyling: !1,
+                confirmButtonText: "Ok, got it!",
+                customClass: {
+                    confirmButton: "btn fw-bold btn-primary"
+                }
+            });
+        }
+    }))
+});
+
+
+
+
+$("#is_deleted_at").on('change', function() {
+    if ($(this).is(':checked')) {
+        $(this).attr('value', 'true');
+    } else {
+        $(this).attr('value', 'false');
+    }
+});
+
+$(document).on('click', ".delete_request", function() {
+    var id = $(this).data('id');
+    Swal.fire({
+        text: "Are you sure you want to revert selected Request?",
+        icon: "warning",
+        showCancelButton: !0,
+        buttonsStyling: !1,
+        confirmButtonText: "Yes, Revert!",
+        cancelButtonText: "No, cancel",
+        customClass: {
+            confirmButton: "btn fw-bold btn-danger",
+            cancelButton: "btn fw-bold btn-active-light-primary"
+        }
+    }).then((function(isConfirm) {
+        if (isConfirm.isConfirmed) {
+            $.ajax({
+                type: "POST",
+                url: id,
+                data: ({ submit_type: 'ajax', '_token': config.data.csrf, _method: 'POST' }),
+                success: function(data) {
+                    if (data.status == 1) {
+                        Swal.fire({
+                            text: "You have reverted selected Request!.",
+                            icon: "success",
+                            buttonsStyling: !1,
+                            confirmButtonText: "Ok, got it!",
+                            customClass: {
+                                confirmButton: "btn fw-bold btn-primary"
+                            }
+                        });
+                        item_list();
                     }
                 },
             });

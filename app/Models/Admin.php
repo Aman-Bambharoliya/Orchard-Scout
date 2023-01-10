@@ -9,9 +9,13 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Model;
 use Auth, DB; 
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 class Admin extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+    use SoftDeletes;
+    
     protected $table = 'admins';
     /**
      * The attributes that are mass assignable.
@@ -25,6 +29,8 @@ class Admin extends Authenticatable
         'role',
         'permissions'
     ];
+
+    protected $dates = ['deleted_at'];
 
     /**
      * The attributes that should be hidden for serialization.

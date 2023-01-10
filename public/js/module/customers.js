@@ -1,5 +1,9 @@
     jQuery(document).ready(function() {
+
+        item_list();
+        function item_list() {
         if (jQuery(document).find('#dataTableList').length > 0) {
+            $("#dataTableList").dataTable().fnDestroy();
             var Ot = jQuery(document).find('#dataTableList').DataTable({
                 processing: true,
                 serverSide: true,
@@ -10,6 +14,7 @@
                     url: listIndex,
                     data: function(d) {
                         d.name = $('#name').val();
+                        d.is_deleted_at = $('#is_deleted_at').val();
                     }
                 },
                 "lengthMenu": [
@@ -40,7 +45,21 @@
                 Ot.search('').draw();
                 jQuery(document).find('.row.clear_filter_row').hide();
             });
+
+            $('.filter-apply-btn').click(function() {
+                Ot.draw();
+            });
+            $('.filter-clear-btn').click(function() {     
+                $('#is_deleted_at').val('false').trigger('change'); 
+                $('#is_deleted_at').attr('value', 'false'); 
+                $('#is_deleted_at').attr('checked', false);                
+                $("#is_deleted_at").prop('checked', false); 
+                Ot.draw();
+            });
+
         }
+    }
+
         $(document).on('click', ".delete_record", function() {
             var id = $(this).data('id');
             Swal.fire({
@@ -71,7 +90,7 @@
                                         confirmButton: "btn fw-bold btn-primary"
                                     }
                                 });
-                                Ot.draw();
+                                item_list();
                             } else {
                                 Swal.fire({
                                     text: "Failed...!!!",
@@ -183,4 +202,63 @@
                 error.insertAfter($(element));
             },
         });
+
+
+        $("#is_deleted_at").on('change', function() {
+            if ($(this).is(':checked')) {
+                $(this).attr('value', 'true');
+            } else {
+                $(this).attr('value', 'false');
+            }
+        });
+        
+        $(document).on('click', ".delete_request", function() {
+            var id = $(this).data('id');
+            Swal.fire({
+                text: "Are you sure you want to revert selected Request?",
+                icon: "warning",
+                showCancelButton: !0,
+                buttonsStyling: !1,
+                confirmButtonText: "Yes, Revert!",
+                cancelButtonText: "No, cancel",
+                customClass: {
+                    confirmButton: "btn fw-bold btn-danger",
+                    cancelButton: "btn fw-bold btn-active-light-primary"
+                }
+            }).then((function(isConfirm) {
+                if (isConfirm.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: id,
+                        data: ({ submit_type: 'ajax', '_token': config.data.csrf, _method: 'POST' }),
+                        success: function(data) {
+                            if (data.status == 1) {
+                                Swal.fire({
+                                    text: "You have reverted selected Request!.",
+                                    icon: "success",
+                                    buttonsStyling: !1,
+                                    confirmButtonText: "Ok, got it!",
+                                    customClass: {
+                                        confirmButton: "btn fw-bold btn-primary"
+                                    }
+                                });
+                                item_list();
+                            }
+                        },
+                    });
+                } else {
+                    Swal.fire({
+                        text: "Failed...!!!",
+                        icon: "error",
+                        buttonsStyling: !1,
+                        confirmButtonText: "Ok, got it!",
+                        customClass: {
+                            confirmButton: "btn fw-bold btn-primary"
+                        }
+                    });
+                }
+            }))
+        });
+        
+
     });

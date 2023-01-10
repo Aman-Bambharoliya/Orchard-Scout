@@ -20,6 +20,14 @@ class VendorController extends Controller
     {
         if ($request->ajax()) {
             $query = Vendor::query();
+
+            if ($request->get('is_deleted_at') != '' && $request->get('is_deleted_at')!=null) {
+              
+                if($request->get('is_deleted_at')=='true'){                   
+                    $query = $query->withTrashed();
+                }
+            } 
+
             $data = $query->get();
             return Datatables::of($data)
                 ->addIndexColumn()
@@ -37,9 +45,16 @@ class VendorController extends Controller
                             </div>';
                     }
                     if ($user_data->hasPermission('vendors', 'delete')) {
+                        if(is_null($data->deleted_at)){
                         $delete_button .= '<div class="menu-item  px-3">
                     <a href="#" data-id="' . route('vendors.destroy', $data->id) . '" class="menu-link px-3 delete_record">Delete</a>
                 </div>';
+            }else{
+        
+                $delete_button .= '<div class="menu-item  px-3">
+                <a href="#" data-id="' . route('vendors.undelete', $data->id) . '" class="menu-link px-3 delete_request">UnDelete</a>
+            </div>';
+               }
                     }
                     if ($user_data->hasPermission('vendor-addresses', 'index')) {
                         $address_list_btn .= ' <div class="menu-item  px-3">
@@ -193,4 +208,25 @@ class VendorController extends Controller
             }
         }
     }
+
+    
+    public function undelete($id)
+    {
+        $delete_request=Vendor::where('id', $id)->withTrashed()->restore();
+        if ($delete_request) {
+            return response()->json([
+                'status' => 1,
+                'result' => 'Success',
+                'message' => "UnDeleted",
+            ]);
+        } else {
+            return response()->json([
+                'status' => -1,
+                'result' => 'fail',
+                'message' => "Not UnDeleted",
+            ]);
+        }
+    }
+
+
 }

@@ -9,9 +9,13 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Model;
 use Auth, DB; 
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 class CropLocationBlock extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+    use SoftDeletes;
+
     protected $table = 'crop_location_blocks';
     /**
      * The attributes that are mass assignable.
@@ -28,6 +32,9 @@ class CropLocationBlock extends Authenticatable
         'plant_feet_between_rows',
         'description',
     ];
+
+    protected $dates = ['deleted_at'];
+    
     protected $appends=['crop_location_name','crop_commodity_name'];
     public function getCropLocationNameAttribute()
     {

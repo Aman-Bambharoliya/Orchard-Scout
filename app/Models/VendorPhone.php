@@ -10,10 +10,17 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Model;
 use Auth, DB; 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 class VendorPhone extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+    use SoftDeletes;
+
     protected $table = 'vendor_phones';
+
+    protected $dates = ['deleted_at'];
+    
     /**
      * The attributes that are mass assignable.
      *

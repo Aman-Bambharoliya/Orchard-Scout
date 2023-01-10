@@ -10,9 +10,13 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Model;
 use Auth, DB; 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 class CustomerPhone extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+    use SoftDeletes;
+
     protected $table = 'customer_phones';
     /**
      * The attributes that are mass assignable.
@@ -24,6 +28,9 @@ class CustomerPhone extends Authenticatable
         'phone_id',
         'phone_type_id',
     ];
+
+    protected $dates = ['deleted_at'];
+    
     protected $appends = [
         'phone_type_name',
     ];

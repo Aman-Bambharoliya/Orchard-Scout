@@ -10,6 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 class PeopleRole extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+    
     protected $table = 'people_roles';
     /**
      * The attributes that are mass assignable.

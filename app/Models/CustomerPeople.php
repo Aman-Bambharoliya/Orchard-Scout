@@ -10,9 +10,14 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Model;
 use Auth, DB; 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+
 class CustomerPeople extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+    use SoftDeletes;
+
     protected $table = 'customer_peoples';
     /**
      * The attributes that are mass assignable.
@@ -24,6 +29,8 @@ class CustomerPeople extends Authenticatable
         'people_id',
         'people_role_id',
     ];
+    
+    protected $dates = ['deleted_at'];
 
     public function hasPeople()
     {

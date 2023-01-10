@@ -21,7 +21,16 @@ class PeopleController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $query = People::query();
+
+            $query = People::orderBy('id', 'DESC');  
+
+            if ($request->get('is_deleted_at') != '' && $request->get('is_deleted_at')!=null) {
+              
+                if($request->get('is_deleted_at')=='true'){                   
+                    $query = $query->withTrashed();
+                }
+            } 
+
             $data = $query->get();
             return Datatables::of($data)
                 ->addIndexColumn()
@@ -40,9 +49,16 @@ class PeopleController extends Controller
                             </div>';
                     }
                     if ($user_data->hasPermission('peoples', 'delete')) {
+                        if(is_null($data->deleted_at)){
                         $delete_button .= '<div class="menu-item  px-3">
                     <a href="#" data-id="' . route('peoples.destroy', $data->id) . '" class="menu-link px-3 delete_record">Delete</a>
                 </div>';
+            }else{
+        
+               $delete_button .= '<div class="menu-item  px-3">
+               <a href="#" data-id="' . route('peoples.undelete', $data->id) . '" class="menu-link px-3 delete_request">UnDelete</a>
+           </div>';
+              }
                     }
                     // if ($user_data->hasPermission('people-addresses', 'create')) {
                     //     $address_add_btn .= ' <div class="menu-item  px-3">
@@ -226,4 +242,24 @@ class PeopleController extends Controller
             }
         }
     }
+
+    
+    public function undelete($id)
+    {
+        $delete_request=People::where('id', $id)->withTrashed()->restore();
+        if ($delete_request) {
+            return response()->json([
+                'status' => 1,
+                'result' => 'Success',
+                'message' => "UnDeleted",
+            ]);
+        } else {
+            return response()->json([
+                'status' => -1,
+                'result' => 'fail',
+                'message' => "Not UnDeleted",
+            ]);
+        }
+    }
+
 }

@@ -9,9 +9,13 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Model;
 use Auth, DB; 
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 class CropCommodity extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+    use SoftDeletes;
+
     protected $table = 'crop_commodities';
     /**
      * The attributes that are mass assignable.
@@ -22,6 +26,9 @@ class CropCommodity extends Authenticatable
         'crop_commodity_type_id',
         'name',
     ];
+
+    protected $dates = ['deleted_at'];
+    
     protected $appends=['crop_commodity_type_name'];
 
     public function getCropCommodityTypeNameAttribute()

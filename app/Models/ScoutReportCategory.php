@@ -10,9 +10,13 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Model;
 use Auth, DB; 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 class ScoutReportCategory extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+    use SoftDeletes;
+
     protected $table = 'scout_report_categories';
     /**
      * The attributes that are mass assignable.
@@ -22,4 +26,6 @@ class ScoutReportCategory extends Authenticatable
     protected $fillable = [
         'name',
     ];
+
+    protected $dates = ['deleted_at'];
 }

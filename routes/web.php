@@ -51,7 +51,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['middleware' => ['superadmin']], function () {
         //superadmin role routes goes here
         Route::resource('admin-users', AdminController::class);
+        Route::post('admin-users/{id}/undelete',[AdminController::class,'undelete'])->name('admin-users.undelete');
     });
+    
     Route::group(['middleware' => ['Permission']], function () {
         //admin role routes goes here
         Route::resource('address-types', AddressTypeController::class);
@@ -141,6 +143,34 @@ Route::group(['middleware' => ['auth']], function () {
 
        Route::resource('scout-report-categories', ScoutReportCategoryController::class);
        Route::resource('questions', QuestionController::class);
+       Route::post('questions/{id}/undelete',[QuestionController::class,'undelete'])->name('questions.undelete');
+       Route::post('address-types/{id}/undelete',[AddressTypeController::class,'undelete'])->name('address-types.undelete');
+       Route::post('peoples/{id}/undelete',[PeopleController::class,'undelete'])->name('peoples.undelete');
+       Route::post('people-addresses/{id}/undelete',[PeopleAddressController::class,'undelete'])->name('people-addresses.undelete');
+       Route::post('people-phones/{id}/undelete',[PeoplePhoneController::class,'undelete'])->name('people-phones.undelete');
+       Route::post('customers/{id}/undelete',[CustomerController::class,'undelete'])->name('customers.undelete');
+       Route::post('customer-addresses/{id}/undelete',[CustomerAddressController::class,'undelete'])->name('customer-addresses.undelete');
+       Route::post('customer-phones/{id}/undelete',[CustomerPhoneController::class,'undelete'])->name('customer-phones.undelete');
+       Route::post('customer-peoples/{id}/undelete',[CustomerPeopleController::class,'undelete'])->name('customer-peoples.undelete');
+
+       Route::post('vendors/{id}/undelete',[VendorController::class,'undelete'])->name('vendors.undelete');
+       Route::post('vendor-addresses/{id}/undelete',[VendorAddressController::class,'undelete'])->name('vendor-addresses.undelete');
+       Route::post('vendor-phones/{id}/undelete',[VendorPhoneController::class,'undelete'])->name('vendor-phones.undelete');
+       Route::post('vendor-peoples/{id}/undelete',[VendorPeopleController::class,'undelete'])->name('vendor-peoples.undelete');
+
+       Route::post('scout-report-categories/{id}/undelete',[ScoutReportCategoryController::class,'undelete'])->name('scout-report-categories.undelete');
+       Route::post('crop-commodity-types/{id}/undelete',[CropCommodityTypeController::class,'undelete'])->name('crop-commodity-types.undelete');
+       
+       Route::resource('crop-commodities', CropCommodityController::class);
+       Route::resource('crop-commodity-varieties', CropCommodityVarietyController::class);
+       Route::resource('crop-locations', CropLocationController::class);
+       Route::get('/get-customer-addresses/{id}', [HelperController::class, 'getCustomerAddressesById'])->name('get-customer-addresses');
+       Route::resource('crop-location-blocks', CropLocationBlockController::class);
+       Route::post('crop-commodities/{id}/undelete',[CropCommodityController::class,'undelete'])->name('crop-commodities.undelete');
+       Route::post('crop-commodity-varieties/{id}/undelete',[CropCommodityVarietyController::class,'undelete'])->name('crop-commodity-varieties.undelete');
+       Route::post('crop-locations/{id}/undelete',[CropLocationController::class,'undelete'])->name('crop-locations.undelete');
+       Route::post('get-customer-addresses/{id}/undelete',[HelperController::class,'undelete'])->name('get-customer-addresses.undelete');
+       Route::post('crop-location-blocks/{id}/undelete',[CropLocationBlockController::class,'undelete'])->name('crop-location-blocks.undelete');
 
     });
 });

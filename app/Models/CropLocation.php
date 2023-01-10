@@ -9,9 +9,13 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Model;
 use Auth, DB; 
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 class CropLocation extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+    use SoftDeletes;
+
     protected $table = 'crop_locations';
     /**
      * The attributes that are mass assignable.
@@ -24,6 +28,9 @@ class CropLocation extends Authenticatable
         'name',
         'description',
     ];
+
+    protected $dates = ['deleted_at'];
+    
     protected $appends=['customer_name'];
     public function getCustomerNameAttribute()
     {

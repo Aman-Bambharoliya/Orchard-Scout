@@ -10,9 +10,13 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Model;
 use Auth, DB; 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 class People extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+    use SoftDeletes;
+
     protected $table = 'peoples';
     /**
      * The attributes that are mass assignable.
@@ -29,6 +33,9 @@ class People extends Authenticatable
         'maiden_name',
         'date_of_birth',
     ];
+
+    protected $dates = ['deleted_at'];
+
     protected $appends=['full_name'];
 
     public function getFullNameAttribute()

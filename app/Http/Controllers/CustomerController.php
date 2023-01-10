@@ -19,8 +19,17 @@ class CustomerController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $query = Customer::query();
+            $query = Customer::orderBy('id', 'DESC');  
+
+            if ($request->get('is_deleted_at') != '' && $request->get('is_deleted_at')!=null) {
+              
+                if($request->get('is_deleted_at')=='true'){                   
+                    $query = $query->withTrashed();
+                }
+            } 
+
             $data = $query->get();
+            
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function (Customer $data) {
@@ -37,9 +46,18 @@ class CustomerController extends Controller
                             </div>';
                     }
                     if ($user_data->hasPermission('customers', 'delete')) {
+                        if(is_null($data->deleted_at)){
                         $delete_button .= '<div class="menu-item  px-3">
                     <a href="#" data-id="' . route('customers.destroy', $data->id) . '" class="menu-link px-3 delete_record">Delete</a>
                 </div>';
+            }else{
+                //     $delete_button = '<a title="UnDelete" href="#" data-id="' . route('peoples.undelete', $data->id) . '" class="btn btn-icon btn-bg-light btn-active-color-danger btn-sm me-1 delete_request">
+                //    <span class="svg-icon svg-icon-3">UnDelete</span>
+                //    </a>';
+                   $delete_button .= '<div class="menu-item  px-3">
+                   <a href="#" data-id="' . route('customers.undelete', $data->id) . '" class="menu-link px-3 delete_request">UnDelete</a>
+               </div>';
+                  }
                     }
                     if ($user_data->hasPermission('customer-addresses', 'index')) {
                         $address_list_btn .= ' <div class="menu-item  px-3">
@@ -193,4 +211,25 @@ class CustomerController extends Controller
             }
         }
     }
+
+    
+    public function undelete($id)
+    {
+        $delete_request=Customer::where('id', $id)->withTrashed()->restore();
+        if ($delete_request) {
+            return response()->json([
+                'status' => 1,
+                'result' => 'Success',
+                'message' => "UnDeleted",
+            ]);
+        } else {
+            return response()->json([
+                'status' => -1,
+                'result' => 'fail',
+                'message' => "Not UnDeleted",
+            ]);
+        }
+    }
+
+
 }

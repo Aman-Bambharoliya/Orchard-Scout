@@ -100,19 +100,6 @@ $(document).ready(function() {
         },
     });
 
-    // $(document).on('change','#location_id',function(){
-    //     var id = $(this).val();
-    //     $.ajax({
-    //         url: locationTypeIndex+'/'+id,
-    //         processData: false,
-    //         async: true,
-    //         contentType: false,
-    //         success: function (json) {
-    //            datas = JSON.parse(json);
-    //            $('#inspection_type_id').html(datas.data);
-    //         },
-    //       });
-    // });
 
     $('#kt_docs_repeater_advanced').repeater({
         initEmpty: false,
