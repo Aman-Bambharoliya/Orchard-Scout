@@ -267,115 +267,6 @@
                         </div>
                     </div>
                 @endpermission
-                @permission('vendors')
-                    <div data-kt-menu-trigger="click"
-                        class="menu-item menu-accordion @if (Route::currentRouteName() == 'vendors.index' ||
-                            Route::currentRouteName() == 'vendors.create' ||
-                            Route::currentRouteName() == 'vendors.edit' ||
-                            Route::currentRouteName() == 'vendor-addresses.index' ||
-                            Route::currentRouteName() == 'vendor-addresses.create' ||
-                            Route::currentRouteName() == 'vendor-addresses.edit') here hover show @endif">
-                        <span class="menu-link">
-                            <span class="menu-icon">
-                                <span class="svg-icon svg-icon-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        viewBox="0 0 24 24" fill="none">
-                                        <path opacity="0.3"
-                                            d="M20.5543 4.37824L12.1798 2.02473C12.0626 1.99176 11.9376 1.99176 11.8203 2.02473L3.44572 4.37824C3.18118 4.45258 3 4.6807 3 4.93945V13.569C3 14.6914 3.48509 15.8404 4.4417 16.984C5.17231 17.8575 6.18314 18.7345 7.446 19.5909C9.56752 21.0295 11.6566 21.912 11.7445 21.9488C11.8258 21.9829 11.9129 22 12.0001 22C12.0872 22 12.1744 21.983 12.2557 21.9488C12.3435 21.912 14.4326 21.0295 16.5541 19.5909C17.8169 18.7345 18.8277 17.8575 19.5584 16.984C20.515 15.8404 21 14.6914 21 13.569V4.93945C21 4.6807 20.8189 4.45258 20.5543 4.37824Z"
-                                            fill="currentColor" />
-                                        <path
-                                            d="M12.0006 11.1542C13.1434 11.1542 14.0777 10.22 14.0777 9.0771C14.0777 7.93424 13.1434 7 12.0006 7C10.8577 7 9.92348 7.93424 9.92348 9.0771C9.92348 10.22 10.8577 11.1542 12.0006 11.1542Z"
-                                            fill="currentColor" />
-                                        <path
-                                            d="M15.5652 13.814C15.5108 13.6779 15.4382 13.551 15.3566 13.4331C14.9393 12.8163 14.2954 12.4081 13.5697 12.3083C13.479 12.2993 13.3793 12.3174 13.3067 12.3718C12.9257 12.653 12.4722 12.7981 12.0006 12.7981C11.5289 12.7981 11.0754 12.653 10.6944 12.3718C10.6219 12.3174 10.5221 12.2902 10.4314 12.3083C9.70578 12.4081 9.05272 12.8163 8.64456 13.4331C8.56293 13.551 8.49036 13.687 8.43595 13.814C8.40875 13.8684 8.41781 13.9319 8.44502 13.9864C8.51759 14.1133 8.60828 14.2403 8.68991 14.3492C8.81689 14.5215 8.95295 14.6757 9.10715 14.8208C9.23413 14.9478 9.37925 15.0657 9.52439 15.1836C10.2409 15.7188 11.1026 15.9999 11.9915 15.9999C12.8804 15.9999 13.7421 15.7188 14.4586 15.1836C14.6038 15.0748 14.7489 14.9478 14.8759 14.8208C15.021 14.6757 15.1661 14.5215 15.2931 14.3492C15.3838 14.2312 15.4655 14.1133 15.538 13.9864C15.5833 13.9319 15.5924 13.8684 15.5652 13.814Z"
-                                            fill="currentColor" />
-                                    </svg>
-                                </span>
-                            </span>
-                            <span class="menu-title">{{ __('Vendors') }}</span>
-                            <span class="menu-arrow"></span>
-                        </span>
-                        <div class="menu-sub menu-sub-accordion">
-                            @permission('vendors', 'create')
-                                <div class="menu-item">
-                                    <a class="menu-link  @if (Route::currentRouteName() == 'vendors.create') active @endif"
-                                        href="{{ route('vendors.create') }}">
-                                        <span class="menu-bullet">
-                                            <span class="bullet bullet-dot"></span>
-                                        </span>
-                                        <span class="menu-title">{{ __('Add') }}</span>
-                                    </a>
-                                </div>
-                            @endpermission
-                            @permission('vendors', 'index')
-                                <div class="menu-item">
-                                    <a class="menu-link @if (Route::currentRouteName() == 'vendors.index' ||
-                                        Route::currentRouteName() == 'vendors.edit' ||
-                                        Route::currentRouteName() == 'vendor-addresses.index' ||
-                                        Route::currentRouteName() == 'vendor-addresses.create' ||
-                                        Route::currentRouteName() == 'vendor-addresses.edit') active @endif"
-                                        href="{{ route('vendors.index') }}">
-                                        <span class="menu-bullet">
-                                            <span class="bullet bullet-dot"></span>
-                                        </span>
-                                        <span class="menu-title">{{ __('List') }}</span>
-                                    </a>
-                                </div>
-                            @endpermission
-                        </div>
-                    </div>
-                @endpermission
-
-                @permission('scout-report-categories')
-                    <div data-kt-menu-trigger="click"
-                        class="menu-item menu-accordion @if (Route::currentRouteName() == 'scout-report-categories.index' ||
-                            Route::currentRouteName() == 'scout-report-categories.create' ||
-                            Route::currentRouteName() == 'scout-report-categories.edit') here hover show @endif">
-                        <span class="menu-link">
-                            <span class="menu-icon">
-                                <!--begin::Svg Icon | path: assets/media/icons/duotune/abstract/abs017.svg-->
-                                <span class="svg-icon svg-icon-2"><svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                        height="24" viewBox="0 0 24 24" fill="none">
-                                        <path opacity="0.3"
-                                            d="M2.07664 11.85L2.87663 10.05C3.07663 9.55003 3.67665 9.35003 4.17665 9.55003L5.07664 9.95002C7.17664 10.85 9.17662 10.85 11.2766 9.95002C14.3766 8.55002 17.4766 8.55002 20.5766 9.95002L21.4766 10.35C21.9766 10.55 22.1766 11.15 21.9766 11.65L21.1766 13.45C20.9766 13.95 20.3766 14.15 19.8766 13.95L18.9766 13.55C16.8766 12.65 14.8766 12.65 12.7766 13.55C9.67662 14.95 6.57663 14.95 3.47663 13.55L2.57664 13.15C2.07664 12.95 1.87664 12.35 2.07664 11.85ZM2.57664 20.05L3.47663 20.45C6.57663 21.85 9.67662 21.85 12.7766 20.45C14.8766 19.55 16.8766 19.55 18.9766 20.45L19.8766 20.85C20.3766 21.05 20.9766 20.85 21.1766 20.35L21.9766 18.55C22.1766 18.05 21.9766 17.45 21.4766 17.25L20.5766 16.85C17.4766 15.45 14.3766 15.45 11.2766 16.85C9.17662 17.75 7.17664 17.75 5.07664 16.85L4.17665 16.45C3.67665 16.25 3.07663 16.45 2.87663 16.95L2.07664 18.75C1.87664 19.25 2.07664 19.85 2.57664 20.05Z"
-                                            fill="currentColor" />
-                                        <path
-                                            d="M2.07664 4.94999L2.87663 3.15C3.07663 2.65 3.67665 2.45 4.17665 2.65L5.07664 3.05C7.17664 3.95 9.17662 3.95 11.2766 3.05C14.3766 1.65 17.4766 1.65 20.5766 3.05L21.4766 3.44999C21.9766 3.64999 22.1766 4.25 21.9766 4.75L21.1766 6.55C20.9766 7.05 20.3766 7.25 19.8766 7.05L18.9766 6.65C16.8766 5.75 14.8766 5.75 12.7766 6.65C9.67662 8.05 6.57663 8.05 3.47663 6.65L2.57664 6.25C2.07664 6.05 1.87664 5.44999 2.07664 4.94999Z"
-                                            fill="currentColor" />
-                                    </svg></span>
-                                <!--end::Svg Icon-->
-                            </span>
-                            <span class="menu-title">{{ __('Scout Report Categories') }}</span>
-                            <span class="menu-arrow"></span>
-                        </span>
-                        <div class="menu-sub menu-sub-accordion">
-                            @permission('scout-report-categories', 'create')
-                                <div class="menu-item">
-                                    <a class="menu-link  @if (Route::currentRouteName() == 'scout-report-categories.create') active @endif"
-                                        href="{{ route('scout-report-categories.create') }}">
-                                        <span class="menu-bullet">
-                                            <span class="bullet bullet-dot"></span>
-                                        </span>
-                                        <span class="menu-title">{{ __('Add') }}</span>
-                                    </a>
-                                </div>
-                            @endpermission
-                            @permission('scout-report-categories', 'index')
-                                <div class="menu-item">
-                                    <a class="menu-link @if (Route::currentRouteName() == 'scout-report-categories.index' ||
-                                        Route::currentRouteName() == 'scout-report-categories.edit') active @endif"
-                                        href="{{ route('scout-report-categories.index') }}">
-                                        <span class="menu-bullet">
-                                            <span class="bullet bullet-dot"></span>
-                                        </span>
-                                        <span class="menu-title">{{ __('List') }}</span>
-                                    </a>
-                                </div>
-                            @endpermission
-                        </div>
-                    </div>
-                @endpermission
-
                 @permission('crop-commodity-types')
                     <div data-kt-menu-trigger="click"
                         class="menu-item menu-accordion @if (Route::currentRouteName() == 'crop-commodity-types.index' ||
@@ -422,6 +313,9 @@
                         </div>
                     </div>
                 @endpermission
+              
+
+              
                 @permission('crop-commodities')
                     <div data-kt-menu-trigger="click"
                         class="menu-item menu-accordion @if (Route::currentRouteName() == 'crop-commodities.index' ||
@@ -611,6 +505,114 @@
                                     <a class="menu-link @if (Route::currentRouteName() == 'crop-location-blocks.index' ||
                                         Route::currentRouteName() == 'crop-location-blocks.edit') active @endif"
                                         href="{{ route('crop-location-blocks.index') }}">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">{{ __('List') }}</span>
+                                    </a>
+                                </div>
+                            @endpermission
+                        </div>
+                    </div>
+                @endpermission
+                @permission('vendors')
+                    <div data-kt-menu-trigger="click"
+                        class="menu-item menu-accordion @if (Route::currentRouteName() == 'vendors.index' ||
+                            Route::currentRouteName() == 'vendors.create' ||
+                            Route::currentRouteName() == 'vendors.edit' ||
+                            Route::currentRouteName() == 'vendor-addresses.index' ||
+                            Route::currentRouteName() == 'vendor-addresses.create' ||
+                            Route::currentRouteName() == 'vendor-addresses.edit') here hover show @endif">
+                        <span class="menu-link">
+                            <span class="menu-icon">
+                                <span class="svg-icon svg-icon-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none">
+                                        <path opacity="0.3"
+                                            d="M20.5543 4.37824L12.1798 2.02473C12.0626 1.99176 11.9376 1.99176 11.8203 2.02473L3.44572 4.37824C3.18118 4.45258 3 4.6807 3 4.93945V13.569C3 14.6914 3.48509 15.8404 4.4417 16.984C5.17231 17.8575 6.18314 18.7345 7.446 19.5909C9.56752 21.0295 11.6566 21.912 11.7445 21.9488C11.8258 21.9829 11.9129 22 12.0001 22C12.0872 22 12.1744 21.983 12.2557 21.9488C12.3435 21.912 14.4326 21.0295 16.5541 19.5909C17.8169 18.7345 18.8277 17.8575 19.5584 16.984C20.515 15.8404 21 14.6914 21 13.569V4.93945C21 4.6807 20.8189 4.45258 20.5543 4.37824Z"
+                                            fill="currentColor" />
+                                        <path
+                                            d="M12.0006 11.1542C13.1434 11.1542 14.0777 10.22 14.0777 9.0771C14.0777 7.93424 13.1434 7 12.0006 7C10.8577 7 9.92348 7.93424 9.92348 9.0771C9.92348 10.22 10.8577 11.1542 12.0006 11.1542Z"
+                                            fill="currentColor" />
+                                        <path
+                                            d="M15.5652 13.814C15.5108 13.6779 15.4382 13.551 15.3566 13.4331C14.9393 12.8163 14.2954 12.4081 13.5697 12.3083C13.479 12.2993 13.3793 12.3174 13.3067 12.3718C12.9257 12.653 12.4722 12.7981 12.0006 12.7981C11.5289 12.7981 11.0754 12.653 10.6944 12.3718C10.6219 12.3174 10.5221 12.2902 10.4314 12.3083C9.70578 12.4081 9.05272 12.8163 8.64456 13.4331C8.56293 13.551 8.49036 13.687 8.43595 13.814C8.40875 13.8684 8.41781 13.9319 8.44502 13.9864C8.51759 14.1133 8.60828 14.2403 8.68991 14.3492C8.81689 14.5215 8.95295 14.6757 9.10715 14.8208C9.23413 14.9478 9.37925 15.0657 9.52439 15.1836C10.2409 15.7188 11.1026 15.9999 11.9915 15.9999C12.8804 15.9999 13.7421 15.7188 14.4586 15.1836C14.6038 15.0748 14.7489 14.9478 14.8759 14.8208C15.021 14.6757 15.1661 14.5215 15.2931 14.3492C15.3838 14.2312 15.4655 14.1133 15.538 13.9864C15.5833 13.9319 15.5924 13.8684 15.5652 13.814Z"
+                                            fill="currentColor" />
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="menu-title">{{ __('Vendors') }}</span>
+                            <span class="menu-arrow"></span>
+                        </span>
+                        <div class="menu-sub menu-sub-accordion">
+                            @permission('vendors', 'create')
+                                <div class="menu-item">
+                                    <a class="menu-link  @if (Route::currentRouteName() == 'vendors.create') active @endif"
+                                        href="{{ route('vendors.create') }}">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">{{ __('Add') }}</span>
+                                    </a>
+                                </div>
+                            @endpermission
+                            @permission('vendors', 'index')
+                                <div class="menu-item">
+                                    <a class="menu-link @if (Route::currentRouteName() == 'vendors.index' ||
+                                        Route::currentRouteName() == 'vendors.edit' ||
+                                        Route::currentRouteName() == 'vendor-addresses.index' ||
+                                        Route::currentRouteName() == 'vendor-addresses.create' ||
+                                        Route::currentRouteName() == 'vendor-addresses.edit') active @endif"
+                                        href="{{ route('vendors.index') }}">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">{{ __('List') }}</span>
+                                    </a>
+                                </div>
+                            @endpermission
+                        </div>
+                    </div>
+                @endpermission
+
+                @permission('scout-report-categories')
+                    <div data-kt-menu-trigger="click"
+                        class="menu-item menu-accordion @if (Route::currentRouteName() == 'scout-report-categories.index' ||
+                            Route::currentRouteName() == 'scout-report-categories.create' ||
+                            Route::currentRouteName() == 'scout-report-categories.edit') here hover show @endif">
+                        <span class="menu-link">
+                            <span class="menu-icon">
+                                <!--begin::Svg Icon | path: assets/media/icons/duotune/abstract/abs017.svg-->
+                                <span class="svg-icon svg-icon-2"><svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                        height="24" viewBox="0 0 24 24" fill="none">
+                                        <path opacity="0.3"
+                                            d="M2.07664 11.85L2.87663 10.05C3.07663 9.55003 3.67665 9.35003 4.17665 9.55003L5.07664 9.95002C7.17664 10.85 9.17662 10.85 11.2766 9.95002C14.3766 8.55002 17.4766 8.55002 20.5766 9.95002L21.4766 10.35C21.9766 10.55 22.1766 11.15 21.9766 11.65L21.1766 13.45C20.9766 13.95 20.3766 14.15 19.8766 13.95L18.9766 13.55C16.8766 12.65 14.8766 12.65 12.7766 13.55C9.67662 14.95 6.57663 14.95 3.47663 13.55L2.57664 13.15C2.07664 12.95 1.87664 12.35 2.07664 11.85ZM2.57664 20.05L3.47663 20.45C6.57663 21.85 9.67662 21.85 12.7766 20.45C14.8766 19.55 16.8766 19.55 18.9766 20.45L19.8766 20.85C20.3766 21.05 20.9766 20.85 21.1766 20.35L21.9766 18.55C22.1766 18.05 21.9766 17.45 21.4766 17.25L20.5766 16.85C17.4766 15.45 14.3766 15.45 11.2766 16.85C9.17662 17.75 7.17664 17.75 5.07664 16.85L4.17665 16.45C3.67665 16.25 3.07663 16.45 2.87663 16.95L2.07664 18.75C1.87664 19.25 2.07664 19.85 2.57664 20.05Z"
+                                            fill="currentColor" />
+                                        <path
+                                            d="M2.07664 4.94999L2.87663 3.15C3.07663 2.65 3.67665 2.45 4.17665 2.65L5.07664 3.05C7.17664 3.95 9.17662 3.95 11.2766 3.05C14.3766 1.65 17.4766 1.65 20.5766 3.05L21.4766 3.44999C21.9766 3.64999 22.1766 4.25 21.9766 4.75L21.1766 6.55C20.9766 7.05 20.3766 7.25 19.8766 7.05L18.9766 6.65C16.8766 5.75 14.8766 5.75 12.7766 6.65C9.67662 8.05 6.57663 8.05 3.47663 6.65L2.57664 6.25C2.07664 6.05 1.87664 5.44999 2.07664 4.94999Z"
+                                            fill="currentColor" />
+                                    </svg></span>
+                                <!--end::Svg Icon-->
+                            </span>
+                            <span class="menu-title">{{ __('Scout Report Categories') }}</span>
+                            <span class="menu-arrow"></span>
+                        </span>
+                        <div class="menu-sub menu-sub-accordion">
+                            @permission('scout-report-categories', 'create')
+                                <div class="menu-item">
+                                    <a class="menu-link  @if (Route::currentRouteName() == 'scout-report-categories.create') active @endif"
+                                        href="{{ route('scout-report-categories.create') }}">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">{{ __('Add') }}</span>
+                                    </a>
+                                </div>
+                            @endpermission
+                            @permission('scout-report-categories', 'index')
+                                <div class="menu-item">
+                                    <a class="menu-link @if (Route::currentRouteName() == 'scout-report-categories.index' ||
+                                        Route::currentRouteName() == 'scout-report-categories.edit') active @endif"
+                                        href="{{ route('scout-report-categories.index') }}">
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>

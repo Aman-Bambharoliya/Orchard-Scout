@@ -142,7 +142,7 @@
                                             @if (!empty($modules) && count($modules) > 0)
                                             @foreach ($modules as $module)
                                             <tr>
-                                                <td>{{$module->name}}</td>
+                                            <td>{{str_replace("-", ' ', ucwords($module->name, "-"))}}</td>
                                                 <td>
                                                     <div class="form-check form-check-custom form-check-solid form-check-sm">
                                                         <label
