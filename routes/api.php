@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\v1\InspectionQuestionController;
 use App\Http\Controllers\api\v1\CropCommodityController;
+use App\Http\Controllers\api\v1\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,9 +17,12 @@ use App\Http\Controllers\api\v1\CropCommodityController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
-Route::get('questions', [InspectionQuestionController::class, 'question']);
-Route::get('crop-commodities', [CropCommodityController::class, 'index']);
+Route::group(['prefix' => 'v1'], function () {
+    Route::get('questions', [InspectionQuestionController::class, 'question']);
+    Route::get('crop-commodities', [CropCommodityController::class, 'index']);
+    Route::post('login', [LoginController::class,'login']);
+});

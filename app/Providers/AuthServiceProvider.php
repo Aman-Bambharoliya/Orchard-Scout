@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
-// use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-
+use Illuminate\Support\Facades\Gate;
+use Laravel\Passport\Passport;
 class AuthServiceProvider extends ServiceProvider
 {
     /**
@@ -24,7 +24,15 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-
-        //
+        // Passport::routes();
+        if (! $this->app->routesAreCached()) {
+            Passport::tokensCan([
+                'admin' => 'Admin Type',
+            ]);
+            // Passport::routes();
+            Passport::tokensExpireIn(now()->addDays(1));
+            Passport::refreshTokensExpireIn(now()->addDays(2));
+        }
+        
     }
 }

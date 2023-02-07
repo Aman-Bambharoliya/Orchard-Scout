@@ -12,4 +12,7 @@ return [
     "record_not_found" => "The record not found of given id",
     "max_zip" => "The :name is out of range",
     "max_number" => "The :name is out of range",
+    'user_login_success'=>"User successfully logged in",
+    'password_wrong'=>'These credentials do not match our records.',
+
 ];
