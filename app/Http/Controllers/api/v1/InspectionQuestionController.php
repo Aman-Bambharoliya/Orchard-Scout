@@ -10,12 +10,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use App\Models\Inspector;
+use Illuminate\Support\Facades\Validator;
 
 class InspectionQuestionController extends Controller
 {
-    public function question(Request $request)
+    public function question(Request $request,$commodity_id)
     {
-        $inspection_items = QuestionItem::with('getItemOptionAttributes')->where('status', true)->orderBy('position')->get();
+        $inspection_items = QuestionItem::with('getItemOptionAttributes')->where('status', true)->whereJsonContains('commodity_types',strval($commodity_id))->orderBy('position')->get();
         if (!is_null($inspection_items) && count($inspection_items) > 0) {
             $response = [];
             $newResult = [];
@@ -23,7 +24,6 @@ class InspectionQuestionController extends Controller
                 $response['position'] = $row->position;
                 $response['id'] = $row->id;
                 $response['scout_report_category'] = array('id' => $row->scout_report_category_id, 'name' => $row->scout_report_category_name);
-
                 $items = $row->getItemOptionAttributes;
                 $new_options = [];
                 foreach ($items as $item) {
@@ -44,8 +44,7 @@ class InspectionQuestionController extends Controller
                         {                         
                             $cropCommodity=CropCommodity::where('id',$vt)->first();
                             if($cropCommodity!='' && $cropCommodity!=null)
-                            {
-                               
+                            {   
                                 $commodity_option['id'] = $cropCommodity->id;
                                 $commodity_option['name'] = $cropCommodity->name;
                                 $commodity[] = $commodity_option;                                
@@ -53,7 +52,6 @@ class InspectionQuestionController extends Controller
                         }
                     }
                 }
-
                 $response['commodity'] = $commodity;
                 $response['item_options'] = $new_options;
 

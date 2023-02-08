@@ -20,7 +20,7 @@ class HelperController extends Controller
         $customer_addresses = CustomerAddress::with('hasAddress')->where('customer_id', $id)->get();
         if (count($customer_addresses) > 0 && !empty($customer_addresses)) {
             $address_box = '<option value="">Select address</option>';
-            foreach ($customer_addresses as $address) {
+            foreach ($customer_addresses as $address){
                 $address_box .= '<option value="' . $address->address_id . '">' . $address->address_type_name . ' ' . $address->hasAddress->address_1 . '</option>';
             }
             echo json_encode(array('status' => 1, 'data' => $address_box));
