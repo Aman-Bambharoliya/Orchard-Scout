@@ -195,7 +195,6 @@ class QuestionController extends Controller
                 } 
                     return redirect()->route('questions.index')
                         ->with('success', "Questions Created");
-              
         } else {
             return redirect()->route('questions.create')
                 ->with('error', "Something Went Wrong");

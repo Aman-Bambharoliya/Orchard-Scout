@@ -29,6 +29,6 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('crop-commodities', [CropCommodityController::class, 'index']);
         Route::get('customers', [CustomerController::class, 'getAllCustomers']);
         Route::get('customer/addresses/{customer_id}', [CustomerController::class, 'getAddressByCustomerId']);
+        Route::post('inspection-report', [InspectionQuestionController::class, 'saveInspectionReport']);
     });
-   
 });

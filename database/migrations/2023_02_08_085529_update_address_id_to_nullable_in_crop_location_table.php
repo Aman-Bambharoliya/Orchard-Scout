@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('crop_locations', function (Blueprint $table) {
-            $table->integer('customer_id')->nullable(true)->change();
+            $table->integer('address_id')->nullable(true)->change();
             });
     }
 
