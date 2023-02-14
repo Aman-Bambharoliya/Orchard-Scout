@@ -5,68 +5,68 @@ jQuery(document).ready(function() {
 
     function item_list() {
 
-    if (jQuery(document).find('#dataTableList').length > 0) {
-        $("#dataTableList").dataTable().fnDestroy();
-        var Ot = jQuery(document).find('#dataTableList').DataTable({
-            processing: true,
-            serverSide: true,
-            filter: true,
-            "searching": true,
-            ajax: {
-                url: listIndex,
-                data: function(d) {
-                    d.name = $('#name').val();
-                    d.is_deleted_at = $('#is_deleted_at').val();
-                }
-            },
-            "lengthMenu": [
-                [25, 50, 100, 200],
-                [25, 50, 100, 200]
-            ],
-            columns: [
-                { data: 'DT_RowIndex', name: 'DT_RowIndex' },
-                { data: 'crop_location_name', name: 'crop_location_name' },
-                { data: 'crop_commodity_name', name: 'crop_commodity_name' },
-                { data: 'name', name: 'name' },
-                { data: 'acres', name: 'acres' },
-                { data: 'year_planted', name: 'year_planted' },
-                { data: 'plant_feet_spacing_in_rows', name: 'plant_feet_spacing_in_rows' },
-                { data: 'plant_feet_between_rows', name: 'plant_feet_between_rows' },
-                { data: 'action', name: 'action', orderable: false, searchable: false },
-            ],
-            columnDefs: [{
-                targets: -1,
-                orderable: false,
-            }]
-        });
-        $('#name').keyup(function() {
-            Ot.draw();
-            jQuery(document).find('.row.clear_filter_row').show();
-        });
-        jQuery(document).find('input[name="data_tbl_search"]').on('keyup', function() {
-            Ot.search(this.value).draw();
-        });
-        jQuery(document).on('click', '.clear_filter_btn', function(e) {
-            $('#name').val('');
-            $('#email').val('');
-            $('#roles').val('');
-            Ot.search('').draw();
-            jQuery(document).find('.row.clear_filter_row').hide();
-        });
-        $('.filter-apply-btn').click(function() {
-            Ot.draw();
-        });
-        $('.filter-clear-btn').click(function() {     
-            $('#is_deleted_at').val('false').trigger('change'); 
-            $('#is_deleted_at').attr('value', 'false'); 
-            $('#is_deleted_at').attr('checked', false);                
-            $("#is_deleted_at").prop('checked', false); 
-            Ot.draw();
-        });
+        if (jQuery(document).find('#dataTableList').length > 0) {
+            $("#dataTableList").dataTable().fnDestroy();
+            var Ot = jQuery(document).find('#dataTableList').DataTable({
+                processing: true,
+                serverSide: true,
+                filter: true,
+                "searching": true,
+                ajax: {
+                    url: listIndex,
+                    data: function(d) {
+                        d.name = $('#name').val();
+                        d.is_deleted_at = $('#is_deleted_at').val();
+                    }
+                },
+                "lengthMenu": [
+                    [25, 50, 100, 200],
+                    [25, 50, 100, 200]
+                ],
+                columns: [
+                    { data: 'DT_RowIndex', name: 'DT_RowIndex' },
+                    { data: 'crop_location_name', name: 'crop_location_name' },
+                    { data: 'crop_commodity_name', name: 'crop_commodity_name' },
+                    { data: 'name', name: 'name' },
+                    { data: 'acres', name: 'acres' },
+                    { data: 'year_planted', name: 'year_planted' },
+                    { data: 'plant_feet_spacing_in_rows', name: 'plant_feet_spacing_in_rows' },
+                    { data: 'plant_feet_between_rows', name: 'plant_feet_between_rows' },
+                    { data: 'action', name: 'action', orderable: false, searchable: false },
+                ],
+                columnDefs: [{
+                    targets: -1,
+                    orderable: false,
+                }]
+            });
+            $('#name').keyup(function() {
+                Ot.draw();
+                jQuery(document).find('.row.clear_filter_row').show();
+            });
+            jQuery(document).find('input[name="data_tbl_search"]').on('keyup', function() {
+                Ot.search(this.value).draw();
+            });
+            jQuery(document).on('click', '.clear_filter_btn', function(e) {
+                $('#name').val('');
+                $('#email').val('');
+                $('#roles').val('');
+                Ot.search('').draw();
+                jQuery(document).find('.row.clear_filter_row').hide();
+            });
+            $('.filter-apply-btn').click(function() {
+                Ot.draw();
+            });
+            $('.filter-clear-btn').click(function() {
+                $('#is_deleted_at').val('false').trigger('change');
+                $('#is_deleted_at').attr('value', 'false');
+                $('#is_deleted_at').attr('checked', false);
+                $("#is_deleted_at").prop('checked', false);
+                Ot.draw();
+            });
 
+        }
     }
-    }
-    
+
     $(document).on('click', ".delete_record", function() {
         var id = $(this).data('id');
         Swal.fire({
@@ -159,10 +159,10 @@ jQuery(document).ready(function() {
             crop_location_id: { required: true, maxlength: 8 },
             crop_commodity_id: { required: true, maxlength: 8 },
             name: { required: true, maxlength: 64 },
-            acres: { required: true, decimal_point: true },
+            acres: { decimal_point: true },
             year_planted: { number: true, maxlength: 10 },
-            plant_feet_spacing_in_rows: { number: true, required: true, decimal_point: true },
-            plant_feet_between_rows: { required: true, decimal_point: true },
+            plant_feet_spacing_in_rows: { number: true, decimal_point: true },
+            plant_feet_between_rows: { decimal_point: true },
             description: { maxlength: 255 },
         },
         messages: {
@@ -205,10 +205,10 @@ jQuery(document).ready(function() {
             crop_location_id: { required: true, maxlength: 8 },
             crop_commodity_id: { required: true, maxlength: 8 },
             name: { required: true, maxlength: 64 },
-            acres: { required: true, decimal_point: true },
+            acres: { decimal_point: true },
             year_planted: { number: true, maxlength: 10 },
-            plant_feet_spacing_in_rows: { number: true, required: true, decimal_point: true },
-            plant_feet_between_rows: { required: true, decimal_point: true },
+            plant_feet_spacing_in_rows: { number: true, decimal_point: true },
+            plant_feet_between_rows: { decimal_point: true },
             description: { maxlength: 255 },
         },
         messages: {
@@ -269,7 +269,7 @@ jQuery(document).ready(function() {
             $(this).attr('value', 'false');
         }
     });
-    
+
     $(document).on('click', ".delete_request", function() {
         var id = $(this).data('id');
         Swal.fire({

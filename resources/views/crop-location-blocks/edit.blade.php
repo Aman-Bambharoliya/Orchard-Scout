@@ -100,7 +100,7 @@
                         </div>
                         <div class="row mb-6">
                             <label class="col-lg-4 col-form-label fw-bold fs-6">
-                                <span class="required">{{__('Acres')}}</span>
+                                <span class="">{{__('Acres')}}</span>
                                 <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip"
                                     title="{{__('Acres')}}"></i>
                             </label>
@@ -117,7 +117,7 @@
                         </div>
                         <div class="row mb-6">
                             <label class="col-lg-4 col-form-label fw-bold fs-6">
-                                <span class="required">{{__('Year Planted')}}</span>
+                                <span class="">{{__('Year Planted')}}</span>
                                 <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip"
                                     title="{{__('Year Planted')}}"></i>
                             </label>
@@ -134,7 +134,7 @@
                         </div>
                         <div class="row mb-6">
                             <label class="col-lg-4 col-form-label fw-bold fs-6">
-                                <span class="required">{{__('Plant Feet Spacing In Rows')}}</span>
+                                <span class="">{{__('Plant Feet Spacing In Rows')}}</span>
                                 <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip"
                                     title="{{__('Plant Feet Spacing In Rows')}}"></i>
                             </label>
@@ -151,7 +151,7 @@
                         </div>
                         <div class="row mb-6">
                             <label class="col-lg-4 col-form-label fw-bold fs-6">
-                                <span class="required">{{__('Plant Feet Between Rows')}}</span>
+                                <span class="">{{__('Plant Feet Between Rows')}}</span>
                                 <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip"
                                     title="{{__('Plant Feet Between Rows')}}"></i>
                             </label>

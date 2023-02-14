@@ -5,62 +5,62 @@ jQuery(document).ready(function() {
 
     function item_list() {
 
-    if (jQuery(document).find('#dataTableList').length > 0) {
-        $("#dataTableList").dataTable().fnDestroy();
-        var Ot = jQuery(document).find('#dataTableList').DataTable({
-            processing: true,
-            serverSide: true,
-            filter: true,
-            "searching": true,
-            ajax: {
-                url: listIndex,
-                data: function(d) {
-                    d.name = $('#name').val();
-                    d.is_deleted_at = $('#is_deleted_at').val();
-                }
-            },
-            "lengthMenu": [
-                [25, 50, 100, 200],
-                [25, 50, 100, 200]
-            ],
-            columns: [
-                { data: 'DT_RowIndex', name: 'DT_RowIndex' },
-                { data: 'customer_name', name: 'customer_name' },
-                { data: 'address', name: 'address' },
-                { data: 'name', name: 'name' },
-                { data: 'action', name: 'action', orderable: false, searchable: false },
-            ],
-            columnDefs: [{
-                targets: -1,
-                orderable: false,
-            }]
-        });
-        $('#name').keyup(function() {
-            Ot.draw();
-            jQuery(document).find('.row.clear_filter_row').show();
-        });
-        jQuery(document).find('input[name="data_tbl_search"]').on('keyup', function() {
-            Ot.search(this.value).draw();
-        });
-        jQuery(document).on('click', '.clear_filter_btn', function(e) {
-            $('#name').val('');
-            $('#email').val('');
-            $('#roles').val('');
-            Ot.search('').draw();
-            jQuery(document).find('.row.clear_filter_row').hide();
-        });
-        $('.filter-apply-btn').click(function() {
-            Ot.draw();
-        });
-        $('.filter-clear-btn').click(function() {     
-            $('#is_deleted_at').val('false').trigger('change'); 
-            $('#is_deleted_at').attr('value', 'false'); 
-            $('#is_deleted_at').attr('checked', false);                
-            $("#is_deleted_at").prop('checked', false); 
-            Ot.draw();
-        });
+        if (jQuery(document).find('#dataTableList').length > 0) {
+            $("#dataTableList").dataTable().fnDestroy();
+            var Ot = jQuery(document).find('#dataTableList').DataTable({
+                processing: true,
+                serverSide: true,
+                filter: true,
+                "searching": true,
+                ajax: {
+                    url: listIndex,
+                    data: function(d) {
+                        d.name = $('#name').val();
+                        d.is_deleted_at = $('#is_deleted_at').val();
+                    }
+                },
+                "lengthMenu": [
+                    [25, 50, 100, 200],
+                    [25, 50, 100, 200]
+                ],
+                columns: [
+                    { data: 'DT_RowIndex', name: 'DT_RowIndex' },
+                    { data: 'customer_name', name: 'customer_name' },
+                    { data: 'address', name: 'address' },
+                    { data: 'name', name: 'name' },
+                    { data: 'action', name: 'action', orderable: false, searchable: false },
+                ],
+                columnDefs: [{
+                    targets: -1,
+                    orderable: false,
+                }]
+            });
+            $('#name').keyup(function() {
+                Ot.draw();
+                jQuery(document).find('.row.clear_filter_row').show();
+            });
+            jQuery(document).find('input[name="data_tbl_search"]').on('keyup', function() {
+                Ot.search(this.value).draw();
+            });
+            jQuery(document).on('click', '.clear_filter_btn', function(e) {
+                $('#name').val('');
+                $('#email').val('');
+                $('#roles').val('');
+                Ot.search('').draw();
+                jQuery(document).find('.row.clear_filter_row').hide();
+            });
+            $('.filter-apply-btn').click(function() {
+                Ot.draw();
+            });
+            $('.filter-clear-btn').click(function() {
+                $('#is_deleted_at').val('false').trigger('change');
+                $('#is_deleted_at').attr('value', 'false');
+                $('#is_deleted_at').attr('checked', false);
+                $("#is_deleted_at").prop('checked', false);
+                Ot.draw();
+            });
 
-    }
+        }
     }
     $(document).on('click', ".delete_record", function() {
         var id = $(this).data('id');
@@ -149,7 +149,7 @@ jQuery(document).ready(function() {
         errorClass: 'invalid-feedback',
         rules: {
             customer_id: { required: true, maxlength: 8 },
-            address_id: { required: true, maxlength: 8 },
+            address_id: { maxlength: 8 },
             name: { required: true, maxlength: 64 },
             description: { maxlength: 255 },
         },
@@ -188,7 +188,7 @@ jQuery(document).ready(function() {
         errorClass: 'invalid-feedback',
         rules: {
             customer_id: { required: true, maxlength: 8 },
-            address_id: { required: true, maxlength: 8 },
+            address_id: { maxlength: 8 },
             name: { required: true, maxlength: 64 },
             description: { maxlength: 255 },
         },
@@ -247,7 +247,7 @@ jQuery(document).ready(function() {
             $(this).attr('value', 'false');
         }
     });
-    
+
     $(document).on('click', ".delete_request", function() {
         var id = $(this).data('id');
         Swal.fire({
@@ -295,5 +295,5 @@ jQuery(document).ready(function() {
             }
         }))
     });
-    
+
 });

@@ -89,93 +89,29 @@ class InspectionQuestionController extends Controller
                 $data_array = json_decode($data_json, true);
                 $temp_request = new Request($data_array);
                 $temp_request->validate([
-                    'is_prospect' => 'required|boolean',
-                    'customer_name' => 'nullable|required_if:is_prospect,true|string|max:32',
-                    'customer_id' => 'nullable|required_if:is_prospect,false|numeric',
+                    'customer_id' => 'required|numeric',
                     'date' => 'required|date',
-                    'crop_location_id' => 'nullable|required_if:is_prospect,false|integer|numeric',
-                    'crop_location' => 'nullable|required_if:is_prospect,true|string|max:64',
-                    'crop_commodity_id' => 'nullable|required|integer|numeric',
-                    'questions' => 'required',
+                    'crop_location_id' => 'required|integer|numeric',
+                    'crop_commodity_id' => 'required|integer|numeric',
+                    'crop_location_blocks' => 'required|array|min:1',
+                    'questions' => 'array',
                 ]);
                 $crop_commodity_id = $data->crop_commodity_id;
+                $crop_location_blocks = $data->crop_location_blocks;
+                $crop_location_blocks=json_encode($crop_location_blocks);
                 $general_comments = $data->general_comments;
+                $notes = $data->notes;
                 $date = date('Y-m-d',strtotime($data->date));
                 $answers = $data->questions;
-                if (isset($data->is_prospect) && $data->is_prospect !== false && $data->is_prospect != '' && $data->customer_id == null) {
-                    //prospect customer need to add new prospect customer
-                    $customer_name = $data->customer_name;
-                    $customer = Customer::updateOrCreate(
-                        ['name' => $customer_name],
-                        ['is_prospect' => true]
-                    );
-                    if ($customer) {
-                        //need to add crop location name
-                        $crop_location = $data->crop_location;
-                        $customer_id = $customer->id;
-                        $CropLocation = CropLocation::create([
-                            'customer_id' => $customer_id,
-                            'name' => $crop_location
-                        ]);
-                        if ($CropLocation) {
-                            $crop_location_id = $CropLocation->id;
-                            $ScoutReport = ScoutReport::create([
-                                'customer_id' => $customer_id,
-                                'date' => $date,
-                                'crop_location_id' => $crop_location_id,
-                                'crop_commodity_id' => $crop_commodity_id,
-                                'general_comments' => $general_comments
-                            ]);
-                            if ($ScoutReport) {
-                                $scout_report_id = $ScoutReport->id;
-                                $get_answers = $this->cloneQuestionData($crop_commodity_id, $scout_report_id, $answers);
-                                if ($get_answers != null && !empty($get_answers)) {
-                                    $save_report = $this->saveReportAnswers($get_answers, $scout_report_id);
-                                    if (!in_array(false, $save_report['question_err']) && !in_array(false, $save_report['ans_err'])) {
-                                        return response()->json([
-                                            'status' => 1,
-                                            'data' => [],
-                                            'inspection_status' => true,
-                                            'message' => trans('translation.created', ['name' => 'Inspection Report']),
-                                        ]);
-                                    } else {
-                                        //    VehicleAnswerReport::where('vehicle_id',$vehicle_id)->delete();
-                                        return response()->json([
-                                            'status' => -1,
-                                            'data' => [],
-                                            'message' => trans('translation.error'),
-                                        ]);
-                                    }
-                                } else {
-                                    return response()->json([
-                                        'status' => -1,
-                                        'data' => [],
-                                        'message' => trans('translation.error'),
-                                    ]);
-                                }
-                            } else {
-                                //not created scout report
-                                return response()->json([
-                                    'status' => -1,
-                                    'data' => [],
-                                    'message' => trans('translation.error'),
-                                ]);
-                            }
-                        } else {
-                            return response()->json([
-                                'status' => -1,
-                                'data' => [],
-                                'message' => trans('translation.error'),
-                            ]);
-                        }
-                    } else {
-                        return response()->json([
-                            'status' => -1,
-                            'data' => [],
-                            'message' => trans('translation.error'),
-                        ]);
-                    }
-                } else if (isset($data->is_prospect) && $data->is_prospect !== true && isset($data->customer_id) && $data->customer_id != '' && $data->customer_id != null) {
+                if(empty($answers) && ($data->notes=='' || $data->notes==null))
+                {
+                    return response()->json([
+                        'status' => -1,
+                        'data' => [],
+                        'message' =>'Notes is required when no question is answered',
+                    ]);
+                }
+                if (isset($data->customer_id) && $data->customer_id != '' && $data->customer_id != null) {
                     //exists customer
                     $customer_id=$data->customer_id;
                     $crop_location_id=$data->crop_location_id;
@@ -184,7 +120,10 @@ class InspectionQuestionController extends Controller
                         'date' => $date,
                         'crop_location_id' => $crop_location_id,
                         'crop_commodity_id' => $crop_commodity_id,
-                        'general_comments' => $general_comments
+                        'general_comments' => $general_comments,
+                        'notes' => $notes,
+                        'crop_location_blocks' => $crop_location_blocks,
+                        'added_by'=>auth()->user()->id
                     ]);
                     if ($ScoutReport) {
                         $scout_report_id = $ScoutReport->id;
@@ -199,18 +138,18 @@ class InspectionQuestionController extends Controller
                                     'message' => trans('translation.created', ['name' => 'Inspection Report']),
                                 ]);
                             } else {
-                                //    VehicleAnswerReport::where('vehicle_id',$vehicle_id)->delete();
                                 return response()->json([
                                     'status' => -1,
                                     'data' => [],
-                                    'message' => trans('translation.error'),
+                                    'message' =>trans('translation.error'),
                                 ]);
                             }
                         } else {
                             return response()->json([
-                                'status' => -1,
+                                'status' => 1,
                                 'data' => [],
-                                'message' => trans('translation.error'),
+                                'inspection_status' => true,
+                                'message' => trans('translation.created', ['name' => 'Inspection Report']),
                             ]);
                         }
                     } else {
@@ -245,7 +184,176 @@ class InspectionQuestionController extends Controller
             ]);
         }
     }
+    // public function saveInspectionReport(Request $request)
+    // {
+    //     $request->validate(
+    //         [
+    //             'data' => 'required|json',
+    //         ],
+    //     );
+    //     try {
+    //         $data_json = $request->data;
+    //         $data = json_decode($data_json);
+    //         if (!is_null($data) && !empty($data)) {
+    //             $data_array = json_decode($data_json, true);
+    //             $temp_request = new Request($data_array);
+    //             $temp_request->validate([
+    //                 'is_prospect' => 'required|boolean',
+    //                 'customer_name' => 'nullable|required_if:is_prospect,true|string|max:32',
+    //                 'customer_id' => 'nullable|required_if:is_prospect,false|numeric',
+    //                 'date' => 'required|date',
+    //                 'crop_location_id' => 'nullable|required_if:is_prospect,false|integer|numeric',
+    //                 'crop_location' => 'nullable|required_if:is_prospect,true|string|max:64',
+    //                 'crop_commodity_id' => 'nullable|required|integer|numeric',
+    //                 'questions' => 'required',
+    //             ]);
+    //             $crop_commodity_id = $data->crop_commodity_id;
+    //             $general_comments = $data->general_comments;
+    //             $date = date('Y-m-d',strtotime($data->date));
+    //             $answers = $data->questions;
+    //             if (isset($data->is_prospect) && $data->is_prospect !== false && $data->is_prospect != '' && $data->customer_id == null) {
+    //                 //prospect customer need to add new prospect customer
+    //                 $customer_name = $data->customer_name;
+    //                 $customer = Customer::updateOrCreate(
+    //                     ['name' => $customer_name],
+    //                     ['is_prospect' => true]
+    //                 );
+    //                 if ($customer) {
+    //                     //need to add crop location name
+    //                     $crop_location = $data->crop_location;
+    //                     $customer_id = $customer->id;
+    //                     $CropLocation = CropLocation::create([
+    //                         'customer_id' => $customer_id,
+    //                         'name' => $crop_location
+    //                     ]);
+    //                     if ($CropLocation) {
+    //                         $crop_location_id = $CropLocation->id;
+    //                         $ScoutReport = ScoutReport::create([
+    //                             'customer_id' => $customer_id,
+    //                             'date' => $date,
+    //                             'crop_location_id' => $crop_location_id,
+    //                             'crop_commodity_id' => $crop_commodity_id,
+    //                             'general_comments' => $general_comments
+    //                         ]);
+    //                         if ($ScoutReport) {
+    //                             $scout_report_id = $ScoutReport->id;
+    //                             $get_answers = $this->cloneQuestionData($crop_commodity_id, $scout_report_id, $answers);
+    //                             if ($get_answers != null && !empty($get_answers)) {
+    //                                 $save_report = $this->saveReportAnswers($get_answers, $scout_report_id);
+    //                                 if (!in_array(false, $save_report['question_err']) && !in_array(false, $save_report['ans_err'])) {
+    //                                     return response()->json([
+    //                                         'status' => 1,
+    //                                         'data' => [],
+    //                                         'inspection_status' => true,
+    //                                         'message' => trans('translation.created', ['name' => 'Inspection Report']),
+    //                                     ]);
+    //                                 } else {
+    //                                     //    VehicleAnswerReport::where('vehicle_id',$vehicle_id)->delete();
+    //                                     return response()->json([
+    //                                         'status' => -1,
+    //                                         'data' => [],
+    //                                         'message' => trans('translation.error'),
+    //                                     ]);
+    //                                 }
+    //                             } else {
+    //                                 return response()->json([
+    //                                     'status' => -1,
+    //                                     'data' => [],
+    //                                     'message' => trans('translation.error'),
+    //                                 ]);
+    //                             }
+    //                         } else {
+    //                             //not created scout report
+    //                             return response()->json([
+    //                                 'status' => -1,
+    //                                 'data' => [],
+    //                                 'message' => trans('translation.error'),
+    //                             ]);
+    //                         }
+    //                     } else {
+    //                         return response()->json([
+    //                             'status' => -1,
+    //                             'data' => [],
+    //                             'message' => trans('translation.error'),
+    //                         ]);
+    //                     }
+    //                 } else {
+    //                     return response()->json([
+    //                         'status' => -1,
+    //                         'data' => [],
+    //                         'message' => trans('translation.error'),
+    //                     ]);
+    //                 }
+    //             } else if (isset($data->is_prospect) && $data->is_prospect !== true && isset($data->customer_id) && $data->customer_id != '' && $data->customer_id != null) {
+    //                 //exists customer
+    //                 $customer_id=$data->customer_id;
+    //                 $crop_location_id=$data->crop_location_id;
+    //                 $ScoutReport = ScoutReport::create([
+    //                     'customer_id' => $customer_id,
+    //                     'date' => $date,
+    //                     'crop_location_id' => $crop_location_id,
+    //                     'crop_commodity_id' => $crop_commodity_id,
+    //                     'general_comments' => $general_comments
+    //                 ]);
+    //                 if ($ScoutReport) {
+    //                     $scout_report_id = $ScoutReport->id;
+    //                     $get_answers = $this->cloneQuestionData($crop_commodity_id, $scout_report_id, $answers);
+    //                     if ($get_answers != null && !empty($get_answers)) {
+    //                         $save_report = $this->saveReportAnswers($get_answers, $scout_report_id);
+    //                         if (!in_array(false, $save_report['question_err']) && !in_array(false, $save_report['ans_err'])) {
+    //                             return response()->json([
+    //                                 'status' => 1,
+    //                                 'data' => [],
+    //                                 'inspection_status' => true,
+    //                                 'message' => trans('translation.created', ['name' => 'Inspection Report']),
+    //                             ]);
+    //                         } else {
+    //                             //    VehicleAnswerReport::where('vehicle_id',$vehicle_id)->delete();
+    //                             return response()->json([
+    //                                 'status' => -1,
+    //                                 'data' => [],
+    //                                 'message' => trans('translation.error'),
+    //                             ]);
+    //                         }
+    //                     } else {
+    //                         return response()->json([
+    //                             'status' => -1,
+    //                             'data' => [],
+    //                             'message' => trans('translation.error'),
+    //                         ]);
+    //                     }
+    //                 } else {
+    //                     //not created scout report
+    //                     return response()->json([
+    //                         'status' => -1,
+    //                         'data' => [],
+    //                         'message' => trans('translation.error'),
+    //                     ]);
+    //                 }
 
+    //             } else {
+    //                 return response()->json([
+    //                     'status' => -1,
+    //                     'data' => [],
+    //                     'message' => trans('translation.data_invalid'),
+    //                 ]);
+    //             }
+    //         } else {
+    //             return response()->json([
+    //                 'status' => -1,
+    //                 'data' => [],
+    //                 'message' => trans('translation.data_invalid'),
+    //             ]);
+    //         }
+    //         return $data;
+    //     } catch (\Exception $e) {
+    //         return response()->json([
+    //             'status' => -1,
+    //             'data' => [],
+    //             'message' => $e->getMessage(),
+    //         ]);
+    //     }
+    // }
     public function cloneQuestionData($crop_commodity_id, $scout_report_id, $answers)
     {
         $inspectionItems = QuestionItem::whereJsonContains('commodity_types', strval($crop_commodity_id))->orderBy('position')->get();

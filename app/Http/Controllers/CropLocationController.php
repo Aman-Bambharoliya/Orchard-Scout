@@ -106,7 +106,7 @@ class CropLocationController extends Controller
             $request,
             [
                 'customer_id' => 'required|exists:App\Models\Customer,id',
-                'address_id' => 'required|exists:App\Models\Address,id',
+                'address_id' => 'nullable|exists:App\Models\Address,id',
                 'name' => 'required|string|max:64',
                 'description' => 'nullable|string|max:255',
             ],
@@ -163,7 +163,7 @@ class CropLocationController extends Controller
             $request,
             [
                 'customer_id' => 'required|exists:App\Models\Customer,id',
-                'address_id' => 'required|exists:App\Models\Address,id',
+                'address_id' => 'nullable|exists:App\Models\Address,id',
                 'name' => 'required|string|max:64',
                 'description' => 'nullable|string|max:255',
             ],

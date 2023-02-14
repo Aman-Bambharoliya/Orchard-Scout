@@ -5,6 +5,8 @@ namespace App\Http\Controllers\api\v1;
 use App\Http\Controllers\Controller;
 use App\Models\CropCommodity;
 use App\Models\CropCommodityType;
+use App\Models\CropLocation;
+use App\Models\CropLocationBlock;
 use App\Models\Customer;
 use App\Models\CustomerAddress;
 use Illuminate\Http\Request;
@@ -67,6 +69,40 @@ class CustomerController extends Controller
                 'status' => -1,
                 'data' => [],
                 'message' => trans('translation.not_found',['name' => 'Addresses']),
+            ]);
+        }
+    }
+    public function getCropLocationByCustomerId(Request $request,$customer_id)
+    {
+        $customer_crop_locations = CropLocation::where('customer_id', $customer_id)->get();
+        if ($customer_crop_locations->isNotEmpty() && count($customer_crop_locations) > 0 && !empty($customer_crop_locations)) {
+            return response()->json([
+                        'status' => 1,
+                        'data' => $customer_crop_locations,
+                        'message' => "Success...!!",
+                    ]);
+        } else {
+                return response()->json([
+                'status' => -1,
+                'data' => [],
+                'message' => trans('translation.not_found',['name' => 'Crop Location']),
+            ]);
+        }
+    }
+    public function getCropLocationBlocksByCropLocationId(Request $request,$crop_location_id)
+    {
+        $CropLocationBlock = CropLocationBlock::where('crop_location_id', $crop_location_id)->get();
+        if ($CropLocationBlock->isNotEmpty() && count($CropLocationBlock) > 0 && !empty($CropLocationBlock)) {
+            return response()->json([
+                        'status' => 1,
+                        'data' => $CropLocationBlock,
+                        'message' => "Success...!!",
+                    ]);
+        } else {
+                return response()->json([
+                'status' => -1,
+                'data' => [],
+                'message' => trans('translation.not_found',['name' => 'Crop Location Block']),
             ]);
         }
     }

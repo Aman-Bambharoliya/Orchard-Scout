@@ -56,7 +56,24 @@
                         </div>
                         <div class="row mb-6">
                             <label class="col-lg-4 col-form-label fw-bold fs-6">
-                                <span class="required">{{ __('Address')}}</span>
+                                <span class="required">{{__('Name')}}</span>
+                                <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip"
+                                    title="{{__('Name')}}"></i>
+                            </label>
+                            <div class="col-lg-8 fv-row">
+                                <input type="text" name="name"
+                                    class="form-control form-control-lg form-control-solid @error('name') is-invalid @enderror"
+                                    placeholder="{{__('Name')}}" value='{{old('name')}}' />
+                                @error('name')
+                                <span class="invalid-feedback" role="alert">
+                                    {{ $message }}
+                                </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="row mb-6">
+                            <label class="col-lg-4 col-form-label fw-bold fs-6">
+                                <span class="">{{ __('Address')}}</span>
                                 <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip"
                                     title="{{ __('Address')}}"></i>
                             </label>
@@ -73,23 +90,7 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="row mb-6">
-                            <label class="col-lg-4 col-form-label fw-bold fs-6">
-                                <span class="required">{{__('Name')}}</span>
-                                <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip"
-                                    title="{{__('Name')}}"></i>
-                            </label>
-                            <div class="col-lg-8 fv-row">
-                                <input type="text" name="name"
-                                    class="form-control form-control-lg form-control-solid @error('name') is-invalid @enderror"
-                                    placeholder="{{__('Name')}}" value='{{old('name')}}' />
-                                @error('name')
-                                <span class="invalid-feedback" role="alert">
-                                    {{ $message }}
-                                </span>
-                                @enderror
-                            </div>
-                        </div>
+                        
                         <div class="row mb-6">
                             <label class="col-lg-4 col-form-label fw-bold fs-6">
                                 <span class="">{{__('Description')}}</span>

@@ -29,6 +29,9 @@ class ScoutReport extends Authenticatable
         'crop_location_id',
         'crop_commodity_id',
         'general_comments',
+        'crop_location_blocks',
+        'notes',
+        'added_by',
     ];
 
     protected $dates = ['deleted_at'];
