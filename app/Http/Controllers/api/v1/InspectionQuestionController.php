@@ -229,10 +229,6 @@ class InspectionQuestionController extends Controller
                         'message' => trans('translation.data_invalid'),
                     ]);
                 }
-                // $is_prospect = $data->is_prospect;
-                // echo '<pre>';
-                // print_r($data);
-                // echo '</pre>';
             } else {
                 return response()->json([
                     'status' => -1,

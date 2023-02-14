@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('breadcrumb')
-<h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">Admins</h1>
+<h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">Users</h1>
 <span class="h-20px border-gray-300 border-start mx-4"></span>
 <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
     <li class="breadcrumb-item text-muted">
@@ -9,7 +9,7 @@
     <li class="breadcrumb-item">
         <span class="bullet bg-gray-300 w-5px h-2px"></span>
     </li>
-    <li class="breadcrumb-item text-dark">Admins</li>
+    <li class="breadcrumb-item text-dark">Users</li>
 </ul>
 @endsection
 @section('main-content')
@@ -85,7 +85,7 @@
                         <!--end::Menu 1-->
                         <!--end::Filter-->
                     <div class="d-flex justify-content-end" data-kt-customer-table-toolbar="base">
-                        <a href="{{route('admin-users.create')}}" class="btn btn-primary">Add Admin</a>
+                        <a href="{{route('admin-users.create')}}" class="btn btn-primary">Add User</a>
                     </div>
                 </div>
                 </div>

@@ -15,5 +15,6 @@ return [
     'user_login_success'=>"User successfully logged in",
     'password_wrong'=>'These credentials do not match our records.',
     'not_found'=>':name not found',
+    "data_invalid" => "The given data is invalid",
 
 ];

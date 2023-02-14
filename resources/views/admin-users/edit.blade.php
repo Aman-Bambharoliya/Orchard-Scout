@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('breadcrumb')
-<h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">Admins</h1>
+<h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">Users</h1>
 <span class="h-20px border-gray-300 border-start mx-4"></span>
 <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
     <li class="breadcrumb-item text-muted">
@@ -10,7 +10,7 @@
         <span class="bullet bg-gray-300 w-5px h-2px"></span>
     </li>
     <li class="breadcrumb-item text-muted">
-        <a href="{{route('admin-users.index')}}" class="text-muted text-hover-primary">Admins</a>
+        <a href="{{route('admin-users.index')}}" class="text-muted text-hover-primary">Users</a>
     </li>
     <li class="breadcrumb-item">
         <span class="bullet bg-gray-300 w-5px h-2px"></span>
@@ -33,7 +33,7 @@
                             <label class="col-lg-4 col-form-label fw-bold fs-6">
                                 <span class="required">{{__('Names')}}</span>
                                 <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip"
-                                    title="Name of Admin"></i>
+                                    title="Name of User"></i>
                             </label>
                             <div class="col-lg-8 fv-row">
                                 <input type="text" name="name"
@@ -50,7 +50,7 @@
                             <label class="col-lg-4 col-form-label fw-bold fs-6">
                                 <span class="required">{{__('Email')}}</span>
                                 <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip"
-                                    title="Admin Email"></i>
+                                    title="User Email"></i>
                             </label>
                             <div class="col-lg-8 fv-row">
                                 <input type="text" name="email"
@@ -67,7 +67,7 @@
                             <label class="col-lg-4 col-form-label fw-bold fs-6">
                                 <span class="required">{{ __('Password')}}</span>
                                 <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip"
-                                    title="Admin Password"></i>
+                                    title="User Password"></i>
                             </label>
                             <div class="col-lg-8 fv-row">
                                 <input type="password" name="password"
@@ -108,7 +108,7 @@
                                         @endif>Super Admin</option>
                                     <option value='2' @if ($admin_user->role==2)
                                         {{'selected'}}
-                                        @endif>Admin</option>
+                                        @endif>User</option>
                                 </select>
                                 @error('role')
                                 <span class="invalid-feedback" role="alert">

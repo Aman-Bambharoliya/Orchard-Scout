@@ -32,4 +32,17 @@ class ScoutReport extends Authenticatable
     ];
 
     protected $dates = ['deleted_at'];
+
+    public function hasCustomer()
+    {
+        return $this->belongsTo(Customer::class,'customer_id','id');
+    }
+    public function hasCropLocation()
+    {
+        return $this->belongsTo(CropLocation::class,'crop_location_id','id');
+    }
+    public function hasCropCommodity()
+    {
+        return $this->belongsTo(CropCommodity::class,'crop_commodity_id','id');
+    }
 }

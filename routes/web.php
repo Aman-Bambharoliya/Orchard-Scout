@@ -18,6 +18,7 @@ use App\Http\Controllers\PeopleController;
 use App\Http\Controllers\PeoplePhoneController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\ScoutReportCategoryController;
+use App\Http\Controllers\ScoutReportController;
 use App\Http\Controllers\VendorAddressController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\VendorPeopleController;
@@ -171,6 +172,7 @@ Route::group(['middleware' => ['auth']], function () {
        Route::post('crop-locations/{id}/undelete',[CropLocationController::class,'undelete'])->name('crop-locations.undelete');
        Route::post('get-customer-addresses/{id}/undelete',[HelperController::class,'undelete'])->name('get-customer-addresses.undelete');
        Route::post('crop-location-blocks/{id}/undelete',[CropLocationBlockController::class,'undelete'])->name('crop-location-blocks.undelete');
+       Route::resource('scout-reports', ScoutReportController::class);
 
     });
 });

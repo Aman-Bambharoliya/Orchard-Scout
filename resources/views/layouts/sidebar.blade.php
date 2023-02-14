@@ -73,7 +73,7 @@
                                     </svg>
                                 </span>
                             </span>
-                            <span class="menu-title">Admins</span>
+                            <span class="menu-title">Users</span>
                             <span class="menu-arrow"></span>
                         </span>
                         <div class="menu-sub menu-sub-accordion">
