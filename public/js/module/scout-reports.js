@@ -1,4 +1,5 @@
     jQuery(document).ready(function() {
+        var base_url = config.data.base_url;
 
         item_list();
 
@@ -261,5 +262,43 @@
                 }
             }))
         });
+        $(document).on('change', '#customer_id', function() {
+            var id = $(this).val();
+            if (id != '' && id != null && id != undefined) {
+                $.ajax({
+                    url: base_url + '/get-customer-crop-location/' + id,
+                    processData: false,
+                    async: true,
+                    contentType: false,
+                    success: function(json) {
+                        datas = JSON.parse(json);
+                        $('#crop_location_id').html(datas.data);
+                    },
+                });
+            } else {
+                $('#address_id').html('<option value="">Select Crop Location</option>');
+            }
 
+        });
+        $("#add_frm #customer_id").trigger("change");
+
+        $(document).on('change', '#crop_location_id', function() {
+            var id = $(this).val();
+            if (id != '' && id != null && id != undefined) {
+                $.ajax({
+                    url: base_url + '/get-crop-location-block/' + id,
+                    processData: false,
+                    async: true,
+                    contentType: false,
+                    success: function(json) {
+                        datas = JSON.parse(json);
+                        $('#crop_location_block_id').html(datas.data);
+                    },
+                });
+            } else {
+                $('#crop_location_block_id').html('<option value="">Select Crop Location Block</option>');
+            }
+
+        });
+        $("#add_frm #crop_location_id").trigger("change");
     });

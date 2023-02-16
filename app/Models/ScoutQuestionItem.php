@@ -31,5 +31,13 @@ class ScoutQuestionItem extends Authenticatable
         'status',
     ];
 
+    public function getScoutItemOptionAttributes()
+    {
+        return $this->hasMany(ScoutQuestionItemAttribute::class,'scout_question_item_id','id')->orderBy('id');
+    }
+    public function hasScoutReportCategory()
+    {
+        return $this->hasOne(ScoutReportCategory::class,'id','scout_report_category_id');
+    }
     // protected $dates = ['deleted_at'];
 }

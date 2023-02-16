@@ -174,5 +174,7 @@ Route::group(['middleware' => ['auth']], function () {
        Route::post('crop-location-blocks/{id}/undelete',[CropLocationBlockController::class,'undelete'])->name('crop-location-blocks.undelete');
        Route::resource('scout-reports', ScoutReportController::class);
 
+       Route::get('/get-customer-crop-location/{id}', [HelperController::class, 'getCustomerCropLocationById'])->name('get-customer-crop-location');
+       Route::get('/get-crop-location-block/{id}', [HelperController::class, 'getCropLocationBlockById'])->name('get-crop-location-block');
     });
 });

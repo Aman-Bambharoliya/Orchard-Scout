@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CropCommodity;
+use App\Models\Customer;
+use App\Models\ScoutQuestionItem;
 use App\Models\ScoutReport;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
@@ -75,6 +78,160 @@ class ScoutReportController extends Controller
         } else {
             return view('scout-reports.index');
         }
-    }    
+    }   
+    
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create(Request $request, $customer_id)
+    {
+      
+    }
+
+    public function store(Request $request)
+    {
+        // $this->validate(
+        //     $request,
+        //     [
+        //         'customer_id' => 'required|exists:App\Models\Customer,id',
+        //         'address_id' => 'nullable|exists:App\Models\Address,id',
+        //         'name' => 'required|string|max:64',
+        //         'description' => 'nullable|string|max:255',
+        //     ],
+        //     [
+        //         'customer_id.required' => trans('translation.required', ['name' => 'customer']),
+        //         'address_id.required' => trans('translation.required', ['name' => 'address']),
+        //         'name.required' => trans('translation.required', ['name' => 'name']),
+        //     ]
+        // );
+        // $input = $request->all();
+        // $result = CropLocation::create($input);
+        // if ($result) {
+        //     return redirect()->route('crop-locations.index')
+        //         ->with('success', trans('translation.created', ['name' => 'crop location']));
+        // } else {
+        //     return redirect()->route('crop-locations.index')
+        //         ->with('error', trans('translation.error'));
+        // }
+    }
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Request $request,$id)
+    {
+        $ScoutReport=ScoutReport::findOrFail($id);
+        $Customer = Customer::where('is_prospect', false)->orderBy('id', 'DESC')->get();
+        $CropCommodities = CropCommodity::orderBy('id', 'DESC')->get();
+        $ScoutQuestionItem = ScoutQuestionItem::with('getScoutItemOptionAttributes','hasScoutReportCategory')->where('status', true)->where('scout_report_id', $ScoutReport->id)->orderBy('position','asc')->get();
+        echo '<pre>'; print_r($ScoutQuestionItem->toArray()); echo '</pre>';
+        // die('asdasd');
+        // $vehicle_types = VehicleType::where('status', 1)->get();
+        // $Inspectors = Inspector::where('status', 1)->get();
+        return view('scout-reports.edit', compact('Customer','CropCommodities','ScoutReport','ScoutQuestionItem'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        // $this->validate(
+        //     $request,
+        //     [
+        //         'customer_id' => 'required|exists:App\Models\Customer,id',
+        //         'address_id' => 'nullable|exists:App\Models\Address,id',
+        //         'name' => 'required|string|max:64',
+        //         'description' => 'nullable|string|max:255',
+        //     ],
+        //     [
+        //         'customer_id.required' => trans('translation.required', ['name' => 'customer']),
+        //         'address_id.required' => trans('translation.required', ['name' => 'address']),
+        //         'name.required' => trans('translation.required', ['name' => 'name']),
+        //     ]
+        // );
+        // $input = $request->all();
+        // $data = CropLocation::find($id);
+        // $result =  $data->update($input);
+        // if ($result) {
+        //     return redirect()->route('crop-locations.index')
+        //         ->with('success', trans('translation.updated', ['name' => 'crop location']));
+        // } else {
+        //     return redirect()->route('crop-locations.index')
+        //         ->with('error', trans('translation.error'));
+        // }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Request $request, $id)
+    {
+        // $CropLocation =  CropLocation::findOrFail($id);
+        // $delete = $CropLocation->delete();
+        // if ($delete) {
+        //     if ($request->submit_type == 'ajax') {
+        //         return response()->json([
+        //             'result' => 'success',
+        //             'status' => 1,
+        //             'message' => trans('translation.deleted', ['name' => 'crop location'])
+        //         ]);
+        //     } else {
+        //         return redirect()->route('crop-locations.index')
+        //             ->with('success', trans('translation.deleted', ['name' => 'crop location']));
+        //     }
+        // } else {
+        //     if ($request->submit_type == 'ajax') {
+        //         return response()->json([
+        //             'result' => 'fail',
+        //             'status' => -1,
+        //             'message' => trans('translation.error')
+        //         ]);
+        //     } else {
+        //         return redirect()->route('crop-locations.index')
+        //             ->with('error', trans('translation.error'));
+        //     }
+        // }
+    }
+
+
+    public function undelete($id)
+    {
+        // $delete_request = CropLocation::where('id', $id)->withTrashed()->restore();
+        // if ($delete_request) {
+        //     return response()->json([
+        //         'status' => 1,
+        //         'result' => 'Success',
+        //         'message' => "UnDeleted",
+        //     ]);
+        // } else {
+        //     return response()->json([
+        //         'status' => -1,
+        //         'result' => 'fail',
+        //         'message' => "Not UnDeleted",
+        //     ]);
+        // }
+    }
 
 }
