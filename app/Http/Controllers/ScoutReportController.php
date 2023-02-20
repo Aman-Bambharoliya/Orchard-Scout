@@ -78,7 +78,7 @@ class ScoutReportController extends Controller
         } else {
             return view('scout-reports.index');
         }
-    }   
+    }       
     
     /**
      * Show the form for creating a new resource.

@@ -27,7 +27,7 @@ class ScoutReport extends Authenticatable
         'customer_id',
         'date',
         'crop_location_id',
-        'crop_commodity_id',
+        'crop_commodity_ids',
         'general_comments',
         'crop_location_blocks',
         'notes',

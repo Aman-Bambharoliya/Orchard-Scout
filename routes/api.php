@@ -25,7 +25,7 @@ use App\Http\Controllers\api\v1\LoginController;
 Route::group(['prefix' => 'v1'], function () {
     Route::post('login', [LoginController::class,'login']);
     Route::group(['middleware' => ['auth:api']], function () {
-        Route::get('questions/{commodity_id}', [InspectionQuestionController::class, 'question']);
+        Route::get('questions', [InspectionQuestionController::class, 'question']);
         Route::get('crop-commodities', [CropCommodityController::class, 'index']);
         Route::get('customers', [CustomerController::class, 'getAllCustomers']);
         Route::get('customer/addresses/{customer_id}', [CustomerController::class, 'getAddressByCustomerId']);
