@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class ScoutAnswerReportItem extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-    use SoftDeletes;
+    // use SoftDeletes;
 
     protected $table = 'scout_answer_report_items';
     /**
@@ -28,5 +28,5 @@ class ScoutAnswerReportItem extends Authenticatable
         'scout_question_item_attribute_id',
     ];
 
-    protected $dates = ['deleted_at'];
+    // protected $dates = ['deleted_at'];
 }

@@ -4,72 +4,72 @@
 
         function item_list() {
 
-        if (jQuery(document).find('#dataTableList').length > 0) {
-            $("#dataTableList").dataTable().fnDestroy();
-            var Ot = jQuery(document).find('#dataTableList').DataTable({
-                processing: true,
-                serverSide: true,
-                filter: true,
-                "searching": true,
-                "responsive": true,
-                ajax: {
-                    url: userListIndex,
-                    data: function(d) {
-                        d.name = $('#name').val();
-                        d.email = $('#email').val();
-                        d.is_deleted_at = $('#is_deleted_at').val();
-                    }
-                },
-                "lengthMenu": [
-                    [25, 50, 100, 200],
-                    [25, 50, 100, 200]
-                ],
-                columns: [
-                    { data: 'DT_RowIndex', name: 'DT_RowIndex' },
-                    { data: 'name', name: 'name' },
-                    { data: 'email', name: 'email' },
-                    { data: 'role', name: 'role' },
-                    { data: 'action', name: 'action', orderable: false, searchable: false },
-                ],
-                columnDefs: [{
-                    targets: -1,
-                    orderable: false,
-                }]
-            });
-            $('#name').keyup(function() {
-                Ot.draw();
-                jQuery(document).find('.row.clear_filter_row').show();
-            });
-            $('#email').keyup(function() {
-                Ot.draw();
-                jQuery(document).find('.row.clear_filter_row').show();
-            });
-            $('#roles').change(function() {
-                Ot.draw();
-                jQuery(document).find('.row.clear_filter_row').show();
-            });
-            jQuery(document).find('input[name="data_tbl_search"]').on('keyup', function() {
-                Ot.search(this.value).draw();
-            });
-            jQuery(document).on('click', '.clear_filter_btn', function(e) {
-                $('#name').val('');
-                $('#email').val('');
-                $('#roles').val('');
-                Ot.search('').draw();
-                jQuery(document).find('.row.clear_filter_row').hide();
-            });
-            $('.filter-apply-btn').click(function() {
-                Ot.draw();
-            });
-            $('.filter-clear-btn').click(function() {     
-                $('#is_deleted_at').val('false').trigger('change'); 
-                $('#is_deleted_at').attr('value', 'false'); 
-                $('#is_deleted_at').attr('checked', false);                
-                $("#is_deleted_at").prop('checked', false); 
-                Ot.draw();
-            });
+            if (jQuery(document).find('#dataTableList').length > 0) {
+                $("#dataTableList").dataTable().fnDestroy();
+                var Ot = jQuery(document).find('#dataTableList').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    filter: true,
+                    "searching": true,
+                    "responsive": true,
+                    ajax: {
+                        url: userListIndex,
+                        data: function(d) {
+                            d.name = $('#name').val();
+                            d.email = $('#email').val();
+                            d.is_deleted_at = $('#is_deleted_at').val();
+                        }
+                    },
+                    "lengthMenu": [
+                        [25, 50, 100, 200],
+                        [25, 50, 100, 200]
+                    ],
+                    columns: [
+                        { data: 'DT_RowIndex', name: 'DT_RowIndex' },
+                        { data: 'name', name: 'name' },
+                        { data: 'email', name: 'email' },
+                        { data: 'role', name: 'role' },
+                        { data: 'action', name: 'action', orderable: false, searchable: false },
+                    ],
+                    columnDefs: [{
+                        targets: -1,
+                        orderable: false,
+                    }]
+                });
+                $('#name').keyup(function() {
+                    Ot.draw();
+                    jQuery(document).find('.row.clear_filter_row').show();
+                });
+                $('#email').keyup(function() {
+                    Ot.draw();
+                    jQuery(document).find('.row.clear_filter_row').show();
+                });
+                $('#roles').change(function() {
+                    Ot.draw();
+                    jQuery(document).find('.row.clear_filter_row').show();
+                });
+                jQuery(document).find('input[name="data_tbl_search"]').on('keyup', function() {
+                    Ot.search(this.value).draw();
+                });
+                jQuery(document).on('click', '.clear_filter_btn', function(e) {
+                    $('#name').val('');
+                    $('#email').val('');
+                    $('#roles').val('');
+                    Ot.search('').draw();
+                    jQuery(document).find('.row.clear_filter_row').hide();
+                });
+                $('.filter-apply-btn').click(function() {
+                    Ot.draw();
+                });
+                $('.filter-clear-btn').click(function() {
+                    $('#is_deleted_at').val('false').trigger('change');
+                    $('#is_deleted_at').attr('value', 'false');
+                    $('#is_deleted_at').attr('checked', false);
+                    $("#is_deleted_at").prop('checked', false);
+                    Ot.draw();
+                });
+            }
         }
-    }
         $("#role").change(function() {
             if ($(this).val() == 2) {
                 $('.permission-section').show();
@@ -256,7 +256,7 @@
                 $(this).attr('value', 'false');
             }
         });
-        
+
         $(document).on('click', ".delete_request", function() {
             var id = $(this).data('id');
             Swal.fire({

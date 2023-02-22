@@ -29,9 +29,10 @@ class InspectionQuestionController extends Controller
                 'commodity_ids' => 'required',
             ],
         );
+
         $commodity_ids_str = $request->commodity_ids;
         $commodity_ids=explode(',',$commodity_ids_str);
-        if($commodity_ids!=null && !empty($commodity_ids)){
+        if($commodity_ids!=null && !empty($commodity_ids)){   
             $inspection_items = QuestionItem::with('getItemOptionAttributes')->where('status', true)->where(function($query) use($commodity_ids) {
                 foreach($commodity_ids as $commodity_id) {
                    $query->orWhereJsonContains('commodity_types', $commodity_id); 
@@ -70,7 +71,6 @@ class InspectionQuestionController extends Controller
                     }
                     $response['commodity'] = $commodity;
                     $response['item_options'] = $new_options;
-    
                     $newResult[] = $response;
                 }
                 return response()->json([
@@ -94,7 +94,6 @@ class InspectionQuestionController extends Controller
                 'message' => "Not Created",
             ]);
         }
-      
     }
 
     public function saveInspectionReport(Request $request)
@@ -114,13 +113,13 @@ class InspectionQuestionController extends Controller
                     'customer_id' => 'required|numeric',
                     'date' => 'required|date',
                     'crop_location_id' => 'required|integer|numeric',
-                    // 'crop_commodity_ids' => 'required|array|min:1',
+                    //'crop_commodity_ids' => 'required|array|min:1',
                     'crop_location_blocks' => 'required|array|min:1',
                     'questions' => 'array',
                 ]);
                 // $crop_commodity_id = $data->crop_commodity_id;
                 // $crop_commodity_id = json_encode($crop_commodity_id);
-                $crop_commodity_id=9;
+                // $crop_commodity_id=9;
                 $crop_location_blocks = $data->crop_location_blocks;
                 $commodity_ids=[];
                 foreach($crop_location_blocks as $blocks)
@@ -128,13 +127,15 @@ class InspectionQuestionController extends Controller
                    $cm=getCropCommodityIdByCropLocationId($blocks);
                    if($cm!=null)
                    {
-                    $commodity_ids[]=$cm;
+                        $commodity_ids[]=strval($cm);
                    }
                 }
                 if(!empty($commodity_ids))
                 {
                     $commodity_id=json_encode($commodity_ids);
                 }
+                // var_dump($commodity_id);
+                // die('asd');
                 $crop_location_blocks=json_encode($crop_location_blocks);
                 $notes = $data->notes;
                 $date = date('Y-m-d',strtotime($data->date));
@@ -168,7 +169,6 @@ class InspectionQuestionController extends Controller
                         'date' => $date,
                         'crop_location_id' => $crop_location_id,
                         'crop_commodity_ids' => $commodity_id,
-                        // 'general_comments' => $general_comments,
                         'notes' => $notes,
                         'crop_location_blocks' => $crop_location_blocks,
                         'added_by'=>auth()->user()->id
@@ -404,12 +404,6 @@ class InspectionQuestionController extends Controller
     // }
     public function cloneQuestionData($crop_commodity_id, $scout_report_id, $answers)
     {
-        // $inspection_items = QuestionItem::with('getItemOptionAttributes')->where('status', true)->where(function($query) use($commodity_ids) {
-        //     foreach($commodity_ids as $commodity_id) {
-        //        $query->orWhereJsonContains('commodity_types', $commodity_id); 
-        //    }
-        // })->orderBy('position')->get();
-
         $inspectionItems = QuestionItem::where(function($query) use($crop_commodity_id) {
             foreach($crop_commodity_id as $commodity_id) {
                $query->orWhereJsonContains('commodity_types', $commodity_id); 
@@ -427,7 +421,7 @@ class InspectionQuestionController extends Controller
                 }
                 $item['scout_report_id'] = $scout_report_id;
                 $item['scout_report_category_id'] = $question['scout_report_category_id'];
-                $item['commodity_id'] = $question['commodity_id'];
+                $item['commodity_types'] = $question['commodity_types'];
                 $item['position'] = $next_position;
                 $item['status'] = $question['status'];
 

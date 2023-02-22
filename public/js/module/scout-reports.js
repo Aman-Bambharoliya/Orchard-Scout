@@ -26,7 +26,7 @@
                     columns: [
                         { data: 'DT_RowIndex', name: 'DT_RowIndex' },
                         { data: 'customer', name: 'customer' },
-                        { data: 'crop_commodity', name: 'crop_commodity' },
+                        // { data: 'crop_commodity', name: 'crop_commodity' },
                         { data: 'crop_location', name: 'crop_location' },
                         { data: 'date', name: 'date' },
                         { data: 'action', name: 'action', orderable: false, searchable: false },
@@ -262,43 +262,137 @@
                 }
             }))
         });
-        $(document).on('change', '#customer_id', function() {
-            var id = $(this).val();
-            if (id != '' && id != null && id != undefined) {
-                $.ajax({
-                    url: base_url + '/get-customer-crop-location/' + id,
-                    processData: false,
-                    async: true,
-                    contentType: false,
-                    success: function(json) {
-                        datas = JSON.parse(json);
-                        $('#crop_location_id').html(datas.data);
-                    },
-                });
-            } else {
-                $('#address_id').html('<option value="">Select Crop Location</option>');
-            }
 
+
+        jQuery('form.edit-question-form').each(function() {
+            jQuery(this).validate({
+                errorElement: 'span',
+                ignore: [],
+                errorClass: 'invalid-feedback',
+                rules: {},
+                messages: {
+
+                },
+                highlight: function(element, errorClass, validClass) {
+                    if ($(element).attr("type") == "radio") {
+                        jQuery('input[name="' + $(element).attr("name") + '"]').each(function() {
+                            $(this).addClass('is-invalid');
+                        });
+                    } else if ($(element).attr("type") == "hidden") {
+                        $(element).prev().addClass('is-invalid');
+                        $(element).addClass('is-invalid');
+                    } else {
+                        $(element).addClass('is-invalid');
+                    }
+                },
+                unhighlight: function(element, errorClass, validClass) {
+                    if ($(element).attr("type") == "radio") {
+                        jQuery('input[name="' + $(element).attr("name") + '"]').each(function() {
+                            $(this).removeClass('is-invalid');
+                        });
+                    } else if ($(element).attr("type") == "hidden") {
+                        $(element).prev().removeClass('is-invalid');
+                        $(element).removeClass('is-invalid');
+
+                    } else {
+                        $(element).removeClass('is-invalid');
+                    }
+                },
+                errorPlacement: function(error, element) {
+                    if (element.attr("type") == "radio") {
+                        // error.addClass('ms-10');
+                        error.insertAfter($(element).parent().parent().parent().parent().parent().append());
+                    } else if (element.attr("type") == "hidden") {
+                        error.insertAfter($(element).parent().parent().append());
+                    } else if (element.attr("type") == "file") {
+                        error.insertAfter($(element).parent().parent().append());
+                    } else {
+                        error.insertAfter($(element));
+                    }
+                },
+                submitHandler: function(form, e) {
+                    e.preventDefault();
+                    var textboxes = jQuery(form).find('input.frm-textbox');
+                    var emptytextboxes = textboxes.filter(function() {
+                        return this.value == "";
+                    });
+                    // if (jQuery(form).find('input.frm-checkbox:checked').length < 1 && textboxes.length == emptytextboxes.length) {
+                    //     e.preventDefault();
+                    //     jQuery(form).find('span#all-error').remove();
+                    //     jQuery(form).find('.question-list-wrapper').after('<span id="all-error" class="invalid-feedback ms-10" style="display: block;">Any one option should be selected.</span>')
+                    //     return false;
+                    // } else {
+                    jQuery(form).find('span#all-error').remove();
+                    var formData = new FormData(form);
+                    formData.append('_token', config.data.csrf);
+                    formData.append('submit_type', 'ajax');
+                    var action = base_url + '/scout-reports/update-answers';
+                    jQuery.ajax({
+                        url: action,
+                        method: 'POST',
+                        data: formData,
+                        dataType: 'json',
+                        cache: false,
+                        headers: {
+                            'X-CSRF-TOKEN': config.data.csrf
+                        },
+                        processData: false,
+                        contentType: false,
+                        beforeSend: function(data) {},
+                        success: function(data) {
+                            if (data.status == 1) {
+
+                                Swal.fire({
+                                    text: data.message,
+                                    icon: "success",
+                                    buttonsStyling: !1,
+                                    confirmButtonText: "Ok, got it!",
+                                    customClass: {
+                                        confirmButton: "btn fw-bold btn-primary"
+                                    }
+                                });
+                            } else {
+                                Swal.fire({
+                                    text: "Failed...!!!",
+                                    icon: "error",
+                                    buttonsStyling: !1,
+                                    confirmButtonText: "Ok, got it!",
+                                    customClass: {
+                                        confirmButton: "btn fw-bold btn-primary"
+                                    }
+                                });
+                            }
+                        },
+                        complete: function(data) {},
+                        error: function(data, textStatus, xhr) {
+                            if (textStatus == 'error') {
+                                Swal.fire({
+                                    text: data.responseJSON.message,
+                                    icon: "error",
+                                    buttonsStyling: !1,
+                                    confirmButtonText: "Ok, got it!",
+                                    customClass: {
+                                        confirmButton: "btn fw-bold btn-primary"
+                                    }
+                                });
+                            }
+                        },
+                    });
+                    // }
+                }
+            });
         });
-        $("#add_frm #customer_id").trigger("change");
 
-        $(document).on('change', '#crop_location_id', function() {
-            var id = $(this).val();
-            if (id != '' && id != null && id != undefined) {
-                $.ajax({
-                    url: base_url + '/get-crop-location-block/' + id,
-                    processData: false,
-                    async: true,
-                    contentType: false,
-                    success: function(json) {
-                        datas = JSON.parse(json);
-                        $('#crop_location_block_id').html(datas.data);
-                    },
-                });
-            } else {
-                $('#crop_location_block_id').html('<option value="">Select Crop Location Block</option>');
-            }
-
+        jQuery(document).on('click', 'a.edit-btn', function() {
+            jQuery(this).parent().parent().next().find('.edit-wrapper').removeClass('d-none');
+            jQuery(this).parent().parent().next().find('input,textarea').each(function() {
+                jQuery(this).prop("disabled", false);
+            });
         });
-        $("#add_frm #crop_location_id").trigger("change");
+        jQuery(document).on('click', '.edit-cancel', function() {
+            jQuery(this).parent().addClass('d-none');
+            jQuery(this).parent().parent().find('input,textarea').each(function() {
+                jQuery(this).prop("disabled", true);
+            });
+        });
     });

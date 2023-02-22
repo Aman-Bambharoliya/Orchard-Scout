@@ -677,29 +677,16 @@
                  <span class="menu-link">
                      <span class="menu-icon">
                          <span class="svg-icon svg-icon-2">
-                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                 viewBox="0 0 24 24" fill="none">
-                                 <path
-                                     d="M19 10C18.9 10 18.9 10 18.8 10C18.9 9.7 19 9.3 19 9C19 7.3 17.7 6 16 6C15.4 6 14.8 6.2 14.3 6.5C13.4 5 11.8 4 10 4C7.2 4 5 6.2 5 9C5 9.3 5.00001 9.7 5.10001 10H5C3.3 10 2 11.3 2 13C2 14.7 3.3 16 5 16H9L13.4 20.4C14 21 15 20.6 15 19.8V16H19C20.7 16 22 14.7 22 13C22 11.3 20.7 10 19 10Z"
-                                     fill="currentColor" />
-                             </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path opacity="0.3" d="M20 15H4C2.9 15 2 14.1 2 13V7C2 6.4 2.4 6 3 6H21C21.6 6 22 6.4 22 7V13C22 14.1 21.1 15 20 15ZM13 12H11C10.5 12 10 12.4 10 13V16C10 16.5 10.4 17 11 17H13C13.6 17 14 16.6 14 16V13C14 12.4 13.6 12 13 12Z" fill="currentColor"></path>
+                                <path d="M14 6V5H10V6H8V5C8 3.9 8.9 3 10 3H14C15.1 3 16 3.9 16 5V6H14ZM20 15H14V16C14 16.6 13.5 17 13 17H11C10.5 17 10 16.6 10 16V15H4C3.6 15 3.3 14.9 3 14.7V18C3 19.1 3.9 20 5 20H19C20.1 20 21 19.1 21 18V14.7C20.7 14.9 20.4 15 20 15Z" fill="currentColor"></path>
+                            </svg>
                          </span>
                      </span>
                      <span class="menu-title">{{ __('Scout Reports') }}</span>
                      <span class="menu-arrow"></span>
                  </span>
                  <div class="menu-sub menu-sub-accordion">
-                      {{-- @permission('questions', 'create')  --}}
-                         <div class="menu-item">
-                             <a class="menu-link  @if (Route::currentRouteName() == 'scout-reports.create') active @endif"
-                                 href="{{ route('scout-reports.create') }}">
-                                 <span class="menu-bullet">
-                                     <span class="bullet bullet-dot"></span>
-                                 </span>
-                                 <span class="menu-title">{{ __('Add') }}</span>
-                             </a>
-                         </div>
-                      {{-- @endpermission  --}}
                       {{-- @permission('questions', 'index')  --}}
                          <div class="menu-item">
                              <a class="menu-link @if (Route::currentRouteName() == 'scout-reports.index' ||

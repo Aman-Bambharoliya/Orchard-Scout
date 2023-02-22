@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\CropCommodity;
 use App\Models\Customer;
+use App\Models\ScoutAnswerReport;
+use App\Models\ScoutAnswerReportItem;
 use App\Models\ScoutQuestionItem;
 use App\Models\ScoutReport;
-use App\Models\Vehicle;
 use Illuminate\Http\Request;
 use DataTables;
+use Exception;
 use Illuminate\Support\Facades\Crypt;
 
 
@@ -22,7 +24,7 @@ class ScoutReportController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = ScoutReport::orderby('created_at','DESC')->get();
+            $data = ScoutReport::orderby('created_at', 'DESC')->get();
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function (ScoutReport $ScoutReport) {
@@ -44,18 +46,11 @@ class ScoutReportController extends Controller
 						</svg>
 					</span>
                 </a>';
-                    return "<div class='btn-wrap-action' style='display:flex'>".$edit_button . ' ' . $delete_button . "</div>";
+                    return "<div class='btn-wrap-action' style='display:flex'>" . $edit_button . ' ' . $delete_button . "</div>";
                 })
                 ->editColumn('customer', function (ScoutReport $ScoutReport) {
                     if ($ScoutReport->hasCustomer->name != '') {
                         return $ScoutReport->hasCustomer->name;
-                    } else {
-                        return '';
-                    }
-                })
-                ->editColumn('crop_commodity', function (ScoutReport $ScoutReport) {
-                    if ($ScoutReport->hasCropCommodity->name != '') {
-                        return $ScoutReport->hasCropCommodity->name;
                     } else {
                         return '';
                     }
@@ -67,9 +62,8 @@ class ScoutReportController extends Controller
                         return '';
                     }
                 })->editColumn('date', function (ScoutReport $ScoutReport) {
-                    if($ScoutReport->date!='')
-                    {
-                        return date('d-m-Y',strtotime($ScoutReport->date));
+                    if ($ScoutReport->date != '') {
+                        return date('m/d/Y', strtotime($ScoutReport->date));
                     }
                     return $ScoutReport->date;
                 })
@@ -78,8 +72,8 @@ class ScoutReportController extends Controller
         } else {
             return view('scout-reports.index');
         }
-    }       
-    
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -87,34 +81,11 @@ class ScoutReportController extends Controller
      */
     public function create(Request $request, $customer_id)
     {
-      
     }
 
     public function store(Request $request)
     {
-        // $this->validate(
-        //     $request,
-        //     [
-        //         'customer_id' => 'required|exists:App\Models\Customer,id',
-        //         'address_id' => 'nullable|exists:App\Models\Address,id',
-        //         'name' => 'required|string|max:64',
-        //         'description' => 'nullable|string|max:255',
-        //     ],
-        //     [
-        //         'customer_id.required' => trans('translation.required', ['name' => 'customer']),
-        //         'address_id.required' => trans('translation.required', ['name' => 'address']),
-        //         'name.required' => trans('translation.required', ['name' => 'name']),
-        //     ]
-        // );
-        // $input = $request->all();
-        // $result = CropLocation::create($input);
-        // if ($result) {
-        //     return redirect()->route('crop-locations.index')
-        //         ->with('success', trans('translation.created', ['name' => 'crop location']));
-        // } else {
-        //     return redirect()->route('crop-locations.index')
-        //         ->with('error', trans('translation.error'));
-        // }
+
     }
     /**
      * Display the specified resource.
@@ -132,17 +103,14 @@ class ScoutReportController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request,$id)
+    public function edit(Request $request, $id)
     {
-        $ScoutReport=ScoutReport::findOrFail($id);
+        $ScoutReport = ScoutReport::findOrFail($id);
         $Customer = Customer::where('is_prospect', false)->orderBy('id', 'DESC')->get();
         $CropCommodities = CropCommodity::orderBy('id', 'DESC')->get();
-        $ScoutQuestionItem = ScoutQuestionItem::with('getScoutItemOptionAttributes','hasScoutReportCategory')->where('status', true)->where('scout_report_id', $ScoutReport->id)->orderBy('position','asc')->get();
-        echo '<pre>'; print_r($ScoutQuestionItem->toArray()); echo '</pre>';
-        // die('asdasd');
-        // $vehicle_types = VehicleType::where('status', 1)->get();
-        // $Inspectors = Inspector::where('status', 1)->get();
-        return view('scout-reports.edit', compact('Customer','CropCommodities','ScoutReport','ScoutQuestionItem'));
+        $ScoutQuestionItem = ScoutQuestionItem::with('getScoutItemOptionAttributes', 'hasScoutReportCategory')->where('status', true)->where('scout_report_id', $ScoutReport->id)->orderBy('position', 'asc')->get();
+        $answers = ScoutAnswerReport::with('hasScoutAnswerReportItem')->where('scout_report_id', $ScoutReport->id)->get();
+        return view('scout-reports.edit', compact('Customer', 'CropCommodities', 'ScoutReport', 'ScoutQuestionItem', 'answers'));
     }
 
     /**
@@ -154,30 +122,112 @@ class ScoutReportController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // $this->validate(
-        //     $request,
-        //     [
-        //         'customer_id' => 'required|exists:App\Models\Customer,id',
-        //         'address_id' => 'nullable|exists:App\Models\Address,id',
-        //         'name' => 'required|string|max:64',
-        //         'description' => 'nullable|string|max:255',
-        //     ],
-        //     [
-        //         'customer_id.required' => trans('translation.required', ['name' => 'customer']),
-        //         'address_id.required' => trans('translation.required', ['name' => 'address']),
-        //         'name.required' => trans('translation.required', ['name' => 'name']),
-        //     ]
-        // );
-        // $input = $request->all();
-        // $data = CropLocation::find($id);
-        // $result =  $data->update($input);
-        // if ($result) {
-        //     return redirect()->route('crop-locations.index')
-        //         ->with('success', trans('translation.updated', ['name' => 'crop location']));
-        // } else {
-        //     return redirect()->route('crop-locations.index')
-        //         ->with('error', trans('translation.error'));
-        // }
+       
+    }
+
+    public function updateAnswers(Request $request)
+    {
+        $request->validate(
+            [
+                'scout_answer_report_id' => 'required',
+                'scout_question_item_id' => 'required|integer',
+                'scout_report_id' => 'required|integer|exists:App\Models\ScoutReport,id',
+                'comment' => 'nullable|string|max:255',
+            ],
+        );
+        if ($request->scout_answer_report_id == 'new' && !is_numeric($request->scout_answer_report_id)) {
+            //new answers submitted
+            try {
+                if ((isset($request->scout_options) && $request->scout_options != null && !empty($request->scout_options)) || $request->comment != '') {
+                    $result = ScoutAnswerReport::create([
+                        'scout_report_id' => $request->scout_report_id,
+                        'scout_question_item_id' => $request->scout_question_item_id,
+                        'comment' => $request->comment,
+                    ]);
+                    if ($result) {
+                        if (isset($request->scout_options) && $request->scout_options != null && !empty($request->scout_options)) {
+                            $scout_options = $request->scout_options;
+                            $scout_options_ans = [];
+                            $scout_answer_report_id = $result->id;
+                            foreach ($scout_options as $key => $value) {
+                                $scout_options_ans[] = ['scout_answer_report_id' => $scout_answer_report_id, 'scout_question_item_attribute_id' => $value];
+                                if (!empty($scout_options_ans)) {
+                                    $ScoutAnswerReportItem = ScoutAnswerReportItem::insert($scout_options_ans);
+                                    return response()->json([
+                                        'result' => 'success',
+                                        'status' => 1,
+                                        'message' => trans('translation.updated', ['name' => 'answers'])
+                                    ]);
+                                }
+                            }
+                        } else {
+                            return response()->json([
+                                'result' => 'success',
+                                'status' => 1,
+                                'mode' => 1,
+                                'message' => trans('translation.updated', ['name' => 'answers'])
+                            ]);
+                        }
+                    } else {
+                        return response()->json([
+                            'result' => 'success',
+                            'status' => 1,
+                            'message' => trans('translation.updated', ['name' => 'answers'])
+                        ]);
+                    }
+                } else {
+                    return response()->json([
+                        'result' => 'success',
+                        'status' => 1,
+                        'message' => trans('translation.updated', ['name' => 'answers'])
+                    ]);
+                }
+            } catch (Exception $e) {
+                return response([
+                    'status' => 'error',
+                    'errors' => $e->getMessage(),
+                    'message' => trans('translation.error'),
+                ], 404);
+            }
+        } else {
+            //update or add
+            try {
+                $ScoutAnswerReport = ScoutAnswerReport::findOrFail($request->scout_answer_report_id);
+                $ScoutAnswerReport->comment = $request->comment;
+                $result = $ScoutAnswerReport->save();
+                if ($result) {
+                    $old_answers = $ScoutAnswerReport->hasScoutAnswerReportItem->pluck('scout_question_item_attribute_id')->toArray();
+                    $updated_val = array();
+                    if (isset($request->scout_options) && $request->scout_options != null && !empty($request->scout_options) && $request->scout_options != '') {
+                        foreach ($request->scout_options as $qp) {
+                            $updated_val[] = $qp;
+                            $scout_question_item_attribute_id = $qp;
+                            $ScoutAnswerReportItem = ScoutAnswerReportItem::updateOrCreate(
+                                [
+                                    'scout_answer_report_id' => $request->scout_answer_report_id, 'scout_question_item_attribute_id' => $scout_question_item_attribute_id,
+                                ],
+                                []
+                            );
+                        }
+                    }
+                    $delete = array_diff($old_answers, $updated_val);
+                    if (!empty($delete) && $delete != null) {
+                        $category_delete = ScoutAnswerReportItem::where('scout_answer_report_id', $request->scout_answer_report_id)->whereIn('scout_question_item_attribute_id', $delete)->delete();
+                    }
+                    return response()->json([
+                        'result' => 'success',
+                        'status' => 1,
+                        'message' => trans('translation.updated', ['name' => 'answers'])
+                    ]);
+                }
+            } catch (Exception $e) {
+                return response([
+                    'status' => 'error',
+                    'errors' => $e->getMessage(),
+                    'message' => trans('translation.error'),
+                ], 404);
+            }
+        }
     }
 
     /**
@@ -188,50 +238,12 @@ class ScoutReportController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        // $CropLocation =  CropLocation::findOrFail($id);
-        // $delete = $CropLocation->delete();
-        // if ($delete) {
-        //     if ($request->submit_type == 'ajax') {
-        //         return response()->json([
-        //             'result' => 'success',
-        //             'status' => 1,
-        //             'message' => trans('translation.deleted', ['name' => 'crop location'])
-        //         ]);
-        //     } else {
-        //         return redirect()->route('crop-locations.index')
-        //             ->with('success', trans('translation.deleted', ['name' => 'crop location']));
-        //     }
-        // } else {
-        //     if ($request->submit_type == 'ajax') {
-        //         return response()->json([
-        //             'result' => 'fail',
-        //             'status' => -1,
-        //             'message' => trans('translation.error')
-        //         ]);
-        //     } else {
-        //         return redirect()->route('crop-locations.index')
-        //             ->with('error', trans('translation.error'));
-        //     }
-        // }
+       
     }
 
 
     public function undelete($id)
     {
-        // $delete_request = CropLocation::where('id', $id)->withTrashed()->restore();
-        // if ($delete_request) {
-        //     return response()->json([
-        //         'status' => 1,
-        //         'result' => 'Success',
-        //         'message' => "UnDeleted",
-        //     ]);
-        // } else {
-        //     return response()->json([
-        //         'status' => -1,
-        //         'result' => 'fail',
-        //         'message' => "Not UnDeleted",
-        //     ]);
-        // }
+       
     }
-
 }

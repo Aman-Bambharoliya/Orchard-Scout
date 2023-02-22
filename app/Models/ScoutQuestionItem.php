@@ -26,7 +26,7 @@ class ScoutQuestionItem extends Authenticatable
     protected $fillable = [
         'scout_report_id',
         'scout_report_category_id',
-        'commodity_id',
+        'commodity_types',
         'position',
         'status',
     ];
