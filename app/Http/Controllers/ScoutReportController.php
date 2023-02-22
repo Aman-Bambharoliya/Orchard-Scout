@@ -151,20 +151,21 @@ class ScoutReportController extends Controller
                             $scout_answer_report_id = $result->id;
                             foreach ($scout_options as $key => $value) {
                                 $scout_options_ans[] = ['scout_answer_report_id' => $scout_answer_report_id, 'scout_question_item_attribute_id' => $value];
-                                if (!empty($scout_options_ans)) {
-                                    $ScoutAnswerReportItem = ScoutAnswerReportItem::insert($scout_options_ans);
-                                    return response()->json([
-                                        'result' => 'success',
-                                        'status' => 1,
-                                        'message' => trans('translation.updated', ['name' => 'answers'])
-                                    ]);
-                                }
+                            }
+                            if (!empty($scout_options_ans)) {
+                                $ScoutAnswerReportItem = ScoutAnswerReportItem::insert($scout_options_ans);
+                                return response()->json([
+                                    'result' => 'success',
+                                    'status' => 1,
+                                    'mode'=>1,
+                                    'message' => trans('translation.updated', ['name' => 'answers'])
+                                ]);
                             }
                         } else {
                             return response()->json([
                                 'result' => 'success',
                                 'status' => 1,
-                                'mode' => 1,
+                                'mode' => 2,
                                 'message' => trans('translation.updated', ['name' => 'answers'])
                             ]);
                         }
@@ -172,6 +173,7 @@ class ScoutReportController extends Controller
                         return response()->json([
                             'result' => 'success',
                             'status' => 1,
+                            'mode'=>3,
                             'message' => trans('translation.updated', ['name' => 'answers'])
                         ]);
                     }
@@ -179,6 +181,7 @@ class ScoutReportController extends Controller
                     return response()->json([
                         'result' => 'success',
                         'status' => 1,
+                        'mode'=>4,
                         'message' => trans('translation.updated', ['name' => 'answers'])
                     ]);
                 }
@@ -217,6 +220,7 @@ class ScoutReportController extends Controller
                     return response()->json([
                         'result' => 'success',
                         'status' => 1,
+                        'mode'=>5,
                         'message' => trans('translation.updated', ['name' => 'answers'])
                     ]);
                 }
