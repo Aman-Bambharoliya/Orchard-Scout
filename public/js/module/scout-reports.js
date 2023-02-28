@@ -16,7 +16,7 @@
                         url: listIndex,
                         data: function(d) {
                             // d.name = $('#name').val();
-                            // d.is_deleted_at = $('#is_deleted_at').val();
+                            d.is_deleted_at = $('#is_deleted_at').val();
                         }
                     },
                     "lengthMenu": [
@@ -217,12 +217,13 @@
 
         $(document).on('click', ".delete_request", function() {
             var id = $(this).data('id');
+            // console.log(id);
             Swal.fire({
                 text: "Are you sure you want to revert selected Request?",
                 icon: "warning",
                 showCancelButton: !0,
                 buttonsStyling: !1,
-                confirmButtonText: "Yes, Revert!",
+                confirmButtonText: "Yes, delete!",
                 cancelButtonText: "No, cancel",
                 customClass: {
                     confirmButton: "btn fw-bold btn-danger",
@@ -248,6 +249,30 @@
                                 item_list();
                             }
                         },
+                        error: function(data) {
+                            if (data.status == '403') {
+                                Swal.fire({
+                                    text: data.responseJSON.message,
+                                    icon: "error",
+                                    buttonsStyling: !1,
+                                    confirmButtonText: "Ok, got it!",
+                                    customClass: {
+                                        confirmButton: "btn fw-bold btn-primary"
+                                    }
+                                });
+                            }
+                            if (data.status == '500') {
+                                Swal.fire({
+                                    text: 'Something went wrong!',
+                                    icon: "error",
+                                    buttonsStyling: !1,
+                                    confirmButtonText: "Ok, got it!",
+                                    customClass: {
+                                        confirmButton: "btn fw-bold btn-primary"
+                                    }
+                                });
+                            }
+                        }
                     });
                 } else {
                     Swal.fire({
@@ -265,6 +290,8 @@
 
 
         jQuery('form.edit-question-form').each(function() {
+
+            var cform = jQuery(this);
             jQuery(this).validate({
                 errorElement: 'span',
                 ignore: [],
@@ -311,21 +338,13 @@
                     }
                 },
                 submitHandler: function(form, e) {
+                    var form_type = jQuery(form).data('form_type');
                     e.preventDefault();
-                    var textboxes = jQuery(form).find('input.frm-textbox');
-                    var emptytextboxes = textboxes.filter(function() {
-                        return this.value == "";
-                    });
-                    // if (jQuery(form).find('input.frm-checkbox:checked').length < 1 && textboxes.length == emptytextboxes.length) {
-                    //     e.preventDefault();
-                    //     jQuery(form).find('span#all-error').remove();
-                    //     jQuery(form).find('.question-list-wrapper').after('<span id="all-error" class="invalid-feedback ms-10" style="display: block;">Any one option should be selected.</span>')
-                    //     return false;
-                    // } else {
                     jQuery(form).find('span#all-error').remove();
                     var formData = new FormData(form);
                     formData.append('_token', config.data.csrf);
                     formData.append('submit_type', 'ajax');
+                    formData.append('form_type', form_type);
                     var action = base_url + '/scout-reports/update-answers';
                     jQuery.ajax({
                         url: action,
@@ -351,6 +370,14 @@
                                         confirmButton: "btn fw-bold btn-primary"
                                     }
                                 });
+                                if (data.form_type == 'notes') {
+                                    cform.find('.action-btn-wrapper').addClass('d-none');
+                                    cform.find('.edit-icon-wrapper').removeClass('d-none');
+                                    cform.find('.form-group').find('input,textarea').each(function() {
+                                        jQuery(this).prop("disabled", true);
+                                        jQuery(this).addClass('text-muted');
+                                    });
+                                }
                             } else {
                                 Swal.fire({
                                     text: "Failed...!!!",
@@ -384,15 +411,20 @@
         });
 
         jQuery(document).on('click', 'a.edit-btn', function() {
-            jQuery(this).parent().parent().next().find('.edit-wrapper').removeClass('d-none');
-            jQuery(this).parent().parent().next().find('input,textarea').each(function() {
+            // jQuery(this).parent().parent().next().find('.edit-wrapper').removeClass('d-none');
+            jQuery(this).parent().addClass('d-none');
+            jQuery(this).parent().next().removeClass('d-none');
+            jQuery(this).parent().parent().parent().find('input,textarea').each(function() {
                 jQuery(this).prop("disabled", false);
+                jQuery(this).removeClass('text-muted');
             });
         });
         jQuery(document).on('click', '.edit-cancel', function() {
             jQuery(this).parent().addClass('d-none');
-            jQuery(this).parent().parent().find('input,textarea').each(function() {
+            jQuery(this).parent().prev().removeClass('d-none');
+            jQuery(this).parent().parent().parent().find('input,textarea').each(function() {
                 jQuery(this).prop("disabled", true);
+                jQuery(this).addClass('text-muted');
             });
         });
     });

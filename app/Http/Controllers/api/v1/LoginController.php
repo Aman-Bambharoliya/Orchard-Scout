@@ -24,7 +24,7 @@ class LoginController extends BaseController
         }
         $validator =  Validator::make($request->all(), [
             'email' => 'required|'.$cond.'',
-            'password' => 'required|min:8',
+            'password' => 'required|min:6',
         ]);
         if ($validator->fails()) {
             return $this->sendError('Error validation', $validator->errors());

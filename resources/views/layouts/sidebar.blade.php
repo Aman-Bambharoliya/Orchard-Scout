@@ -669,7 +669,7 @@
                     </div>
                 </div>
              @endpermission
-             {{-- @permission('questions')  --}}
+             @permission('scout-reports') 
              <div data-kt-menu-trigger="click"
                  class="menu-item menu-accordion @if (Route::currentRouteName() == 'scout-reports.index' ||
                      Route::currentRouteName() == 'scout-reports.create' ||
@@ -687,7 +687,7 @@
                      <span class="menu-arrow"></span>
                  </span>
                  <div class="menu-sub menu-sub-accordion">
-                      {{-- @permission('questions', 'index')  --}}
+                      @permission('scout-reports', 'index') 
                          <div class="menu-item">
                              <a class="menu-link @if (Route::currentRouteName() == 'scout-reports.index' ||
                                  Route::currentRouteName() == 'scout-reports.edit') active @endif"
@@ -698,10 +698,10 @@
                                  <span class="menu-title">{{ __('List') }}</span>
                              </a>
                          </div>
-                      {{-- @endpermission  --}}
+                      @endpermission 
                  </div>
              </div>
-          {{-- @endpermission --}}
+          @endpermission
                 @superadmin
                     <div class="menu-item">
                         <a class="menu-link @if (Route::currentRouteName() == 'laravel-backup-panel.index') active @endif"

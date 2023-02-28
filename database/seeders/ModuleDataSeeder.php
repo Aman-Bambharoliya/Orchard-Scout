@@ -572,6 +572,43 @@ class ModuleDataSeeder extends Seeder
                     ],
                 ],
             ),
+            array(
+                'name'=>'scout-reports',
+                'actions'=>[
+                    [
+                        'action_name'=> 'scout-reports.index',
+                        'rights'=>'index'
+                    ],
+                    [
+                        'action_name'=> 'scout-reports.create',
+                        'rights'=>'create'
+                    ],
+                    [
+                        'action_name'=> 'scout-reports.store',
+                        'rights'=>'create'
+                    ],
+                    [
+                        'action_name'=> 'scout-reports.edit',
+                        'rights'=>'update'
+                    ],
+                    [
+                        'action_name'=> 'scout-reports.update',
+                        'rights'=>'update'
+                    ],
+                    [
+                        'action_name'=> 'scout-reports.destroy',
+                        'rights'=>'delete'
+                    ],
+                    [
+                        'action_name'=> 'scout-reports.update-answers',
+                        'rights'=>'update'
+                    ],
+                    [
+                        'action_name'=> 'scout-reports.undelete',
+                        'rights'=>'delete'
+                    ],
+                ],
+            )
          );
 
         if (!empty($modules)) {

@@ -173,7 +173,8 @@ Route::group(['middleware' => ['auth']], function () {
        Route::post('get-customer-addresses/{id}/undelete',[HelperController::class,'undelete'])->name('get-customer-addresses.undelete');
        Route::post('crop-location-blocks/{id}/undelete',[CropLocationBlockController::class,'undelete'])->name('crop-location-blocks.undelete');
        Route::resource('scout-reports', ScoutReportController::class);
-       Route::post('scout-reports/update-answers', [ScoutReportController::class,'updateAnswers'])->name('update-answers');
+       Route::post('scout-reports/{id}/undelete',[ScoutReportController::class,'undelete'])->name('scout-reports.undelete');
+       Route::post('scout-reports/update-answers', [ScoutReportController::class,'updateAnswers'])->name('scout-reports.update-answers');
        Route::get('/get-customer-crop-location/{id}', [HelperController::class, 'getCustomerCropLocationById'])->name('get-customer-crop-location');
        Route::get('/get-crop-location-block/{id}', [HelperController::class, 'getCropLocationBlockById'])->name('get-crop-location-block');
     });

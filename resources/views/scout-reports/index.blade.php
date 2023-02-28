@@ -78,7 +78,7 @@
 						</div>
 					</div>
 					<div class="card-toolbar">
-						{{-- <div class="d-flex justify-content-end" data-kt-customer-table-toolbar="base">
+						<div class="d-flex justify-content-end" data-kt-customer-table-toolbar="base">
 							<!--begin::Filter-->
 							<button type="button" class="btn btn-light-primary me-3" data-kt-menu-trigger="click"
 								data-kt-menu-placement="bottom-end">
@@ -102,34 +102,7 @@
 								<div class="separator border-gray-200"></div>
 								<div class="px-7 py-5" data-kt-user-table-filter="form">
 									<!--begin::Input group-->
-									<div class="mb-10">
-										<label class="form-label fs-6 fw-bold">Commodity:</label>
-										<select name="commodity_types" id="commodity_types" aria-label="Select a Commodity"  data-control="select2" data-placeholder="Select a Commodity..." class="form-select form-select-solid form-select-lg fw-bold">
-											<option value="">Select a commodity...</option>
-											@foreach($CropCommodities as $commodities)
-											<option value="{{ $commodities->id }}">{{ $commodities->name }}</option>
-											@endforeach
-										</select>
-									</div>
-							
-									<div class="mb-10">
-										<label class="form-label fs-6 fw-bold">Scout Report Categories :</label>
-										<select name="scout_report_category_id" id="scout_report_category_id" aria-label="Select a Location" data-control="select2" data-placeholder="Select a Scout Report Category..." class="form-select form-select-solid form-select-lg fw-bold">
-											<option value="">Select a scout report category...</option>
-											@foreach($ScoutReportCategories as $ScoutReportCategory)
-											<option value="{{ $ScoutReportCategory->id }}">{{ $ScoutReportCategory->name }}</option>
-											@endforeach
-										</select>
-
-									</div>
-									<div class="mb-10">
-										<label class="form-label fs-6 fw-bold">Status:</label>
-										<select name="status" id="status" aria-label="Select Inspection Type" data-control="select2" data-placeholder="Select Inspection Type..." class="form-select form-select-solid form-select-lg fw-bold">
-											<option value="">Select Status...</option>
-											<option value="true">Active</option>
-											<option value="false">De-Active</option>
-										</select>
-									</div>
+								   
 									<div class="mb-10">
 										<label class="form-label fs-6 fw-bold">Show Deleted:</label>
 										<input
@@ -154,7 +127,7 @@
 							</div>
 							<!--end::Menu 1-->
 							<!--end::Filter-->
-						</div> --}}
+					</div>
 					</div>
 				</div>
 				<div class="card-body pt-0">
