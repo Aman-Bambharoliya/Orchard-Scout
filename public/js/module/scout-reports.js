@@ -1,6 +1,5 @@
     jQuery(document).ready(function() {
         var base_url = config.data.base_url;
-
         item_list();
 
         function item_list() {
@@ -206,7 +205,6 @@
                 error.insertAfter($(element));
             },
         });
-
         $("#is_deleted_at").on('change', function() {
             if ($(this).is(':checked')) {
                 $(this).attr('value', 'true');
@@ -214,10 +212,8 @@
                 $(this).attr('value', 'false');
             }
         });
-
         $(document).on('click', ".delete_request", function() {
             var id = $(this).data('id');
-            // console.log(id);
             Swal.fire({
                 text: "Are you sure you want to revert selected Request?",
                 icon: "warning",
@@ -287,8 +283,6 @@
                 }
             }))
         });
-
-
         jQuery('form.edit-question-form').each(function() {
 
             var cform = jQuery(this);
@@ -297,9 +291,7 @@
                 ignore: [],
                 errorClass: 'invalid-feedback',
                 rules: {},
-                messages: {
-
-                },
+                messages: {},
                 highlight: function(element, errorClass, validClass) {
                     if ($(element).attr("type") == "radio") {
                         jQuery('input[name="' + $(element).attr("name") + '"]').each(function() {
@@ -373,10 +365,49 @@
                                 if (data.form_type == 'notes') {
                                     cform.find('.action-btn-wrapper').addClass('d-none');
                                     cform.find('.edit-icon-wrapper').removeClass('d-none');
-                                    cform.find('.form-group').find('input,textarea').each(function() {
+                                    cform.find('.form-group').find('input[type="checkbox"],textarea').each(function() {
                                         jQuery(this).prop("disabled", true);
                                         jQuery(this).addClass('text-muted');
+
                                     });
+                                    cform.find('.form-group').find('textarea').each(function() {
+                                        jQuery(this).attr('data-old_val', jQuery(this).val());
+
+                                    });
+
+                                } else if (data.form_type == 'questions') {
+                                    cform.find('.action-btn-wrapper').addClass('d-none');
+                                    cform.find('.edit-icon-wrapper').removeClass('d-none');
+                                    cform.find('.form-group').find('input[type="checkbox"],textarea').not('input[type="hidden"]').each(function() {
+                                        jQuery(this).prop("disabled", true);
+                                        jQuery(this).addClass('text-muted');
+                                        if (jQuery(this).attr('type') == 'checkbox') {
+                                            if (jQuery(this).is(':checked')) {
+                                                jQuery(this).addClass('checked selected-check');
+                                                jQuery(this).removeClass('not-selected-check');
+                                                jQuery(this).parent().parent().parent().removeClass('d-none');
+
+                                            } else {
+                                                jQuery(this).removeClass('checked selected-check');
+                                                jQuery(this).addClass('not-selected-check');
+                                                jQuery(this).parent().parent().parent().addClass('d-none');
+                                            }
+                                        } else {
+                                            jQuery(this).attr('data-old_val', jQuery(this).val());
+                                            if (jQuery(this).val() == '') {
+                                                jQuery(this).parent().parent().addClass('d-none');
+                                            } else {
+                                                jQuery(this).parent().parent().removeClass('d-none');
+                                            }
+                                        }
+                                    });
+                                    var checkCount = cform.find('input[type="checkbox"]:checked').length;
+                                    var commentBox = cform.find('textarea').val();
+
+                                    if (checkCount < 1 && commentBox == '') {
+                                        cform.find('.question_item_wrapper').addClass('d-none');
+                                        cform.find('.empty_answer_wrapper').removeClass('d-none');
+                                    }
                                 }
                             } else {
                                 Swal.fire({
@@ -409,22 +440,55 @@
                 }
             });
         });
-
         jQuery(document).on('click', 'a.edit-btn', function() {
-            // jQuery(this).parent().parent().next().find('.edit-wrapper').removeClass('d-none');
             jQuery(this).parent().addClass('d-none');
             jQuery(this).parent().next().removeClass('d-none');
-            jQuery(this).parent().parent().parent().find('input,textarea').each(function() {
+            jQuery(this).parent().parent().parent().parent().find('input,textarea').not('input[type="hidden"]').each(function() {
                 jQuery(this).prop("disabled", false);
                 jQuery(this).removeClass('text-muted');
             });
+            if (jQuery(this).data('edit_type') == 'questions') {
+                jQuery(this).parent().parent().parent().parent().find('.checkbox-wrapper').removeClass('d-none');
+                jQuery(this).parent().parent().parent().parent().find('.question_item_wrapper').removeClass('d-none');
+                jQuery(this).parent().parent().parent().parent().find('.empty_answer_wrapper').addClass('d-none');
+                jQuery(this).parent().parent().parent().parent().find('.comment-box-wrapper').removeClass('d-none');
+            }
         });
         jQuery(document).on('click', '.edit-cancel', function() {
             jQuery(this).parent().addClass('d-none');
             jQuery(this).parent().prev().removeClass('d-none');
-            jQuery(this).parent().parent().parent().find('input,textarea').each(function() {
+            jQuery(this).parent().parent().parent().parent().find('input,textarea').not('input[type="hidden"]').each(function() {
                 jQuery(this).prop("disabled", true);
                 jQuery(this).addClass('text-muted');
             });
+            if (jQuery(this).data('cancel_type') == 'questions') {
+                jQuery(this).parent().parent().parent().parent().find('input[type="checkbox"],textarea').each(function() {
+                    if (jQuery(this).attr('type') == 'checkbox') {
+                        if (!jQuery(this).hasClass('checked selected-check')) {
+                            jQuery(this).prop('checked', false);
+                            jQuery(this).parent().parent().parent().addClass('d-none');
+                        } else {
+                            jQuery(this).prop('checked', true);
+                            jQuery(this).parent().parent().parent().removeClass('d-none');
+                        }
+                    } else {
+                        jQuery(this).val(jQuery(this).attr('data-old_val'));
+                        if (jQuery(this).val() == '') {
+                            jQuery(this).parent().parent().addClass('d-none');
+                        } else {
+                            jQuery(this).parent().parent().removeClass('d-none');
+                        }
+                    }
+                });
+                var checkCount = jQuery(this).parent().parent().parent().parent().find('input[type="checkbox"]:checked').length;
+                var commentBox = jQuery(this).parent().parent().parent().parent().find('textarea').val();
+                if (checkCount < 1 && commentBox == '') {
+                    jQuery(this).parent().parent().parent().parent().find('.question_item_wrapper ').addClass('d-none');
+                    jQuery(this).parent().parent().parent().parent().find('.empty_answer_wrapper  ').removeClass('d-none');
+                }
+            } else {
+                var old = jQuery(this).parent().parent().parent().find('textarea[name="notes"]').attr('data-old_val');
+                jQuery(this).parent().parent().parent().find('textarea[name="notes"]').val(old);
+            }
         });
     });
