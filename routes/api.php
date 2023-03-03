@@ -32,5 +32,11 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('customer/crop-locations/{customer_id}', [CustomerController::class, 'getCropLocationByCustomerId']);
         Route::get('customer/crop-locations-blocks/{crop_location_id}', [CustomerController::class, 'getCropLocationBlocksByCropLocationId']);
         Route::post('inspection-report', [InspectionQuestionController::class, 'saveInspectionReport']);
+
+        //pwas
+        Route::get('customer/crop-locations', [CustomerController::class, 'getAllCropLocation']);
+        Route::get('customer/crop-locations-blocks', [CustomerController::class, 'getAllCropLocationBlocks']);
+        Route::get('questions-all', [InspectionQuestionController::class, 'getAllQuestion']);
+
     });
 });

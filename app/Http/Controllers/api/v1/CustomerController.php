@@ -89,9 +89,43 @@ class CustomerController extends Controller
             ]);
         }
     }
+    public function getAllCropLocation(Request $request)
+    {
+        $customer_crop_locations = CropLocation::get()->makeHidden(['created_at','updated_at','deleted_at']);
+        if ($customer_crop_locations->isNotEmpty() && count($customer_crop_locations) > 0 && !empty($customer_crop_locations)) {
+            return response()->json([
+                        'status' => 1,
+                        'data' => $customer_crop_locations,
+                        'message' => "Success...!!",
+                    ]);
+        } else {
+                return response()->json([
+                'status' => -1,
+                'data' => [],
+                'message' => trans('translation.not_found',['name' => 'Crop Location']),
+            ]);
+        }
+    }
     public function getCropLocationBlocksByCropLocationId(Request $request,$crop_location_id)
     {
         $CropLocationBlock = CropLocationBlock::where('crop_location_id', $crop_location_id)->get();
+        if ($CropLocationBlock->isNotEmpty() && count($CropLocationBlock) > 0 && !empty($CropLocationBlock)) {
+            return response()->json([
+                        'status' => 1,
+                        'data' => $CropLocationBlock,
+                        'message' => "Success...!!",
+                    ]);
+        } else {
+                return response()->json([
+                'status' => -1,
+                'data' => [],
+                'message' => trans('translation.not_found',['name' => 'Crop Location Block']),
+            ]);
+        }
+    }
+    public function getAllCropLocationBlocks(Request $request)
+    {
+        $CropLocationBlock = CropLocationBlock::get()->makeHidden(['created_at','updated_at','deleted_at']);
         if ($CropLocationBlock->isNotEmpty() && count($CropLocationBlock) > 0 && !empty($CropLocationBlock)) {
             return response()->json([
                         'status' => 1,
