@@ -10,6 +10,8 @@ use App\Models\Admin;
 use Illuminate\Http\Request;
 use App\Models\Customer;
 use Hash;
+use Auth;
+use Exception;
 
 class LoginController extends BaseController
 {
@@ -36,6 +38,7 @@ class LoginController extends BaseController
         if (!Hash::check(request('password'), $user->password)) {
             return $this->sendError(trans('translation.password_wrong'), ['status'=>-1]);
         }
+        $token_delete = $user->tokens()->delete();
         return $this->generateToken($user); 
     }
     public function generateToken($user)
@@ -49,5 +52,22 @@ class LoginController extends BaseController
             'data' => $user,
             'message' => trans('translation.user_login_success'),
         ]);
+    }
+
+    public function checkUserByToken(Request $request){
+        try {
+        return response()->json([
+            'success' => true,
+            'status' => 1,
+            'data' => Auth::user(),
+            'message' => trans('translation.user_details'),
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => -1,
+            'data' => [],
+            'message' => $e->getMessage(),
+        ]);
+    }
     }
 }

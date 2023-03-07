@@ -37,6 +37,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('customer/crop-locations', [CustomerController::class, 'getAllCropLocation']);
         Route::get('customer/crop-locations-blocks', [CustomerController::class, 'getAllCropLocationBlocks']);
         Route::get('questions-all', [InspectionQuestionController::class, 'getAllQuestion']);
+        Route::post('check-user', [LoginController::class, 'checkUserByToken']);
 
     });
 });
