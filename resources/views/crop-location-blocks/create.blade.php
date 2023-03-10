@@ -64,7 +64,7 @@
                                 <select
                                     class="crop_commodity_id add_scrin form-select form-select-solid form-select-lg  @error('crop_commodity_id') is-invalid @enderror"
                                     id='crop_commodity_id'  name="crop_commodity_id" data-control="select2">
-                                    <option value=''>{{__('Select crop location')}}</option>
+                                    <option value=''>{{__('Select crop commodities')}}</option>
                                     @if (!empty($CropCommodities) && count($CropCommodities) > 0)
                                     @foreach ($CropCommodities as $CropCommodity)
                                     <option value='{{$CropCommodity->id}}' @if (old('crop_commodity_id')==$CropCommodity->id)
@@ -74,6 +74,25 @@
                                     @endif
                                 </select>
                                 @error('crop_commodity_id')
+                                <span class="invalid-feedback" role="alert">
+                                    {{ $message }}
+                                </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="row mb-6">
+                            <label class="col-lg-4 col-form-label fw-bold fs-6">
+                                <span class="required">{{ __('Crop Commodity varities')}}</span>
+                                <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip"
+                                    title="{{ __('Crop commodities verity')}}"></i>
+                            </label>
+                            <div class="col-lg-8 fv-row">
+                                <select
+                                    class="crop_commodities_verity_id add_scrin form-select form-select-solid form-select-lg  @error('crop_commodities_verity_id') is-invalid @enderror"
+                                    id='crop_commodities_verity_id'  name="crop_commodities_verity_id[]" data-placeholder="Select Crop Commoditiy Varities" multiple  data-control="select2">
+                                    <option value=''>{{__('Select crop commodity verity')}}</option>
+                                </select>
+                                @error('crop_commodities_verity_id')
                                 <span class="invalid-feedback" role="alert">
                                     {{ $message }}
                                 </span>

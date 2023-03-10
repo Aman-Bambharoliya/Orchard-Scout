@@ -2,14 +2,14 @@
 
 namespace App\Models;
 
+use Auth, DB; 
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Database\Eloquent\Model;
-use Auth, DB; 
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class CropLocationBlock extends Authenticatable
 {
@@ -35,7 +35,7 @@ class CropLocationBlock extends Authenticatable
 
     protected $dates = ['deleted_at'];
     
-    protected $appends=['crop_location_name','crop_commodity_name'];
+    protected $appends=['crop_location_name','crop_commodity_name','crop_commodity_variety_name'];
     public function getCropLocationNameAttribute()
     {
         if($this->crop_location_id!=null)
@@ -59,5 +59,21 @@ class CropLocationBlock extends Authenticatable
             }
         }
         return '';
+    }
+    public function getCropCommodityVarietyNameAttribute()
+    {
+        if($this->crop_commodity_id!=null)
+        {   $CropCommodityVarietiesIds=CropLocationBlockCommodityVariety::where('crop_location_block_id',$this->id)->get('crop_commidties_verity_id')->toarray();
+            // return $CropCommodityVarietiesIds;
+
+                $CropCommodityVarieties=CropCommodityVariety::whereIn('id',$CropCommodityVarietiesIds)->get('name')->toArray();
+                if($CropCommodityVarieties!=null)
+                {
+                        return array_column($CropCommodityVarieties,'name');
+                    }else{
+                        return null;
+                    }
+        }
+        return null;
     }
 }

@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\CropCommodity;
+use App\Models\CropCommodityVariety;
 use App\Models\CropLocation;
 use App\Models\CropLocationBlock;
+use App\Models\CropLocationBlockCommodityVariety;
 use Illuminate\Http\Request;
 use DataTables;
 use Hash;
@@ -25,12 +27,12 @@ class CropLocationBlockController extends Controller
     {
         if ($request->ajax()) {
             $query = CropLocationBlock::orderBy('id', 'DESC');
-            if ($request->get('is_deleted_at') != '' && $request->get('is_deleted_at')!=null) {
-              
-                if($request->get('is_deleted_at')=='true'){                   
+            if ($request->get('is_deleted_at') != '' && $request->get('is_deleted_at') != null) {
+
+                if ($request->get('is_deleted_at') == 'true') {
                     $query = $query->withTrashed();
                 }
-            } 
+            }
             $data = $query->get();
             return Datatables::of($data)
                 ->addIndexColumn()
@@ -50,8 +52,8 @@ class CropLocationBlockController extends Controller
                         </a>';
                     }
                     if ($user_data->hasPermission('crop-location-blocks', 'delete')) {
-                        if(is_null($data->deleted_at)){
-                        $delete_button .= '<a href="#" data-id="' . route('crop-location-blocks.destroy', $data->id) . '" class="btn btn-icon btn-bg-light btn-active-color-danger btn-sm me-1 delete_record">
+                        if (is_null($data->deleted_at)) {
+                            $delete_button .= '<a href="#" data-id="' . route('crop-location-blocks.destroy', $data->id) . '" class="btn btn-icon btn-bg-light btn-active-color-danger btn-sm me-1 delete_record">
                             <span class="svg-icon svg-icon-3">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                                     <path d="M5 9C5 8.44772 5.44772 8 6 8H18C18.5523 8 19 8.44772 19 9V18C19 19.6569 17.6569 21 16 21H8C6.34315 21 5 19.6569 5 18V9Z" fill="currentColor"></path>
@@ -60,14 +62,14 @@ class CropLocationBlockController extends Controller
                                 </svg>
                             </span>
                         </a>';
-                    }else{
-                        $delete_button = '<a title="UnDelete" href="#" data-id="' . route('crop-location-blocks.undelete', $data->id) . '" class="btn btn-icon btn-bg-light btn-active-color-danger btn-sm me-1 delete_request">
+                        } else {
+                            $delete_button = '<a title="UnDelete" href="#" data-id="' . route('crop-location-blocks.undelete', $data->id) . '" class="btn btn-icon btn-bg-light btn-active-color-danger btn-sm me-1 delete_request">
                        <span class="svg-icon svg-icon-3"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                        <path d="M14.5 20.7259C14.6 21.2259 14.2 21.826 13.7 21.926C13.2 22.026 12.6 22.0259 12.1 22.0259C9.5 22.0259 6.9 21.0259 5 19.1259C1.4 15.5259 1.09998 9.72592 4.29998 5.82592L5.70001 7.22595C3.30001 10.3259 3.59999 14.8259 6.39999 17.7259C8.19999 19.5259 10.8 20.426 13.4 19.926C13.9 19.826 14.4 20.2259 14.5 20.7259ZM18.4 16.8259L19.8 18.2259C22.9 14.3259 22.7 8.52593 19 4.92593C16.7 2.62593 13.5 1.62594 10.3 2.12594C9.79998 2.22594 9.4 2.72595 9.5 3.22595C9.6 3.72595 10.1 4.12594 10.6 4.02594C13.1 3.62594 15.7 4.42595 17.6 6.22595C20.5 9.22595 20.7 13.7259 18.4 16.8259Z" fill="currentColor"/>
                        <path opacity="0.3" d="M2 3.62592H7C7.6 3.62592 8 4.02592 8 4.62592V9.62589L2 3.62592ZM16 14.4259V19.4259C16 20.0259 16.4 20.4259 17 20.4259H22L16 14.4259Z" fill="currentColor"/>
                        </svg></span>
                        </a>';
-                      }
+                        }
                     }
                     return $edit_button . " " . $delete_button;
                 })
@@ -85,7 +87,7 @@ class CropLocationBlockController extends Controller
     {
         $CropLocations = CropLocation::all();
         $CropCommodities = CropCommodity::all();
-        return view('crop-location-blocks.create', compact('CropLocations','CropCommodities'));
+        return view('crop-location-blocks.create', compact('CropLocations', 'CropCommodities'));
     }
     /**
      * Store a newly created resource in storage.
@@ -100,6 +102,7 @@ class CropLocationBlockController extends Controller
             [
                 'crop_location_id' => 'required|exists:App\Models\CropLocation,id',
                 'crop_commodity_id' => 'required|exists:App\Models\CropCommodity,id',
+                'crop_commodities_verity_id' => 'required|exists:App\Models\CropCommodityVariety,id',
                 'name' => 'required|string|max:64',
                 'acres' => 'nullable|numeric|between:0,999.98',
                 'year_planted' => 'nullable|integer|min:1|digits_between:1,2147483647',
@@ -110,6 +113,7 @@ class CropLocationBlockController extends Controller
             [
                 'crop_location_id.required' => trans('translation.required', ['name' => 'crop location']),
                 'crop_commodity_id.required' => trans('translation.required', ['name' => 'crop commodity']),
+                'crop_commodities_verity_id.required' => trans('translation.required', ['name' => 'crop commodity variety']),
                 'name.required' => trans('translation.required', ['name' => 'name']),
                 'acres.required' => trans('translation.required', ['name' => 'acres']),
                 'plant_feet_spacing_in_rows.required' => trans('translation.required', ['name' => 'plant feet spacing in rows']),
@@ -119,8 +123,16 @@ class CropLocationBlockController extends Controller
         $input = $request->all();
         $result = CropLocationBlock::create($input);
         if ($result) {
-            return redirect()->route('crop-location-blocks.index')
+            $verity = $input['crop_commodities_verity_id'];
+            $array = array();
+            for ($i = 0; $i < count($verity); $i++) {
+                array_push($array, ['crop_location_block_id' => $result->id, 'crop_commidties_verity_id' => $verity[$i],'created_at' => date("Y-m-d H:i:s"),'updated_at' => date('Y-m-d H:i:s')]);
+            }
+            $insert = CropLocationBlockCommodityVariety::insert($array);
+            if ($insert) {
+                return redirect()->route('crop-location-blocks.index')
                     ->with('success', trans('translation.created', ['name' => 'crop location block']));
+            }
         } else {
             return redirect()->route('crop-location-blocks.index')
                 ->with('error', trans('translation.error'));
@@ -143,11 +155,15 @@ class CropLocationBlockController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
+
     {
         $data = CropLocationBlock::findOrFail($id);
         $CropLocations = CropLocation::all();
         $CropCommodities = CropCommodity::all();
-        return view('crop-location-blocks.edit', compact('data', 'CropLocations','CropCommodities'));
+        $commodity_id = $data->crop_commodity_id;
+        $commodity_verities = CropCommodityVariety::where('crop_commodity_id', $commodity_id)->get();
+        $CropCommoditiesVarieties = CropLocationBlockCommodityVariety::where('crop_location_block_id', $id)->get()->toarray();
+        return view('crop-location-blocks.edit', compact('data', 'CropLocations', 'CropCommodities', 'CropCommoditiesVarieties', 'commodity_verities'));
     }
 
     /**
@@ -184,6 +200,13 @@ class CropLocationBlockController extends Controller
         $data = CropLocationBlock::find($id);
         $result =  $data->update($input);
         if ($result) {
+            $delete=CropLocationBlockCommodityVariety::where('crop_location_block_id',$id)->delete();
+            $verity = $input['crop_commodities_verity_id'];
+            $array = array();
+            for ($i = 0; $i < count($verity); $i++) {
+                array_push($array, ['crop_location_block_id' => $id, 'crop_commidties_verity_id' => $verity[$i],'created_at' => date("Y-m-d H:i:s"),'updated_at' => date('Y-m-d H:i:s')]);
+            }
+            $insert = CropLocationBlockCommodityVariety::insert($array);
             return redirect()->route('crop-location-blocks.index')
                 ->with('success', trans('translation.updated', ['name' => 'crop location blocks']));
         } else {
@@ -227,10 +250,10 @@ class CropLocationBlockController extends Controller
         }
     }
 
-    
+
     public function undelete($id)
     {
-        $delete_request=CropLocationBlock::where('id', $id)->withTrashed()->restore();
+        $delete_request = CropLocationBlock::where('id', $id)->withTrashed()->restore();
         if ($delete_request) {
             return response()->json([
                 'status' => 1,
@@ -245,6 +268,4 @@ class CropLocationBlockController extends Controller
             ]);
         }
     }
-
-
 }

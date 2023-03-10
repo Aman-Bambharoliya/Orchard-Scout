@@ -177,5 +177,6 @@ Route::group(['middleware' => ['auth']], function () {
        Route::post('scout-reports/update-answers', [ScoutReportController::class,'updateAnswers'])->name('scout-reports.update-answers');
        Route::get('/get-customer-crop-location/{id}', [HelperController::class, 'getCustomerCropLocationById'])->name('get-customer-crop-location');
        Route::get('/get-crop-location-block/{id}', [HelperController::class, 'getCropLocationBlockById'])->name('get-crop-location-block');
+       Route::get('/crop-commodities-blocks/{id}',[HelperController::class,'getCropCommodities'])->name('crop-commodities-blocks');
     });
 });

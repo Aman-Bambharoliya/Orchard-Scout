@@ -1,4 +1,4 @@
-jQuery(document).ready(function() {
+jQuery(document).ready(function () {
     var base_url = config.data.base_url;
 
     item_list();
@@ -14,7 +14,7 @@ jQuery(document).ready(function() {
                 "searching": true,
                 ajax: {
                     url: listIndex,
-                    data: function(d) {
+                    data: function (d) {
                         d.name = $('#name').val();
                         d.is_deleted_at = $('#is_deleted_at').val();
                     }
@@ -39,24 +39,24 @@ jQuery(document).ready(function() {
                     orderable: false,
                 }]
             });
-            $('#name').keyup(function() {
+            $('#name').keyup(function () {
                 Ot.draw();
                 jQuery(document).find('.row.clear_filter_row').show();
             });
-            jQuery(document).find('input[name="data_tbl_search"]').on('keyup', function() {
+            jQuery(document).find('input[name="data_tbl_search"]').on('keyup', function () {
                 Ot.search(this.value).draw();
             });
-            jQuery(document).on('click', '.clear_filter_btn', function(e) {
+            jQuery(document).on('click', '.clear_filter_btn', function (e) {
                 $('#name').val('');
                 $('#email').val('');
                 $('#roles').val('');
                 Ot.search('').draw();
                 jQuery(document).find('.row.clear_filter_row').hide();
             });
-            $('.filter-apply-btn').click(function() {
+            $('.filter-apply-btn').click(function () {
                 Ot.draw();
             });
-            $('.filter-clear-btn').click(function() {
+            $('.filter-clear-btn').click(function () {
                 $('#is_deleted_at').val('false').trigger('change');
                 $('#is_deleted_at').attr('value', 'false');
                 $('#is_deleted_at').attr('checked', false);
@@ -67,7 +67,7 @@ jQuery(document).ready(function() {
         }
     }
 
-    $(document).on('click', ".delete_record", function() {
+    $(document).on('click', ".delete_record", function () {
         var id = $(this).data('id');
         Swal.fire({
             text: "Are you sure you want to delete selected record?",
@@ -80,13 +80,13 @@ jQuery(document).ready(function() {
                 confirmButton: "btn fw-bold btn-danger",
                 cancelButton: "btn fw-bold btn-active-light-primary"
             }
-        }).then((function(isConfirm) {
+        }).then((function (isConfirm) {
             if (isConfirm.isConfirmed) {
                 $.ajax({
                     type: "POST",
                     url: id,
                     data: ({ submit_type: 'ajax', '_token': config.data.csrf, _method: 'DELETE' }),
-                    success: function(data) {
+                    success: function (data) {
                         if (data.status == 1) {
                             Swal.fire({
                                 text: "You have deleted selected record.",
@@ -110,7 +110,7 @@ jQuery(document).ready(function() {
                             });
                         }
                     },
-                    error: function(data) {
+                    error: function (data) {
                         if (data.status == '403') {
                             Swal.fire({
                                 text: data.responseJSON.message,
@@ -148,7 +148,7 @@ jQuery(document).ready(function() {
             }
         }))
     });
-    jQuery.validator.addMethod("decimal_point", function(value, element) {
+    jQuery.validator.addMethod("decimal_point", function (value, element) {
         return this.optional(element) || /^\d{0,3}(.\d+)?$/i.test(value);
     }, "The field must be between 0 and 999.98.");
     jQuery("form[name='add_frm']").validate({
@@ -158,6 +158,7 @@ jQuery(document).ready(function() {
         rules: {
             crop_location_id: { required: true, maxlength: 8 },
             crop_commodity_id: { required: true, maxlength: 8 },
+            crop_commodities_verity_id: { required: true },
             name: { required: true, maxlength: 64 },
             acres: { decimal_point: true },
             year_planted: { number: true, maxlength: 10 },
@@ -167,15 +168,16 @@ jQuery(document).ready(function() {
         },
         messages: {
             'crop_location_id': { required: "The crop location field is required.", },
-            'crop_commodity_id': { required: "The crop commoditiy field is required.", },
+            'crop_commodity_id': { required: "The crop commodity field is required.", },
+            'crop_commodities_verity_id': { required: "The crop commodity varities filed is required." },
             'acres': { required: "The acres field is required.", },
             'name': { required: "The name field is required.", },
             'plant_feet_spacing_in_rows': { required: "The plant feet spacing in rows field is required.", },
             'plant_feet_between_rows': { required: "The plant feet between rows field is required.", },
         },
-        highlight: function(element, errorClass, validClass) {
+        highlight: function (element, errorClass, validClass) {
             if ($(element).attr("type") == "radio") {
-                jQuery('input[name="' + $(element).attr("name") + '"]').each(function() {
+                jQuery('input[name="' + $(element).attr("name") + '"]').each(function () {
                     $(this).addClass('is-invalid');
                 });
             } else if ($(element).attr("type") == "hidden") {
@@ -185,10 +187,10 @@ jQuery(document).ready(function() {
                 $(element).addClass('is-invalid');
             }
         },
-        unhighlight: function(element, errorClass, validClass) {
+        unhighlight: function (element, errorClass, validClass) {
             $(element).removeClass('is-invalid');
         },
-        errorPlacement: function(error, element) {
+        errorPlacement: function (error, element) {
             if (element.data('control') == 'select2') {
                 $(element).parent().append(error);
             } else {
@@ -204,6 +206,7 @@ jQuery(document).ready(function() {
         rules: {
             crop_location_id: { required: true, maxlength: 8 },
             crop_commodity_id: { required: true, maxlength: 8 },
+            crop_commodities_verity_id: { required: true },
             name: { required: true, maxlength: 64 },
             acres: { decimal_point: true },
             year_planted: { number: true, maxlength: 10 },
@@ -214,14 +217,15 @@ jQuery(document).ready(function() {
         messages: {
             'crop_location_id': { required: "The crop location field is required.", },
             'crop_commodity_id': { required: "The crop commoditiy field is required.", },
+            'crop_commodities_verity_id': { required: "The crop commoditiy varities filed is required." },
             'acres': { required: "The acres field is required.", },
             'name': { required: "The name field is required.", },
             'plant_feet_spacing_in_rows': { required: "The plant feet spacing in rows field is required.", },
             'plant_feet_between_rows': { required: "The plant feet between rows field is required.", },
         },
-        highlight: function(element, errorClass, validClass) {
+        highlight: function (element, errorClass, validClass) {
             if ($(element).attr("type") == "radio") {
-                jQuery('input[name="' + $(element).attr("name") + '"]').each(function() {
+                jQuery('input[name="' + $(element).attr("name") + '"]').each(function () {
                     $(this).addClass('is-invalid');
                 });
             } else if ($(element).attr("type") == "hidden") {
@@ -231,10 +235,10 @@ jQuery(document).ready(function() {
                 $(element).addClass('is-invalid');
             }
         },
-        unhighlight: function(element, errorClass, validClass) {
+        unhighlight: function (element, errorClass, validClass) {
             $(element).removeClass('is-invalid');
         },
-        errorPlacement: function(error, element) {
+        errorPlacement: function (error, element) {
             if (element.data('control') == 'select2') {
                 $(element).parent().append(error);
             } else {
@@ -242,7 +246,7 @@ jQuery(document).ready(function() {
             }
         },
     });
-    $(document).on('change', '#customer_id', function() {
+    $(document).on('change', '#customer_id', function () {
         var id = $(this).val();
         if (id != '' && id != null && id != undefined) {
             $.ajax({
@@ -250,7 +254,7 @@ jQuery(document).ready(function() {
                 processData: false,
                 async: true,
                 contentType: false,
-                success: function(json) {
+                success: function (json) {
                     datas = JSON.parse(json);
                     $('#address_id').html(datas.data);
                 },
@@ -262,7 +266,7 @@ jQuery(document).ready(function() {
     });
     $("#add_frm #customer_id").trigger("change");
 
-    $("#is_deleted_at").on('change', function() {
+    $("#is_deleted_at").on('change', function () {
         if ($(this).is(':checked')) {
             $(this).attr('value', 'true');
         } else {
@@ -270,7 +274,7 @@ jQuery(document).ready(function() {
         }
     });
 
-    $(document).on('click', ".delete_request", function() {
+    $(document).on('click', ".delete_request", function () {
         var id = $(this).data('id');
         Swal.fire({
             text: "Are you sure you want to revert selected Request?",
@@ -283,13 +287,13 @@ jQuery(document).ready(function() {
                 confirmButton: "btn fw-bold btn-danger",
                 cancelButton: "btn fw-bold btn-active-light-primary"
             }
-        }).then((function(isConfirm) {
+        }).then((function (isConfirm) {
             if (isConfirm.isConfirmed) {
                 $.ajax({
                     type: "POST",
                     url: id,
                     data: ({ submit_type: 'ajax', '_token': config.data.csrf, _method: 'POST' }),
-                    success: function(data) {
+                    success: function (data) {
                         if (data.status == 1) {
                             Swal.fire({
                                 text: "You have reverted selected Request!.",
@@ -317,4 +321,23 @@ jQuery(document).ready(function() {
             }
         }))
     });
+
+    jQuery('#crop_commodity_id').change(function () {
+        $('#crop_commodities_verity_id').html('');
+        var id = $(this).val();
+        if (id != '' && id != null && id != undefined) {
+            $.ajax({
+                type: "get",
+                url: base_url + '/crop-commodities-blocks/' + id,
+                processData: false,
+                async: true,
+                contentType: false,
+                success: function (data) {
+                    datas = JSON.parse(data);
+                    console.log(datas.data)
+                    $('#crop_commodities_verity_id').html(datas.data);
+                }
+            });
+        }
+    })
 });
