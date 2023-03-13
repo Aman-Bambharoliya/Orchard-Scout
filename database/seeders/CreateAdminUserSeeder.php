@@ -14,11 +14,11 @@ class CreateAdminUserSeeder extends Seeder
      */
     public function run()
     {
-        $find = Admin::where('email', 'superadmin@gmail.com')->get();
+        $find = Admin::where('email', 'tester@test.com')->get();
         if (count($find) < 1) {
             $admin = Admin::create([
-                'name' => 'Administrator',
-                'email' => 'superadmin@gmail.com',
+                'name' => 'Tester',
+                'email' => 'tester@test.com',
                 'role' => '1',
                 'password' => bcrypt('123456')
             ]);

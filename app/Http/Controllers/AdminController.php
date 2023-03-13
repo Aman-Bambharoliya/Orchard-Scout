@@ -276,6 +276,8 @@ class AdminController extends Controller
 
         $result = Admin::find(Auth::user()->id)->update(['password' => Hash::make($request->password)]);
         if ($result) {
+            $cuser=Auth::user();
+            $token_delete = $cuser->tokens()->delete();
             if ($request->submit_type == 'ajax') {
                 return json_encode([
                     'result' => 'success',
