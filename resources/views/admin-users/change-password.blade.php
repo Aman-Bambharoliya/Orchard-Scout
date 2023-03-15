@@ -66,8 +66,8 @@
                        
                     </div>
                     <div class="card-footer d-flex justify-content-end py-6 px-9">
-                        <button type="reset"
-                            class="btn btn-light btn-active-light-primary me-2">{{__('Discard')}}</button>
+                        <button type="reset" onclick="history.back()"
+                            class="btn btn-light btn-active-light-primary me-2">{{__('Cancel')}}</button>
                         <button type="submit" class="btn btn-primary" id="kt_account_profile_details_submit">{{__('Change Password')}}</button>
                     </div>
                 </form>
