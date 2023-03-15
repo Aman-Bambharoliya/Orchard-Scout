@@ -32,7 +32,9 @@ class ScoutReportController extends Controller
                     $query = $query->withTrashed();
                 }
             }
-            $data = $query->get();
+            $data = $query->get()->reject(function ($car) {
+                return $car->hasCustomer==null;
+            });
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function (ScoutReport $ScoutReport) {
