@@ -96,10 +96,10 @@
                 <table class="table align-middle table-row-dashed fs-6 gy-5" id="dataTableList">
                     <thead>
                         <tr class="text-start text-gray-400 fw-bolder fs-7 text-uppercase gs-0">
-                            <th class="min-w-15px">{{__('No.')}}</th>
+                            <th class="min-w-15px">{{__('Id')}}</th>
+                            <th class="min-w-125px">{{__('Name')}}</th>
                             <th class="min-w-90px">{{__('Crop Location')}}</th>
                             <th class="min-w-125px">{{__('Crop Commodity')}}</th>
-                            <th class="min-w-125px">{{__('Name')}}</th>
                             <th class="min-w-70px">{{__('Acres')}}</th>
                             <th class="min-w-80px">{{__('Year Planted')}}</th>
                             <th class="min-w-100px">{{__('Plant Feet Spacing In Rows')}}</th>

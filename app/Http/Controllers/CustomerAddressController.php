@@ -44,7 +44,6 @@ class CustomerAddressController extends Controller
             
             $data = $query->get();
             return Datatables::of($data)
-                ->addIndexColumn()
                 ->addColumn('action', function (CustomerAddress $data) {
                     $user_data = Auth::user();
                     $actionBtn = '';

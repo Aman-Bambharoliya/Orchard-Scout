@@ -10,6 +10,7 @@ jQuery(document).ready(function () {
             var Ot = jQuery(document).find('#dataTableList').DataTable({
                 processing: true,
                 serverSide: true,
+                order:[1,'asc'],
                 filter: true,
                 "searching": true,
                 ajax: {
@@ -24,10 +25,10 @@ jQuery(document).ready(function () {
                     [25, 50, 100, 200]
                 ],
                 columns: [
-                    { data: 'DT_RowIndex', name: 'DT_RowIndex' },
+                    { data: 'id', name: 'id' },
+                    { data: 'name', name: 'name' },
                     { data: 'crop_location_name', name: 'crop_location_name' },
                     { data: 'crop_commodity_name', name: 'crop_commodity_name' },
-                    { data: 'name', name: 'name' },
                     { data: 'acres', name: 'acres' },
                     { data: 'year_planted', name: 'year_planted' },
                     { data: 'plant_feet_spacing_in_rows', name: 'plant_feet_spacing_in_rows' },

@@ -46,7 +46,6 @@ class PeopleAddressController extends Controller
             $data = $query->get();
 
             return Datatables::of($data)
-                ->addIndexColumn()
                 ->addColumn('action', function (PeopleAddress $data) {
                     $user_data = Auth::user();
                     $actionBtn = '';

@@ -23,7 +23,7 @@
                     [25, 50, 100, 200]
                 ],
                 columns: [
-                    { data: 'DT_RowIndex', name: 'DT_RowIndex' },
+                    { data: 'id', name: 'id' },
                     { data: 'address_type_name', name: 'address_type_name' },
                     { data: 'address_1', name: 'address_1' },
                     { data: 'address_2', name: 'address_2' },

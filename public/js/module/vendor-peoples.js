@@ -8,6 +8,7 @@
                 processing: true,
                 serverSide: true,
                 filter: true,
+                order:[1,'asc'],
                 "searching": true,
                 // "responsive": true,
                 ajax: {
@@ -22,9 +23,9 @@
                     [25, 50, 100, 200]
                 ],
                 columns: [
-                    { data: 'DT_RowIndex', name: 'DT_RowIndex' },
-                    { data: 'vendor_id', name: 'vendor_id' },
+                    { data: 'id', name: 'id' },
                     { data: 'people_id', name: 'people_id' },
+                    { data: 'vendor_id', name: 'vendor_id' },
                     { data: 'people_role_id', name: 'people_role_id' },
                     { data: 'action', name: 'action', orderable: false, searchable: false },
                 ],

@@ -7,6 +7,7 @@
             var Ot = jQuery(document).find('#dataTableList').DataTable({
                 processing: true,
                 serverSide: true,
+                order:[1,'asc'],
                 filter: true,
                 "searching": true,
                 ajax: {
@@ -21,9 +22,9 @@
                     [25, 50, 100, 200]
                 ],
                 columns: [
-                    { data: 'DT_RowIndex', name: 'DT_RowIndex' },
-                    { data: 'crop_commodity_name', name: 'crop_commodity_name' },
+                    { data: 'id', name: 'id' },
                     { data: 'name', name: 'name' },
+                    { data: 'crop_commodity_name', name: 'crop_commodity_name' },
                     { data: 'action', name: 'action', orderable: false, searchable: false },
                 ],
                 columnDefs: [{

@@ -94,7 +94,7 @@
                 <table class="table align-middle table-row-dashed fs-6 gy-5" id="dataTableList">
                     <thead>
                         <tr class="text-start text-gray-400 fw-bolder fs-7 text-uppercase gs-0">
-                            <th class="min-w-15px">No.</th>
+                            <th class="min-w-15px">Id</th>
                             <th class="min-w-125px">Name</th>
                             <th class="min-w-125px">Email</th>
                             <th class="min-w-125px">Role</th>

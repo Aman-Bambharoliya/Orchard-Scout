@@ -21,16 +21,41 @@
             <div class="d-flex align-items-stretch flex-shrink-0">
                 <div class="d-flex align-items-center ms-1 ms-lg-3" id="kt_header_user_menu_toggle">
                     <div class="cursor-pointer symbol symbol-30px symbol-md-40px" data-kt-menu-trigger="click" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
-                        <img src="{{asset('theme/media/avatars/300-1.jpg')}}" alt="user" />
+                                 <span class="symbol-label bg-light-primary text-primary fw-bold"> 
+                                    @php
+                                        $full_name_arr = explode(" ", Auth::user()->name); 
+                                        $full_name_arr_end = count($full_name_arr)>1?end($full_name_arr):'';
+                                        // end($full_name_arr); 
+                                        $firstWord = !empty($full_name_arr[0])?$full_name_arr[0]:''; 
+                                        $lastWord = !empty($full_name_arr_end[0])?$full_name_arr_end[0]:''; 
+                                        $charF = !empty(mb_substr($firstWord, 0, 1))?mb_substr($firstWord, 0, 1):''; 
+                                        $charL = !empty(mb_substr($lastWord, 0, 1))? strtoupper(mb_substr($lastWord, 0, 1)):''; 
+                                        $shortChar = $charF.$charL;
+                                        echo trim($shortChar);
+                                    @endphp
+                                 </span>
                     </div>
                     <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-primary fw-bold py-4 fs-6 w-275px" data-kt-menu="true">
                         <div class="menu-item px-3">
                             <div class="menu-content d-flex align-items-center px-3">
                                 <div class="symbol symbol-50px me-5">
-                                    <img alt="Logo" src="{{asset('theme/media/avatars/300-1.jpg')}}" />
+                                    {{-- <img alt="Logo" src="{{asset('theme/media/avatars/300-1.jpg')}}" /> --}}
+                                    <span class="symbol-label bg-light-primary text-primary fw-bold">
+                                        @php
+                                        $full_name_arr = explode(" ", Auth::user()->name); 
+                                        $full_name_arr_end = count($full_name_arr)>1?end($full_name_arr):'';
+                                        // end($full_name_arr); 
+                                        $firstWord = !empty($full_name_arr[0])?$full_name_arr[0]:''; 
+                                        $lastWord = !empty($full_name_arr_end[0])?$full_name_arr_end[0]:''; 
+                                        $charF = !empty(mb_substr($firstWord, 0, 1))?mb_substr($firstWord, 0, 1):''; 
+                                        $charL = !empty(mb_substr($lastWord, 0, 1))? strtoupper(mb_substr($lastWord, 0, 1)):'';
+                                        $shortChar = $charF.$charL;
+                                        echo trim($shortChar);
+                                    @endphp
+                                    </span>
                                 </div>
                                 <div class="d-flex flex-column">
-                                    <div class="fw-bolder d-flex align-items-center fs-5">{{ Auth::user()->name }}
+                                    <div class="fw-bolder d-flex align-items-center profile-name fs-5">{{ Auth::user()->name }}
                                     </div>
                                     <a href="#" class="fw-bold text-muted text-hover-primary fs-7">{{ Auth::user()->email }}</a>
                                 </div>

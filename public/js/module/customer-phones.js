@@ -22,7 +22,7 @@
                     [25, 50, 100, 200]
                 ],
                 columns: [
-                    { data: 'DT_RowIndex', name: 'DT_RowIndex' },
+                    { data: 'id', name: 'id' },
                     { data: 'phone_type_name', name: 'phone_type_name' },
                     { data: 'country_code', name: 'country_code' },
                     { data: 'area_code', name: 'area_code' },

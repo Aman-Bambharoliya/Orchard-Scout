@@ -7,6 +7,7 @@
             var Ot = jQuery(document).find('#dataTableList').DataTable({
                 processing: true,
                 serverSide: true,
+                order:[1,'asc'],
                 filter: true,
                 "searching": true,
                 // "responsive": true,
@@ -22,7 +23,7 @@
                     [25, 50, 100, 200]
                 ],
                 columns: [
-                    { data: 'DT_RowIndex', name: 'DT_RowIndex' },
+                    { data: 'id', name: 'id' },
                     { data: 'full_name', name: 'full_name' },
                     { data: 'nickname', name: 'nickname' },
                     { data: 'maiden_name', name: 'maiden_name' },

@@ -134,7 +134,7 @@
 					<table class="table align-middle table-row-dashed fs-6 gy-5" id="dataTableList">
 						<thead>
 							<tr class="text-start text-gray-400 fw-bolder fs-7 text-uppercase gs-0">
-								<th class="min-w-125px">No.</th>
+								<th class="min-w-125px">Id</th>
 								<th class="min-w-125px">Customer</th>
 								{{-- <th class="min-w-125px">Crop Commodity</th> --}}
 								<th class="min-w-125px">Crop Location</th>

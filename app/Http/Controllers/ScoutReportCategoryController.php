@@ -31,7 +31,6 @@ class ScoutReportCategoryController extends Controller
 
             $data = $query->get();
             return Datatables::of($data)
-                ->addIndexColumn()
                 ->addColumn('action', function (ScoutReportCategory $data) {
                     $user_data = Auth::user();
                     $actionBtn = '';

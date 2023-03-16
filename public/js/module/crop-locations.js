@@ -11,6 +11,7 @@ jQuery(document).ready(function() {
                 processing: true,
                 serverSide: true,
                 filter: true,
+                order:[1,'asc'],
                 "searching": true,
                 ajax: {
                     url: listIndex,
@@ -24,10 +25,10 @@ jQuery(document).ready(function() {
                     [25, 50, 100, 200]
                 ],
                 columns: [
-                    { data: 'DT_RowIndex', name: 'DT_RowIndex' },
+                    { data: 'id', name: 'id' },
+                    { data: 'name', name: 'name' },
                     { data: 'customer_name', name: 'customer_name' },
                     { data: 'address', name: 'address' },
-                    { data: 'name', name: 'name' },
                     { data: 'action', name: 'action', orderable: false, searchable: false },
                 ],
                 columnDefs: [{

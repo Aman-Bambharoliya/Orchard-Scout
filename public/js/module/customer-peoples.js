@@ -6,6 +6,7 @@
             $("#dataTableList").dataTable().fnDestroy();
             var Ot = jQuery(document).find('#dataTableList').DataTable({
                 processing: true,
+                order:[1,'asc'],
                 serverSide: true,
                 filter: true,
                 "searching": true,
@@ -22,7 +23,7 @@
                     [25, 50, 100, 200]
                 ],
                 columns: [
-                    { data: 'DT_RowIndex', name: 'DT_RowIndex' },
+                    { data: 'id', name: 'id' },
                     { data: 'customer_id', name: 'customer_id' },
                     { data: 'people_id', name: 'people_id' },
                     { data: 'people_role_id', name: 'people_role_id' },

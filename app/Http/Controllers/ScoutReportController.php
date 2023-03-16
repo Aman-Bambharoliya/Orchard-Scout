@@ -36,7 +36,6 @@ class ScoutReportController extends Controller
                 return $car->hasCustomer==null;
             });
             return DataTables::of($data)
-                ->addIndexColumn()
                 ->addColumn('action', function (ScoutReport $ScoutReport) {
                     $user_data = Auth::user();
                     $actionBtn = '';

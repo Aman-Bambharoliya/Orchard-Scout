@@ -10,6 +10,7 @@
                     processing: true,
                     serverSide: true,
                     filter: true,
+                    order:[0,'desc'],
                     "searching": true,
                     ajax: {
                         url: listIndex,
@@ -23,7 +24,7 @@
                         [25, 50, 100, 200]
                     ],
                     columns: [
-                        { data: 'DT_RowIndex', name: 'DT_RowIndex' },
+                        { data: 'id', name: 'id' },
                         { data: 'customer', name: 'customer' },
                         // { data: 'crop_commodity', name: 'crop_commodity' },
                         { data: 'crop_location', name: 'crop_location' },

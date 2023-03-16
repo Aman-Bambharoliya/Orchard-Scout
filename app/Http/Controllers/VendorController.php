@@ -30,7 +30,6 @@ class VendorController extends Controller
 
             $data = $query->get();
             return Datatables::of($data)
-                ->addIndexColumn()
                 ->addColumn('action', function (Vendor $data) {
                     $user_data = Auth::user();
                     $actionBtn = '';
