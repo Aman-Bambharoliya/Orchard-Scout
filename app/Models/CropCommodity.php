@@ -44,4 +44,7 @@ class CropCommodity extends Authenticatable
         return '';
     }
 
+    public function hasCropCommodityQuestionItemAttribute(){
+        return $this->hasMany(CropCommodityQuestionItemAttribute::class);
+    }
 }
