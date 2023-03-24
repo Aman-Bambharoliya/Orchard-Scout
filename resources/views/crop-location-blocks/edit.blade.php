@@ -98,12 +98,12 @@
                                     <option value='{{ $verity->id }}'>{{ $verity->name }}</option>
                                     @endif
                                     @endforeach
-                                </select>
-                                @error('crop_commodities_verity_id')
+                                </select>  @error('crop_commodities_verity_id')
                                 <span class="invalid-feedback" role="alert">
                                     {{ $message }}
                                 </span>
                                 @enderror
+
                             </div>
                         </div>
                         <div class="row mb-6">

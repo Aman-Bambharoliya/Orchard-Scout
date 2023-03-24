@@ -56,25 +56,7 @@
                     <form id="add_item_form" class="form" method="post" action="{{route('questions.store')}}">
                         @csrf
                         <div class="card-body border-top p-9">
-                            <div class="row mb-6">
-                                <!--begin::Label-->
-                                <label class="col-lg-4 col-form-label fw-bold fs-6">
-                                    <span class="required">Commodity</span>
-                                    <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Commodity"></i>
-                                </label>
-                                <!--end::Label-->
-                                <!--begin::Col-->
-                                <div class="col-lg-8 fv-row">
-                                    <select name="commodity_types[]" aria-label="Select a Commodity" multiple="multiple" data-control="select2" data-placeholder="Select a Commodity..." class="form-select form-select-solid form-select-lg fw-bold">
-                                        <option value="">Select a commodity...</option>
-                                        @foreach($CropCommodities as $commodities)
-                                        <option value="{{ $commodities->id }}">{{ $commodities->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <!--end::Col-->
-                            </div>
-                            <div class="row mb-6">
+                             <div class="row mb-6">
                                 <label class="col-lg-4 col-form-label fw-bold fs-6">
                                     <span class="required">Scout Report Categories</span>
                                     <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Inspection Location"></i>

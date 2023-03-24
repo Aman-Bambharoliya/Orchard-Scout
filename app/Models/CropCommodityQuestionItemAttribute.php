@@ -17,4 +17,5 @@ class CropCommodityQuestionItemAttribute extends Model
         'crop_commodity_id',
         'question_item_attribute_id'
     ];
+
 }

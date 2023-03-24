@@ -34,10 +34,6 @@ class QuestionController extends Controller
             if ($request->get('status') != '' && $request->get('status')!=null) {
                 $data = $data->where('status',$request->get('status'));
             }   
-            if ($request->get('commodity_types') != '' && $request->get('commodity_types')!=null) {
-                $data = $data->whereJsonContains('commodity_types',$request->get('commodity_types'));
-            }  
-          
             if ($request->get('is_deleted_at') != '' && $request->get('is_deleted_at')!=null) {
               
                 if($request->get('is_deleted_at')=='true'){                   
@@ -98,25 +94,6 @@ class QuestionController extends Controller
                     }
                     return $active;
                 })
-                ->editColumn('commodity_types', function (QuestionItem $item) {
-                    $active='';
-                    if($item->commodity_types!=null && $item->commodity_types!='')
-                    {
-                        $commodity_types=json_decode($item->commodity_types);
-                        if(!empty($commodity_types))
-                        {
-                            foreach($commodity_types as $vt)
-                            {
-                                $commodity=CropCommodity::where('id',$vt)->first();
-                                if($commodity!='' && $commodity!=null)
-                                {
-                                    $active.='<div class=""><span class="badge badge-primary">'.$commodity->name.'</span></div>';
-                                }
-                            }
-                        }
-                    }
-                    return $active;
-                })
                 ->editColumn('scout_report_category_id', function (QuestionItem $item) {
                     if (isset($item->scout_report_category_name)) {
                         return $item->scout_report_category_name;
@@ -124,12 +101,11 @@ class QuestionController extends Controller
                         return '-';
                     };
                 })
-                ->rawColumns(['action', 'status','commodity_types'])
+                ->rawColumns(['action', 'status'])
                 ->make(true);
         } else {
             $ScoutReportCategories = getScoutReportCategories();
-            $CropCommodities = getCropCommodities();
-            return view('questions.index',compact('ScoutReportCategories','CropCommodities'));
+            return view('questions.index',compact('ScoutReportCategories'));
         }
     }
     /**
@@ -140,8 +116,7 @@ class QuestionController extends Controller
     public function create()
     {
         $ScoutReportCategories = getScoutReportCategories();
-        $CropCommodities = getCropCommodities();
-        return view('questions.create', compact('ScoutReportCategories', 'CropCommodities'));
+        return view('questions.create', compact('ScoutReportCategories'));
     }
 
     public function get_inspection_types($id)
@@ -167,9 +142,6 @@ class QuestionController extends Controller
                 // 'position' => 'required',
             ],
         );
-
-        $request['commodity_types'] = json_encode($request->commodity_types);
-
         $data = $request->all();
        
         $max_position = QuestionItem::max('position');
@@ -222,8 +194,7 @@ class QuestionController extends Controller
     {
         $questionItem= QuestionItem::with('getItemOptionAttributes')->where('id',$id)->first();
         $ScoutReportCategories = getScoutReportCategories();
-        $CropCommodities = getCropCommodities();
-        return view('questions.edit', compact('questionItem','ScoutReportCategories', 'CropCommodities'));
+        return view('questions.edit', compact('questionItem','ScoutReportCategories'));
     }
 
     /**
@@ -244,8 +215,6 @@ class QuestionController extends Controller
 
         $questionItem= QuestionItem::with('getItemOptionAttributes')->where('id',$id)->first();
         if(!is_null($questionItem)){
-        $request['commodity_types'] = json_encode($request->commodity_types);
-
         $data = $request->all();
         $old_position = $questionItem->position;
         $new_position = $request->position;

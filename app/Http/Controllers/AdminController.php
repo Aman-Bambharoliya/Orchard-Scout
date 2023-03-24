@@ -234,7 +234,7 @@ class AdminController extends Controller
     public function destroy(Request $request, $id)
     {
         if ($id == 1 || $id == '1') {
-            abort(401, 'Administrator user cannot be deleted');
+            abort(401, 'Administrator user cannot be deleted.');
         }
         $delete =  Admin::find($id)->delete();
         if ($delete) {

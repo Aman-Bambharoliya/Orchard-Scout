@@ -89,7 +89,10 @@
                                                             @endphp
                                                         @endforeach
                                                         @if (!empty($commodity_str))
-                                                            {{ implode(', ', $commodity_str) }}
+                                                            @php
+                                                                $commodity_name = array_unique($commodity_str);
+                                                            @endphp
+                                                            {{ implode(',', $commodity_name) }}
                                                         @endif
                                                     @endif
                                                 </div>
@@ -190,7 +193,7 @@
                                                                 height="2" rx="1"
                                                                 transform="rotate(45 8.41422 7)" fill="currentColor" />
                                                         </svg></span>
-                                                </span>
+                                                    </span>
                                             </button>
                                         </div>
                                     </div>
@@ -202,44 +205,40 @@
                                         method="post" action="" novalidate="novalidate">
                                         @csrf
                                         @php
-                                        if ($answers->where('scout_question_item_id', $question->id)->isNotEmpty()) {
-                                            $Answer = $answers->where('scout_question_item_id', $question->id)->first();
-                                        } else {
-                                            $Answer = null;
-                                        }
-                                        
-                                        if ($Answer != null) {
-                                      
-                                            $comments = $Answer->comment;
-                                            $scout_answer_report_id = $Answer->id;
-                                        } else {
-                                            $comments = '';
-                                            $scout_answer_report_id = 'new';
-                                        }
-                                  
-                                        if ((isset($Answer->hasScoutAnswerReportItem) && $Answer->hasScoutAnswerReportItem->isEmpty()==false) || ($comments != '' || $comments != null)) {
-                                            $ques_cls = '';
-                                            $empty_cls = 'd-none';
-                                            $tab_head_cls='active';
-                                            $tab_body_cls='show';
+                                            if ($answers->where('scout_question_item_id', $question->id)->isNotEmpty()) {
+                                                $Answer = $answers->where('scout_question_item_id', $question->id)->first();
+                                            } else {
+                                                $Answer = null;
+                                            }
                                             
-                                        } else {
-                                            $ques_cls = 'd-none';
-                                            $empty_cls = '';
-                                            $tab_head_cls='collapsed';
-                                            $tab_body_cls='';
-                                        }
-                                        if($comments!='')
-                                        {
-                                            $cmt_shw_cls='';
-                                        }
-                                        else {
-                                            $cmt_shw_cls='d-none';
-                                        }
-                                    @endphp
+                                            if ($Answer != null) {
+                                                $comments = $Answer->comment;
+                                                $scout_answer_report_id = $Answer->id;
+                                            } else {
+                                                $comments = '';
+                                                $scout_answer_report_id = 'new';
+                                            }
+                                            
+                                            if ((isset($Answer->hasScoutAnswerReportItem) && $Answer->hasScoutAnswerReportItem->isEmpty() == false) || ($comments != '' || $comments != null)) {
+                                                $ques_cls = '';
+                                                $empty_cls = 'd-none';
+                                                $tab_head_cls = 'active';
+                                                $tab_body_cls = 'show';
+                                            } else {
+                                                $ques_cls = 'd-none';
+                                                $empty_cls = '';
+                                                $tab_head_cls = 'collapsed';
+                                                $tab_body_cls = '';
+                                            }
+                                            if ($comments != '') {
+                                                $cmt_shw_cls = '';
+                                            } else {
+                                                $cmt_shw_cls = 'd-none';
+                                            }
+                                        @endphp
                                         <div class="py-0" data-kt-customer-payment-method="row">
                                             <div class="py-3 d-flex flex-stack flex-wrap">
-                                                <div class="d-flex align-items-center collapsible rotate {{$tab_head_cls}}"
+                                                <div class="d-flex align-items-center collapsible rotate {{ $tab_head_cls }}"
                                                     data-bs-toggle="collapse"
                                                     href="#kt_customer_view_payment_method_{{ $question->id }}"
                                                     role="button" aria-expanded="true"
@@ -346,8 +345,7 @@
                                                 </div>
                                             </div>
                                             <div id="kt_customer_view_payment_method_{{ $question->id }}"
-                                                class="fs-6 ps-10 collapse {{$tab_body_cls}}"
-                                                style="">
+                                                class="fs-6 ps-10 collapse {{ $tab_body_cls }}" style="">
                                                 <div class="d-flex flex-wrap py-5 question-list-wrapper">
                                                     <div class="form-group" style="width: 60%">
                                                         <div data-repeater-list="kt_docs_repeater_advanced">
@@ -380,7 +378,7 @@
                                                                                 <div class="col-md-12">
                                                                                     <div class="form-check">
                                                                                         <input
-                                                                                            class="frm-checkbox form-check-input {{$ques_check}}"
+                                                                                            class="frm-checkbox form-check-input {{ $ques_check }}"
                                                                                             type="checkbox"
                                                                                             name="scout_options[]"
                                                                                             value="{{ $options->id }}"
@@ -393,11 +391,12 @@
                                                                             </div>
                                                                         @endforeach
                                                                     @endif
-                                                                    <div class="comment-box-wrapper form-group row mb-5 {{$cmt_shw_cls}}">
+                                                                    <div
+                                                                        class="comment-box-wrapper form-group row mb-5 {{ $cmt_shw_cls }}">
                                                                         <div class="col-md-12">
                                                                             <textarea data-kt-autosize="true" name="comment"
                                                                                 class="form-control form-control-lg form-control-solid @error('comment') is-invalid @enderror"
-                                                                                placeholder="{{ __('Comments') }}" disabled data-old_val="{{$comments}}">{{ $comments }}</textarea>
+                                                                                placeholder="{{ __('Comments') }}" disabled data-old_val="{{ $comments }}">{{ $comments }}</textarea>
                                                                         </div>
                                                                     </div>
                                                                 </div>

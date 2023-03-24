@@ -159,7 +159,7 @@ jQuery(document).ready(function () {
         rules: {
             crop_location_id: { required: true, maxlength: 8 },
             crop_commodity_id: { required: true, maxlength: 8 },
-            crop_commodities_verity_id: { required: true },
+            crop_commodities_verity_id: { required: true , min: 1},
             name: { required: true, maxlength: 64 },
             acres: { decimal_point: true },
             year_planted: { number: true, maxlength: 10 },
@@ -207,7 +207,7 @@ jQuery(document).ready(function () {
         rules: {
             crop_location_id: { required: true, maxlength: 8 },
             crop_commodity_id: { required: true, maxlength: 8 },
-            crop_commodities_verity_id: { required: true },
+            crop_commodities_verity_id: { required: true, min:1 },
             name: { required: true, maxlength: 64 },
             acres: { decimal_point: true },
             year_planted: { number: true, maxlength: 10 },
@@ -325,6 +325,7 @@ jQuery(document).ready(function () {
 
     jQuery('#crop_commodity_id').change(function () {
         $('#crop_commodities_verity_id').html('');
+        console.log(base_url + '/crop-commodities-blocks/' + id);
         var id = $(this).val();
         if (id != '' && id != null && id != undefined) {
             $.ajax({

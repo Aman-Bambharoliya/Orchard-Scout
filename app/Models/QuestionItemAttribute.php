@@ -18,4 +18,25 @@ class QuestionItemAttribute extends Model
 
     protected $dates = ['deleted_at'];
 
+    // public $appends=[
+    //     'commodity_id',
+    // ];
+
+
+    // public function getCommodityIdAttribute()
+    // {
+    //    if($this->id!='' && $this->id!=null)
+    //    {
+    //          $commodity_find=CropCommodityQuestionItemAttribute::where('question_item_attribute_id',$this->id)->first();
+    //          return $commodity_find;
+    //    }
+    //    return '';
+    // }
+
+    public function getCommodityIds(){
+        return $this->hasMany(CropCommodityQuestionItemAttribute::class,'question_item_attribute_id','id');
+    }
+
+
 }
+

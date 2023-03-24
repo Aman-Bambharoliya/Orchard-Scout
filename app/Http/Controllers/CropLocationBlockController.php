@@ -179,6 +179,7 @@ class CropLocationBlockController extends Controller
             [
                 'crop_location_id' => 'required|exists:App\Models\CropLocation,id',
                 'crop_commodity_id' => 'required|exists:App\Models\CropCommodity,id',
+                'crop_commodities_verity_id' => 'required|exists:App\Models\CropCommodityVariety,id',
                 'name' => 'required|string|max:64',
                 'acres' => 'nullable|numeric|between:0,999.98',
                 'year_planted' => 'nullable|integer|min:1|digits_between:1,2147483647',
@@ -189,6 +190,7 @@ class CropLocationBlockController extends Controller
             [
                 'crop_location_id.required' => trans('translation.required', ['name' => 'crop location']),
                 'crop_commodity_id.required' => trans('translation.required', ['name' => 'crop commodity']),
+                'crop_commodities_verity_id.required' => trans('translation.required', ['name' => 'crop commodities verity']),
                 'name.required' => trans('translation.required', ['name' => 'name']),
                 'acres.required' => trans('translation.required', ['name' => 'acres']),
                 'plant_feet_spacing_in_rows.required' => trans('translation.required', ['name' => 'plant feet spacing in rows']),

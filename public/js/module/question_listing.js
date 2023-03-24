@@ -15,13 +15,11 @@ function item_list() {
                     d.scout_report_category_id = $('#scout_report_category_id').val();
                     d.status = $('#status').val();
                     d.is_deleted_at = $('#is_deleted_at').val();
-                    d.commodity_types = $('#commodity_types').val();
                 }
             },
             columns: [
                 { data: 'position', name: 'position' },
                 { data: 'scout_report_category_id', name: 'scout_report_category_id' },
-                { data: 'commodity_types', name: 'commodity_types', orderable: false },
                 { data: 'status', name: 'status' },
                 { data: 'action', name: 'action', orderable: false, searchable: false },
             ],
@@ -43,8 +41,6 @@ function item_list() {
             Ot.draw();
         });
         $('.filter-clear-btn').click(function() {
-
-            $('#commodity_types').val(null).trigger('change');
             $('#scout_report_category_id').val(null).trigger('change');
             $('#status').val(null).trigger('change');
             $('#is_deleted_at').val('false').trigger('change');

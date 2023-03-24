@@ -31,13 +31,9 @@ class InspectionQuestionController extends Controller
         );
 
         $commodity_ids_str = $request->commodity_ids;
-        $commodity_ids=explode(',',$commodity_ids_str);
-        if($commodity_ids!=null && !empty($commodity_ids)){   
-            $inspection_items = QuestionItem::with('getItemOptionAttributes')->where('status', true)->where(function($query) use($commodity_ids) {
-                foreach($commodity_ids as $commodity_id) {
-                   $query->orWhereJsonContains('commodity_types', $commodity_id); 
-               }
-            })->orderBy('position')->get();
+        $commodity_ids = explode(',', $commodity_ids_str);
+        if ($commodity_ids != null && !empty($commodity_ids)) {
+            $inspection_items = QuestionItem::with('getItemOptionAttributes.getCommodityIds')->where('status', true)->orderBy('position')->get();
             if (!is_null($inspection_items) && count($inspection_items) > 0) {
                 $response = [];
                 $newResult = [];
@@ -45,7 +41,12 @@ class InspectionQuestionController extends Controller
                     $response['position'] = $row->position;
                     $response['id'] = $row->id;
                     $response['scout_report_category'] = array('id' => $row->scout_report_category_id, 'name' => $row->scout_report_category_name);
-                    $items = $row->getItemOptionAttributes;
+                    $items = $row->getItemOptionAttributes->filter(function ($value) use ($commodity_ids) {
+                        if (array_intersect($value->getCommodityIds->pluck('crop_commodity_id')->toArray(), $commodity_ids)) {
+                            return true;
+                        }
+                    });
+
                     $new_options = [];
                     foreach ($items as $item) {
                         $option['id'] = $item->id;
@@ -53,23 +54,6 @@ class InspectionQuestionController extends Controller
                         $option['label_type'] = "checkbox";
                         $new_options[] = $option;
                     }
-                    $commodity = [];
-    
-                    if ($row->commodity_types != null && $row->commodity_types != '') {
-                        $commodity_types = json_decode($row->commodity_types);
-    
-                        if (!empty($commodity_types)) {
-                            foreach ($commodity_types as $vt) {
-                                $cropCommodity = CropCommodity::where('id', $vt)->first();
-                                if ($cropCommodity != '' && $cropCommodity != null) {
-                                    $commodity_option['id'] = $cropCommodity->id;
-                                    $commodity_option['name'] = $cropCommodity->name;
-                                    $commodity[] = $commodity_option;
-                                }
-                            }
-                        }
-                    }
-                    $response['commodity'] = $commodity;
                     $response['item_options'] = $new_options;
                     $newResult[] = $response;
                 }
@@ -82,69 +66,51 @@ class InspectionQuestionController extends Controller
                 return response()->json([
                     'status' => -1,
                     'data' => [],
-                    'message' => trans('translation.not_found',['name' => 'Questions']),
+                    'message' => trans('translation.not_found', ['name' => 'Questions']),
                 ]);
             }
-        }
-        else
-        {
+        } else {
             return response()->json([
                 'status' => -1,
                 'data' => [],
-                'message' => trans('translation.not_found',['name' => 'Questions']),
+                'message' => trans('translation.not_found', ['name' => 'Questions']),
             ]);
         }
     }
     public function getAllQuestion(Request $request)
     {
-            $inspection_items = QuestionItem::with('getItemOptionAttributes')->where('status', true)->orderBy('position')->get();
-            if (!is_null($inspection_items) && count($inspection_items) > 0) {
-                $response = [];
-                $newResult = [];
-                foreach ($inspection_items as $row) {
-                    $response['position'] = $row->position;
-                    $response['id'] = $row->id;
-                    $response['scout_report_category'] = array('id' => $row->scout_report_category_id, 'name' => $row->scout_report_category_name);
-                    $items = $row->getItemOptionAttributes;
-                    $new_options = [];
-                    foreach ($items as $item) {
-                        $option['id'] = $item->id;
-                        $option['label'] = $item->label;
-                        $option['label_type'] = "checkbox";
-                        $new_options[] = $option;
-                    }
-                    $commodity = [];
-    
-                    if ($row->commodity_types != null && $row->commodity_types != '') {
-                        $commodity_types = json_decode($row->commodity_types);
-    
-                        if (!empty($commodity_types)) {
-                            foreach ($commodity_types as $vt) {
-                                $cropCommodity = CropCommodity::where('id', $vt)->first();
-                                if ($cropCommodity != '' && $cropCommodity != null) {
-                                    $commodity_option['id'] = $cropCommodity->id;
-                                    $commodity_option['name'] = $cropCommodity->name;
-                                    $commodity[] = $commodity_option;
-                                }
-                            }
-                        }
-                    }
-                    $response['commodity'] = $commodity;
-                    $response['item_options'] = $new_options;
-                    $newResult[] = $response;
+        $inspection_items = QuestionItem::with('getItemOptionAttributes.getCommodityIds')->where('status', true)->orderBy('position')->get();
+        if (!is_null($inspection_items) && count($inspection_items) > 0) {
+            $response = [];
+            $newResult = [];
+            foreach ($inspection_items as $row) {
+                $response['position'] = $row->position;
+                $response['id'] = $row->id;
+                $response['scout_report_category'] = array('id' => $row->scout_report_category_id, 'name' => $row->scout_report_category_name);
+                $items = $row->getItemOptionAttributes;
+                $new_options = [];
+                foreach ($items as $item) {
+                    $option['id'] = $item->id;
+                    $option['label'] = $item->label;
+                    $option['label_type'] = "checkbox";
+                    $option['commodity_ids'] = $item->getCommodityIds->pluck('crop_commodity_id');
+                    $new_options[] = $option;
                 }
-                return response()->json([
-                    'status' => 1,
-                    'data' => $newResult,
-                    'message' => "Success...!!",
-                ]);
-            } else {
-                return response()->json([
-                    'status' => -1,
-                    'data' => [],
-                    'message' => trans('translation.not_found',['name' => 'Questions']),
-                ]);
+                $response['item_options'] = $new_options;
+                $newResult[] = $response;
             }
+            return response()->json([
+                'status' => 1,
+                'data' => $newResult,
+                'message' => "Success...!!",
+            ]);
+        } else {
+            return response()->json([
+                'status' => -1,
+                'data' => [],
+                'message' => trans('translation.not_found', ['name' => 'Questions']),
+            ]);
+        }
     }
 
     public function saveInspectionReport(Request $request)
@@ -168,47 +134,38 @@ class InspectionQuestionController extends Controller
                     'questions' => 'array',
                 ]);
                 $crop_location_blocks = $data->crop_location_blocks;
-                $commodity_ids=[];
-                foreach($crop_location_blocks as $blocks)
-                {
-                   $cm=getCropCommodityIdByCropLocationId($blocks);
-                   if($cm!=null)
-                   {
-                        $commodity_ids[]=strval($cm);
-                   }
+                $commodity_ids = [];
+                foreach ($crop_location_blocks as $blocks) {
+                    $cm = getCropCommodityIdByCropLocationId($blocks);
+                    if ($cm != null) {
+                        $commodity_ids[] = strval($cm);
+                    }
                 }
-                if(!empty($commodity_ids))
-                {
-                    $commodity_id=json_encode($commodity_ids);
+                if (!empty($commodity_ids)) {
+                    $commodity_id = json_encode($commodity_ids);
                 }
-                $crop_location_blocks=json_encode($crop_location_blocks);
+                $crop_location_blocks = json_encode($crop_location_blocks);
                 $notes = $data->notes;
-                $date = date('Y-m-d',strtotime($data->date));
+                $date = date('Y-m-d', strtotime($data->date));
                 $answers = $data->questions;
-                if(empty($answers) && ($data->notes=='' || $data->notes==null))
-                {
+                if (empty($answers) && ($data->notes == '' || $data->notes == null)) {
                     return response()->json([
                         'status' => -1,
                         'data' => [],
-                        'message' =>'Notes is required when no question is answered',
+                        'message' => 'Notes is required when no question is answered',
                     ]);
-                }
-                else if(empty($commodity_ids))
-                {
+                } else if (empty($commodity_ids)) {
                     return response()->json([
                         'status' => -1,
                         'data' => [],
-                        'message' =>'Commodity type is required',
+                        'message' => 'Commodity type is required',
                     ]);
-                }
-                else
-                {
-
+                } else {
                 }
                 if (isset($data->customer_id) && $data->customer_id != '' && $data->customer_id != null) {
                     //exists customer
-                    $customer_id=$data->customer_id;
-                    $crop_location_id=$data->crop_location_id;
+                    $customer_id = $data->customer_id;
+                    $crop_location_id = $data->crop_location_id;
                     $ScoutReport = ScoutReport::create([
                         'customer_id' => $customer_id,
                         'date' => $date,
@@ -216,7 +173,7 @@ class InspectionQuestionController extends Controller
                         'crop_commodity_ids' => $commodity_id,
                         'notes' => $notes,
                         'crop_location_blocks' => $crop_location_blocks,
-                        'added_by'=>auth()->user()->id
+                        'added_by' => auth()->user()->id
                     ]);
                     if ($ScoutReport) {
                         $scout_report_id = $ScoutReport->id;
@@ -234,7 +191,7 @@ class InspectionQuestionController extends Controller
                                 return response()->json([
                                     'status' => -1,
                                     'data' => [],
-                                    'message' =>trans('translation.error'),
+                                    'message' => trans('translation.error'),
                                 ]);
                             }
                         } else {
@@ -253,7 +210,6 @@ class InspectionQuestionController extends Controller
                             'message' => trans('translation.error'),
                         ]);
                     }
-
                 } else {
                     return response()->json([
                         'status' => -1,
@@ -277,14 +233,10 @@ class InspectionQuestionController extends Controller
             ]);
         }
     }
-   
+
     public function cloneQuestionData($crop_commodity_id, $scout_report_id, $answers)
     {
-        $inspectionItems = QuestionItem::where(function($query) use($crop_commodity_id) {
-            foreach($crop_commodity_id as $commodity_id) {
-               $query->orWhereJsonContains('commodity_types', $commodity_id); 
-           }
-        })->orderBy('position')->get();
+        $inspectionItems = QuestionItem::orderBy('position')->get();
         $answers_array = array();
         if ($inspectionItems->isNotEmpty() && count($inspectionItems) > 0) {
             foreach ($inspectionItems as $question) {
@@ -297,17 +249,21 @@ class InspectionQuestionController extends Controller
                 }
                 $item['scout_report_id'] = $scout_report_id;
                 $item['scout_report_category_id'] = $question['scout_report_category_id'];
-                $item['commodity_types'] = $question['commodity_types'];
                 $item['position'] = $next_position;
                 $item['status'] = $question['status'];
 
                 $result = ScoutQuestionItem::create($item);
                 if ($result) {
                     $answer_key = array_search($question->id, array_column($answers, 'question_item_id'));
-                    $itemAttrs = QuestionItemAttribute::where('question_item_id', $question['id'])->get();
+                    $itemAttrs = QuestionItemAttribute::with('getCommodityIds')->where('question_item_id', $question['id'])->get();
+                    $inputItemArrrs = $itemAttrs->filter(function ($value) use ($crop_commodity_id) {
+                        if (array_intersect($value->getCommodityIds->pluck('crop_commodity_id')->toArray(), $crop_commodity_id)) {
+                            return true;
+                        }
+                    });
                     $answers_attr = array();
-                    if ($itemAttrs->isNotEmpty() && count($itemAttrs) > 0) {
-                        foreach ($itemAttrs as $qitems) {
+                    if ($inputItemArrrs->isNotEmpty() && count($itemAttrs) > 0) {
+                        foreach ($inputItemArrrs as $qitems) {
                             $itemVal = [];
                             $itemVal['scout_question_item_id'] = $result->id;
                             $itemVal['label'] = $qitems['label'];

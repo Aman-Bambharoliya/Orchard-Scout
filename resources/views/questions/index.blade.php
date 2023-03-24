@@ -103,16 +103,6 @@
 								<div class="px-7 py-5" data-kt-user-table-filter="form">
 									<!--begin::Input group-->
 									<div class="mb-10">
-										<label class="form-label fs-6 fw-bold">Commodity:</label>
-										<select name="commodity_types" id="commodity_types" aria-label="Select a Commodity"  data-control="select2" data-placeholder="Select a Commodity..." class="form-select form-select-solid form-select-lg fw-bold">
-											<option value="">Select a commodity...</option>
-											@foreach($CropCommodities as $commodities)
-											<option value="{{ $commodities->id }}">{{ $commodities->name }}</option>
-											@endforeach
-										</select>
-									</div>
-							
-									<div class="mb-10">
 										<label class="form-label fs-6 fw-bold">Scout Report Categories :</label>
 										<select name="scout_report_category_id" id="scout_report_category_id" aria-label="Select a Location" data-control="select2" data-placeholder="Select a Scout Report Category..." class="form-select form-select-solid form-select-lg fw-bold">
 											<option value="">Select a scout report category...</option>
@@ -166,9 +156,8 @@
 							<tr class="text-start text-gray-400 fw-bolder fs-7 text-uppercase gs-0">
 								<th class="min-w-125px">Position</th>
 								<th class="min-w-125px">Scout Report Categories</th>
-								<th class="min-w-125px">Commodity</th>
 								<th class="min-w-125px">Status</th>
-								<th class="text-end min-w-70px">Actions</th>
+								<th class="min-w-70px">Actions</th>
 							</tr>
 						</thead>
 						<tbody class="fw-bold text-gray-600">

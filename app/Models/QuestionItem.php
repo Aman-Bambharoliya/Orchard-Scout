@@ -17,7 +17,6 @@ class QuestionItem extends Model
         'scout_report_category_id',        
         'position',
         'status',
-        'commodity_types'
     ];
 
     protected $dates = ['deleted_at'];
@@ -40,10 +39,21 @@ class QuestionItem extends Model
        return '';
     }
 
+    // public function getCommodityIdAttribute()
+    // {
+    //    if($this->getItemOptionAttributes->id!='' && $this->getItemOptionAttributes!=null)
+    //    {
+    //          $commodity_find=CropCommodityQuestionItemAttribute::where('question_item_attribute_id',$this->getItemOptionAttributes->id);
+
+    //          return $commodity_find;
+    //    }
+    //    return '';
+    // }
+
+
     public function getItemOptionAttributes()
     {
         return $this->hasMany(QuestionItemAttribute::class,'question_item_id','id')->orderBy('id');
     }
     
-
 }

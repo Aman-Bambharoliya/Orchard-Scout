@@ -34,9 +34,6 @@ $(document).ready(function() {
             scout_report_category_id: {
                 required: true,
             },          
-            'commodity_types[]': {
-                required: true,
-            },
         },
         // validation message
         messages: {
