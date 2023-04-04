@@ -159,7 +159,7 @@ jQuery(document).ready(function () {
         rules: {
             crop_location_id: { required: true, maxlength: 8 },
             crop_commodity_id: { required: true, maxlength: 8 },
-            crop_commodities_verity_id: { required: true , min: 1},
+            'crop_commodities_verity_id[]': { required: true , min: 1},
             name: { required: true, maxlength: 64 },
             acres: { decimal_point: true },
             year_planted: { number: true, maxlength: 10 },
@@ -170,7 +170,7 @@ jQuery(document).ready(function () {
         messages: {
             'crop_location_id': { required: "The crop location field is required.", },
             'crop_commodity_id': { required: "The crop commodity field is required.", },
-            'crop_commodities_verity_id': { required: "The crop commodity varities filed is required." },
+            'crop_commodities_verity_id[]': { required: "The crop commodity varities filed is required." },
             'acres': { required: "The acres field is required.", },
             'name': { required: "The name field is required.", },
             'plant_feet_spacing_in_rows': { required: "The plant feet spacing in rows field is required.", },
@@ -207,7 +207,7 @@ jQuery(document).ready(function () {
         rules: {
             crop_location_id: { required: true, maxlength: 8 },
             crop_commodity_id: { required: true, maxlength: 8 },
-            crop_commodities_verity_id: { required: true, min:1 },
+            'crop_commodities_verity_id[]': { required: true, min:1 },
             name: { required: true, maxlength: 64 },
             acres: { decimal_point: true },
             year_planted: { number: true, maxlength: 10 },
@@ -218,7 +218,7 @@ jQuery(document).ready(function () {
         messages: {
             'crop_location_id': { required: "The crop location field is required.", },
             'crop_commodity_id': { required: "The crop commoditiy field is required.", },
-            'crop_commodities_verity_id': { required: "The crop commoditiy varities filed is required." },
+            'crop_commodities_verity_id[]': { required: "The crop commoditiy varities filed is required." },
             'acres': { required: "The acres field is required.", },
             'name': { required: "The name field is required.", },
             'plant_feet_spacing_in_rows': { required: "The plant feet spacing in rows field is required.", },
